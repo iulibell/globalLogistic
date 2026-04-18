@@ -9,4 +9,9 @@ public class LoginParamDto {
     String username;
     @NotBlank(message = "密码不能为空")
     String password;
+    /**
+     * 登录入口角色，与账号 userType 一致：super / manager / keeper / driver / reviewer
+     */
+    @NotBlank(message = "登录角色不能为空")
+    private String requiredRoleKey;
 }

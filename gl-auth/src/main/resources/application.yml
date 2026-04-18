@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: gl-auth
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+server:
+  port: 8602
+
+auth:
+  feign:
+    gl-system-url: http://127.0.0.1:8501
+
+sa-token:
+  token-name: satoken
+  timeout: 2592000
+  is-read-header: true
+  is-read-body: false
+  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+
+secure:
+  ignore:
+    urls:
+      - "/auth/login"
+      - "/auth/register"
+
+security:
+  internal:
+    enabled: false
+    token-value: ${SECURITY_INTERNAL_TOKEN:}

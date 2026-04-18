@@ -1,5 +1,30 @@
 spring:
   application:
     name: gl-gateway
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
 server:
   port: 8502
+
+sa-token:
+  token-name: satoken
+  timeout: 2592000
+  is-read-header: true
+  is-read-body: false
+  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+
+secure:
+  ignore:
+    urls:
+      - "/system/login"
+      - "/system/register"
+      - "/auth/login"
+      - "/auth/register"
+
+# 内部 /oms|wms|tms/sys/**：enabled=true 且配置 token-value 时校验 X-Internal-Token
+security:
+  internal:
+    enabled: false
+    token-value: ${SECURITY_INTERNAL_TOKEN:}

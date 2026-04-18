@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: logi-wms
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+server:
+  port: 8721
+
+sa-token:
+  token-name: satoken
+  timeout: 2592000
+  is-read-header: true
+  is-read-body: false
+  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+
+secure:
+  ignore:
+    urls: []
+
+security:
+  internal:
+    enabled: false
+    token-value: ${SECURITY_INTERNAL_TOKEN:}

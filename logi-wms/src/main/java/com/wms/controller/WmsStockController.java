@@ -3,25 +3,25 @@ package com.wms.controller;
 import com.wms.dto.OmsOrderDto;
 import com.wms.service.WmsStockLockService;
 import jakarta.annotation.Resource;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/wms")
 public class WmsStockController {
     @Resource
     private WmsStockLockService wmsStockLockService;
 
     @PostMapping("/wmsStockLock")
-    public void stockLock(@RequestBody OmsOrderDto omsOrderDto){
+    public void stockLock(@RequestBody OmsOrderDto omsOrderDto) {
         wmsStockLockService.WmsStockLock(omsOrderDto);
     }
 
     @PostMapping("/wmsStockUnlock")
-    public void stockUnlock(@RequestParam String orderId){
+    public void stockUnlock(@RequestParam String orderId) {
         wmsStockLockService.WmsStockUnlock(orderId);
     }
 }

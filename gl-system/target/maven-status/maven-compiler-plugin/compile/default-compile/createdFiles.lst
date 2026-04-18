@@ -1,4 +1,3 @@
-com\system\satoken\CommonSaTokenPermissionInterface.class
 com\system\service\SysUserService.class
 com\system\controller\RegisterController.class
 com\system\service\impl\SysUserServiceImpl.class
@@ -13,10 +12,9 @@ com\system\service\impl\LoginAndLogoutServiceImpl.class
 com\system\SystemApplication.class
 com\system\dao\SysUserDao.class
 com\system\dto\LoginParamDto.class
-com\system\config\SaTokenJwtAutoConfig.class
 com\system\service\RegisterService.class
-com\system\controller\SysDriverAssignmentController.class
 com\system\service\impl\CacheServiceImpl.class
+com\system\controller\LoginController.class
 com\system\config\SystemMybatisMultiDataSourceAutoConfig.class
 com\system\service\impl\RegisterServiceImpl.class
 com\system\service\LoginAndLogoutService.class

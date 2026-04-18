@@ -1,6 +1,7 @@
 com\message\config\RabbitMqConfig.class
 com\message\schedule\MessageSchedule.class
 com\message\MessageApplication.class
+com\message\config\InternalCallbackFeignConfiguration.class
 com\message\service\client\WmsServiceClient.class
 com\message\service\client\TmsServiceClient.class
 com\message\consumer\WmsInboundConsumer.class

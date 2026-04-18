@@ -40,22 +40,24 @@ public class TmsDriverServiceImpl implements TmsDriverService {
 
     @Override
     public List<TmsTransportOrderDto> getTransportOrder(int pageNum, int pageSize, String currentCity) {
-        IPage<TmsTransportOrder> page = new Page<>(pageNum,pageSize);
-        tmsTransportOrderDao.selectPage(page,new LambdaQueryWrapper<TmsTransportOrder>()
-                .eq(TmsTransportOrder::getOrigin,currentCity));
+        IPage<TmsTransportOrder> page = new Page<>(pageNum, pageSize);
+        tmsTransportOrderDao.selectPage(page, new LambdaQueryWrapper<TmsTransportOrder>()
+                .eq(TmsTransportOrder::getOrigin, currentCity)
+                .eq(TmsTransportOrder::getStatus, (short) 0));
         return page.convert(tmsTransportOrder -> {
             TmsTransportOrderDto tmsTransportOrderDto = new TmsTransportOrderDto();
-            BeanUtils.copyProperties(tmsTransportOrder,tmsTransportOrderDto);
+            BeanUtils.copyProperties(tmsTransportOrder, tmsTransportOrderDto);
             return tmsTransportOrderDto;
         }).getRecords();
     }
 
     @Override
     @Transactional
-    public boolean accessAssignment(String transportOrderId,String driverId) {
-        if(tmsVehicleDao.selectOne(new LambdaQueryWrapper<TmsVehicle>()
-                .eq(TmsVehicle::getDriverId,driverId)) == null)
+    public boolean accessAssignment(String transportOrderId, String driverId) {
+        if (tmsVehicleDao.selectOne(new LambdaQueryWrapper<TmsVehicle>()
+                .eq(TmsVehicle::getDriverId, driverId)) == null) {
             Assert.fail("请完善货车的信息");
+        }
         int grabbed = tmsTransportOrderDao.update(new LambdaUpdateWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
                 .eq(TmsTransportOrder::getStatus, (short) 0)
@@ -69,34 +71,43 @@ public class TmsDriverServiceImpl implements TmsDriverService {
                 .set(TmsDriver::getStatus, (short) 1)
                 .setSql("weight = COALESCE(weight, 0) + 1"));
         if (driverUpdated == 0) {
-            throw new IllegalStateException("司机不存在或状态更新失败");
+            Assert.fail("司机不存在或状态更新失败");
         }
         redisService.delete(RedisConstant.ASSIGN_KEY_PREFIX + transportOrderId);
         return true;
     }
 
     @Override
-    public void confirmDeparture(String transportOrderId,String city) {
-        updateStatus(transportOrderId,(short)2);
+    public void confirmDeparture(String transportOrderId, String city) {
+        updateOrderStatusIf(transportOrderId, (short) 1, (short) 2, "仅已接单状态可确认发车");
+        TmsTransportOrder order = tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
+                .eq(TmsTransportOrder::getTransportOrderId, transportOrderId));
+        if (order == null) {
+            Assert.fail("运输单不存在");
+        }
         TmsLogistic tmsLogistic = new TmsLogistic();
-        BeanUtils.copyProperties(tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
-                .eq(TmsTransportOrder::getTransportOrderId,transportOrderId)),tmsLogistic);
+        BeanUtils.copyProperties(order, tmsLogistic);
+        tmsLogistic.setCity(city);
         tmsLogisticDao.insert(tmsLogistic);
     }
 
     @Override
     public void confirmArrived(String transportOrderId) {
-        updateStatus(transportOrderId,(short)3);
+        updateOrderStatusIf(transportOrderId, (short) 2, (short) 3, "仅运输中状态可确认送达");
     }
 
     @Override
     public void confirmReceived(String transportOrderId) {
-        updateStatus(transportOrderId,(short)4);
+        updateOrderStatusIf(transportOrderId, (short) 3, (short) 4, "仅已送达状态可确认签收");
     }
 
-    public void updateStatus(String transportOrderId, short status){
-        tmsTransportOrderDao.update(new LambdaUpdateWrapper<TmsTransportOrder>()
-                .eq(TmsTransportOrder::getTransportOrderId,transportOrderId)
-                .set(TmsTransportOrder::getStatus,status));
+    private void updateOrderStatusIf(String transportOrderId, short expectedStatus, short newStatus, String illegalMessage) {
+        int rows = tmsTransportOrderDao.update(new LambdaUpdateWrapper<TmsTransportOrder>()
+                .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
+                .eq(TmsTransportOrder::getStatus, expectedStatus)
+                .set(TmsTransportOrder::getStatus, newStatus));
+        if (rows == 0) {
+            Assert.fail(illegalMessage);
+        }
     }
 }

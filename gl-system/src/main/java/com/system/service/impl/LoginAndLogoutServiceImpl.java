@@ -44,11 +44,12 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
         putLogi(logiAlias, "5", "reviewer");
         LOGI_ALIAS_TO_ROLE = Collections.unmodifiableMap(logiAlias);
 
-        PERMISSIONS_BY_ROLE = Map.of("super", List.of("super"),
-                                     "manager", List.of("manager"),
-                                     "keeper", Collections.singletonList("keeper"),
-                                     "driver", Collections.singletonList("driver"),
-                                     "reviewer", Collections.singletonList("reviewer"));
+        PERMISSIONS_BY_ROLE = Map.of(
+                "super", List.of("super", "manager", "keeper", "driver", "reviewer"),
+                "manager", List.of("manager"),
+                "keeper", List.of("keeper"),
+                "driver", List.of("driver"),
+                "reviewer", List.of("reviewer"));
     }
 
     private static void putLogi(Map<String, String> aliasToRole, String storedDigit, String roleKey) {

@@ -33,6 +33,7 @@ public class CorsConfig {
         config.addAllowedHeader("Origin");
         config.addAllowedHeader("X-Requested-With");
         config.addAllowedHeader("satoken");
+        config.addAllowedHeader("X-Internal-Token");
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());

@@ -1,6 +1,5 @@
-com\auth\client\OmsServiceClient.class
-com\auth\client\TmsServiceClient.class
+com\auth\dto\LoginRequest.class
+com\auth\config\FeignTokenRelayConfiguration.class
 com\auth\AuthApplication.class
-com\auth\client\AdminServiceClient.class
 com\auth\client\SystemServiceClient.class
 com\auth\controller\AuthController.class

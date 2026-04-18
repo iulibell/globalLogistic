@@ -14,7 +14,6 @@ com\tms\entity\TmsTransportOrder.class
 com\tms\dto\TmsTransportOrderDto.class
 com\tms\dao\TmsTransportOrderDao.class
 com\tms\service\impl\TmsLogisticServiceImpl.class
-com\tms\controller\TmsController.class
 com\tms\controller\TmsTransportOrderController.class
 com\tms\TmsApplication.class
 com\tms\service\client\SystemServiceClient.class

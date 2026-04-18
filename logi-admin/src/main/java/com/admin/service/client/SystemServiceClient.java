@@ -18,9 +18,9 @@ public interface SystemServiceClient {
                                            @RequestParam(defaultValue = "10") int pageSize,
                                            @RequestParam String userType);
     @GetMapping("/system/admin/fetchSysUserByUserId")
-    CommonResult<?> fetchSysUserByUserId(String userId);
+    CommonResult<?> fetchSysUserByUserId(@RequestParam("userId") String userId);
     @PostMapping("/system/admin/updateSysUserInfo")
     CommonResult<?> updateSysUserInfo(@RequestBody SysUserDto sysUserDto);
-    @PostMapping("/admin/deleteSysUser")
+    @PostMapping("/system/admin/deleteSysUser")
     CommonResult<?> deleteSysUser(@RequestParam String userId);
 }

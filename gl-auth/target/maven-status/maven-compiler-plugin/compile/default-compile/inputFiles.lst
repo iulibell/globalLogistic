@@ -1,6 +1,5 @@
 C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\AuthApplication.java
-C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\client\AdminServiceClient.java
-C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\client\OmsServiceClient.java
 C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\client\SystemServiceClient.java
-C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\client\TmsServiceClient.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\config\FeignTokenRelayConfiguration.java
 C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\controller\AuthController.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-auth\src\main\java\com\auth\dto\LoginRequest.java
