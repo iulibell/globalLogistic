@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* 蓝黑主色：背景与文字 */
+  --17-bg: #060a10;
+  --17-bg-soft: #0a1018;
+  --17-card: #0f1624;
+  --17-card-elevated: #141d2e;
+  --17-ink: #e8eef6;
+  --17-muted: #8b9cb4;
+  --17-border: #243044;
+  --17-border-soft: #1a2434;
+
+  /* 主操作 / 强调：电蓝 */
+  --17-teal: #3d8dff;
+  --17-teal-dark: #5aa3ff;
+  --17-teal-soft: rgba(61, 141, 255, 0.16);
+
+  --17-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --17-radius: 10px;
+  --17-radius-lg: 14px;
+
+  --17-link: #7eb8ff;
+  --17-link-hover: #b3d6ff;
+
+  --17-input-bg: #0a1018;
+  --17-chip-bg: #121a28;
+  --17-panel-subtle: #121a28;
+  --17-side-muted: #0c121c;
+
+  /* 顶栏与下拉 */
+  --17-header-bg: rgba(8, 12, 20, 0.96);
+  --17-mega-surface: #111923;
+  --17-mega-inner: #182232;
+  --17-mega-border: #2a384c;
+
+  /* 品牌字标 */
+  --17-brand-orange: #ff8a3d;
+  --17-brand-blue: #5c9dff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--17-ink);
+  background: var(--17-bg);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--17-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--17-link-hover);
+  text-decoration: underline;
+}
+
+#app {
+  min-height: 100vh;
+}

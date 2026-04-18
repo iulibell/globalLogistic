@@ -5,8 +5,28 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/global_logistic?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    loadbalancer:
+      enabled: true
+    # 直连各服务：不依赖服务发现与 BlockingLoadBalancerClient（本地/单实例最稳；多实例可改 URL 或去掉 url 走注册中心）
+    openfeign:
+      client:
+        config:
+          logi-oms:
+            url: ${FEIGN_OMS_URL:http://127.0.0.1:8711}
+          gl-system:
+            url: ${FEIGN_SYSTEM_URL:http://127.0.0.1:8501}
 server:
   port: 8601
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
 
 sa-token:
   token-name: satoken
@@ -14,6 +34,10 @@ sa-token:
   is-read-header: true
   is-read-body: false
   jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+
+snowflake:
+  worker-id: 1
+  datacenter-id: 1
 
 secure:
   ignore:

@@ -1,0 +1,46 @@
+<script setup>
+import { DEMO_TIMELINE } from '@/constants/trackingDemo.js'
+import { useTrackingQuery } from '@/composables/useTrackingQuery.js'
+import HomeFeaturesSection from '@/components/HomeFeaturesSection.vue'
+import MarketingStats from '@/components/MarketingStats.vue'
+import SiteFooter from '@/components/SiteFooter.vue'
+import SiteHeader from '@/components/SiteHeader.vue'
+import TrackingHero from '@/components/TrackingHero.vue'
+import TrackingResultPanel from '@/components/TrackingResultPanel.vue'
+
+const { trackingInput, queried, activeNumbers, canQuery, runQuery, resetQuery, clearInput } = useTrackingQuery()
+</script>
+
+<template>
+  <div class="page">
+    <SiteHeader @home="resetQuery" />
+    <TrackingHero
+      v-if="!queried"
+      v-model="trackingInput"
+      :can-query="canQuery"
+      @query="runQuery"
+      @clear="clearInput"
+    />
+    <TrackingResultPanel
+      v-if="queried"
+      v-model:tracking-input="trackingInput"
+      :numbers="activeNumbers"
+      :timeline="DEMO_TIMELINE"
+      :can-query="canQuery"
+      @query="runQuery"
+      @clear="clearInput"
+      @reset="resetQuery"
+    />
+    <MarketingStats v-else />
+    <HomeFeaturesSection v-if="!queried" />
+    <SiteFooter />
+  </div>
+</template>
+
+<style scoped>
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+</style>

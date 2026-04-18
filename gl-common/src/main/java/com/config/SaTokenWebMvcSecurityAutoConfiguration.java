@@ -27,7 +27,9 @@ public class SaTokenWebMvcSecurityAutoConfiguration {
             public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new SaInterceptor(handle ->
                                 SaTokenRouteChecks.runServlet(whitelistProperties.getUrls(), internalCallbackSecurityProperties)))
-                        .addPathPatterns("/**");
+                        .addPathPatterns("/**")
+                        // forward 到 /error 时 Sa-Token 未绑定上下文，SaRouter 会抛 SaTokenContextException
+                        .excludePathPatterns("/error", "/error/**");
             }
         };
     }

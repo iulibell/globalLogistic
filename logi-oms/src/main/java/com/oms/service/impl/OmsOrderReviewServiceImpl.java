@@ -2,6 +2,7 @@ package com.oms.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,9 +15,11 @@ import com.oms.dto.OmsOrderReviewDto;
 import com.oms.entity.OmsOrder;
 import com.oms.entity.OmsOrderReview;
 import com.oms.service.OmsOrderReviewService;
+import com.oms.service.client.WmsServiceClient;
 import com.service.RedisService;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
     private OmsOrderDao omsOrderDao;
     @Resource
     private RedisService redisService;
+    @Resource
+    private WmsServiceClient wmsServiceClient;
     @Resource
     private RabbitTemplate rabbitTemplate;
     @Resource
@@ -67,6 +72,12 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
     @Transactional
     public void accessOrderReview(String orderId,String remark) {
         updateOrderStatus(orderId,(short)2,remark);
+
+        OmsOrderDto omsOrderDto = new OmsOrderDto();
+        BeanUtils.copyProperties(omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()
+                .eq(OmsOrder::getOrderId,orderId)),omsOrderDto);
+        wmsServiceClient.stockLock(omsOrderDto);
+
         redisService.set(RedisConstant.ORDER_KEY_PREFIX + orderId,
                 "",
                 RedisConstant.ORDER_EXPIRE_TIME,
@@ -74,13 +85,13 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
         rabbitTemplate.convertAndSend(RabbitConstant.ORDER_TTL_EXCHANGE,
                 RabbitConstant.ORDER_TTL_ROUTING_KEY,
                 orderId);
-        //TODO 锁库存
     }
 
     @Override
     @Transactional
     public void rejectOrderReview(String orderId,String remark) {
         updateOrderStatus(orderId,(short)1,remark);
+        wmsServiceClient.stockUnlock(orderId);
     }
 
     private void updateOrderStatus(String orderId,Short orderStatus,String remark){

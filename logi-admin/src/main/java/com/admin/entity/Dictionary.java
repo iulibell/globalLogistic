@@ -16,7 +16,7 @@ public class Dictionary {
     @Size(max = 50)
     @Schema(description = "字典类型")
     private String dictType;
-    @Size(max = 50)
+    @Size(max = 500)
     @Schema(description = "字典名称")
     private String dictName;
     @Size(max = 50)

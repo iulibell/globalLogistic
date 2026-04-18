@@ -28,4 +28,11 @@ public class RedisConstant {
      */
     public static final String ASSIGN_KEY_PREFIX = "assign:";
     public static final int ASSIGN_EXPIRE_TIME = 15;
+
+    /**
+     * 查询物流单后将物流单存到redis里
+     * 时间30min
+     */
+    public static final String LOGI_KEY_PREFIX = "logi:";
+    public static final int LOGI_EXPIRE_TIME = 30;
 }

@@ -1,47 +1,66 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { RouterView } from 'vue-router'
+import { useShellLoading } from '@/composables/useShellLoading.js'
+
+const { shellLoading } = useShellLoading()
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="app-root">
+    <RouterView />
+    <Transition name="shell-fade">
+      <div
+        v-if="shellLoading"
+        class="shell-overlay"
+        role="status"
+        aria-live="polite"
+        aria-busy="true"
+      >
+        <div class="shell-spinner" aria-hidden="true" />
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.app-root {
+  position: relative;
+  min-height: 100vh;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.shell-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 10, 16, 0.5);
+  backdrop-filter: blur(3px);
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.shell-spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--17-teal, #3d8dff);
+  animation: shell-spin 0.72s linear infinite;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
+@keyframes shell-spin {
+  to {
+    transform: rotate(360deg);
   }
+}
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.shell-fade-enter-active,
+.shell-fade-leave-active {
+  transition: opacity 0.18s ease;
+}
+
+.shell-fade-enter-from,
+.shell-fade-leave-to {
+  opacity: 0;
 }
 </style>

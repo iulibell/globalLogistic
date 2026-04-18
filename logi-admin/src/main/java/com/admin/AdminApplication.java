@@ -1,12 +1,14 @@
 package com.admin;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.admin", "com.service"})
+@MapperScan({"com.admin.dao","com.system.dao"})
 @EnableFeignClients
 @EnableAsync
 @EnableScheduling

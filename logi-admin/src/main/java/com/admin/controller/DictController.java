@@ -17,8 +17,8 @@ public class DictController {
     @Resource
     DictionaryService dictionaryService;
 
-    @GetMapping("/getDictionary/{dictType}")
-    public CommonResult<?> getDictionary(@PathVariable String dictType) {
+    @GetMapping("/getDictionary")
+    public CommonResult<?> getDictionary(@RequestParam String dictType) {
         return CommonResult.success(dictionaryService.getDictionaryList(dictType));
     }
 

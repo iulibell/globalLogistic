@@ -41,7 +41,33 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <!-- Spring Boot 4.x 须配合 Spring Cloud 2025.1+（OpenFeign 5.x），否则旧版会引用已迁移的 WebMvcAutoConfiguration 包名 -->
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <!-- Boot 4 须用 mybatis-plus-spring-boot4-starter；旧版 boot-starter 不会装配 SqlSessionFactory -->
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <!-- Sa-Token 1.37 的 Redis Jackson 实现依赖 Jackson 2；Boot 4 使用 Jackson 3，须用 Boot4 系列与 BOM 对齐 -->
+        <sa-token.version>1.45.0</sa-token.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-bom</artifactId>
+                <version>${sa-token.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,8 +82,14 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.6</version>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+
+        <!-- OpenFeign 使用 @FeignClient("服务名") 时必须存在 LoadBalancer（Spring Cloud 2020+ 不再由 Ribbon 提供） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
         <dependency>

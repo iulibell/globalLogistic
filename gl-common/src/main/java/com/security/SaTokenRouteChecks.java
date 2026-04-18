@@ -29,7 +29,9 @@ public final class SaTokenRouteChecks {
             "/webjars/**",
             "/system/login",
             "/auth/login",
-            "/auth/register"
+            "/auth/register",
+            // 门户/追踪页等多处拉取展示文案，无需登录（仍只读启用项）
+            "/admin/sys/getDictionary/**"
     };
 
     private SaTokenRouteChecks() {
@@ -53,7 +55,7 @@ public final class SaTokenRouteChecks {
     public static void runServlet(List<String> configuredWhitelist, InternalCallbackSecurityProperties internal) {
         var attrs = RequestContextHolder.getRequestAttributes();
         if (!(attrs instanceof ServletRequestAttributes sra)) {
-            applyUserRouteRules(configuredWhitelist);
+            // 无 Servlet 请求属性时 SaHolder 未初始化，禁止调用 SaRouter
             return;
         }
         HttpServletRequest request = sra.getRequest();
@@ -110,7 +112,9 @@ public final class SaTokenRouteChecks {
                 .check(r -> StpUtil.checkPermission("reviewer"));
         SaRouter.match("/admin/manager/**").check(r -> StpUtil.checkPermission("manager"));
         SaRouter.match("/admin/super/**").check(r -> StpUtil.checkPermission("super"));
-        SaRouter.match("/admin/sys/**").check(r -> StpUtil.checkPermission("super"));
+        SaRouter.match("/admin/sys/**")
+                .notMatch("/admin/sys/getDictionary/**")
+                .check(r -> StpUtil.checkPermission("super"));
 
         SaRouter.match("/system/admin/**").check(r -> StpUtil.checkPermission("manager"));
     }
