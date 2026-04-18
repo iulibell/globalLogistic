@@ -1,0 +1,13 @@
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\config\RabbitMqConfig.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\consumer\OmsOrderConsumer.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\consumer\TmsAssignmentConsumer.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\consumer\WmsInboundConsumer.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\dao\MqMessageLogDao.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\entity\MqMessageLog.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\MessageApplication.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\schedule\MessageSchedule.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\service\client\OmsServiceClient.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\service\client\TmsServiceClient.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\service\client\WmsServiceClient.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\service\impl\MqMessageLogServiceImpl.java
+C:\Users\Administrator\Desktop\globalLogistics\gl-message\src\main\java\com\message\service\MqMessageLogService.java

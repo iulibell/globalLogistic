@@ -1,0 +1,4 @@
+com\gateway\config\CorsConfig.class
+com\gateway\config\WhitelistConfig.class
+com\gateway\GatewayApplication.class
+com\gateway\config\SaTokenGatewayConfig.class

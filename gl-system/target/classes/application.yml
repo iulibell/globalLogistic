@@ -1,0 +1,9 @@
+server:
+  port: 8501
+spring:
+  application:
+    name: gl-system
+secure:
+  ignore:
+    - "/auth/login"
+    - "/auth/register"

@@ -1,0 +1,54 @@
+package com.oms.service;
+
+import com.oms.dto.OmsOrderDto;
+
+import java.util.List;
+
+public interface OmsOrderService {
+    /**
+     * 添加订单,若为普通商品(category->0)则直接进行锁库操作,并待用户支付(30mins),电商调用该接口
+     * @param omsOrderDto 订单dto
+     */
+    void addOrder(OmsOrderDto omsOrderDto);
+
+    /**
+     * 获取订单列表(manager操作)
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return 订单列表
+     */
+    List<OmsOrderDto> getOrder(int pageNum, int pageSize);
+
+    /**
+     * 根据订单id获取订单信息(manager操作)
+     * @param orderId 订单id
+     * @return 单个订单信息
+     */
+    OmsOrderDto getOrderById(String orderId);
+
+    /**
+     * 删除超时订单(message模块调用)
+     * @param orderId 订单id
+     */
+    void deleteOrder(String orderId);
+
+    /**
+     * 商家对申请订单进行取消
+     * @param orderId 申请订单id
+     */
+    void cancelOrder(String orderId);
+
+    /**
+     * 商家对上架申请进行支付
+     * @param orderId 申请订单id
+     */
+    void payForOrder(String orderId);
+
+    /**
+     * 支付超时：仅当订单仍为「已审核(2)」或「待支付(3)」时置为「超时未支付(4)」。已支付、已超时、已取消/已删单则不修改。
+     *
+     * @param orderId 订单id
+     * @return 本次是否将状态更新为 4
+     */
+    boolean markOrderPaymentTimeout(String orderId);
+}

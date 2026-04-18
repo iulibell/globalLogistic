@@ -1,0 +1,13 @@
+com\message\config\RabbitMqConfig.class
+com\message\schedule\MessageSchedule.class
+com\message\MessageApplication.class
+com\message\service\client\WmsServiceClient.class
+com\message\service\client\TmsServiceClient.class
+com\message\consumer\WmsInboundConsumer.class
+com\message\service\client\OmsServiceClient.class
+com\message\entity\MqMessageLog.class
+com\message\consumer\TmsAssignmentConsumer.class
+com\message\service\MqMessageLogService.class
+com\message\dao\MqMessageLogDao.class
+com\message\consumer\OmsOrderConsumer.class
+com\message\service\impl\MqMessageLogServiceImpl.class

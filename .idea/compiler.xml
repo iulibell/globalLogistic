@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="logi-tms" />
+        <module name="gl-message" />
+        <module name="gl-auth" />
+        <module name="logi-wms" />
+        <module name="gl-gateway" />
+        <module name="logi-admin" />
+        <module name="gl-search" />
+        <module name="gl-system" />
+        <module name="gl-common" />
+        <module name="logi-oms" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="frontend" target="17" />
+      <module name="mall-admin" target="17" />
+      <module name="mall-portal" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="frontend" options="-parameters" />
+      <module name="gl-auth" options="-parameters" />
+      <module name="gl-common" options="-parameters" />
+      <module name="gl-gateway" options="-parameters" />
+      <module name="gl-message" options="-parameters" />
+      <module name="gl-search" options="-parameters" />
+      <module name="gl-system" options="-parameters" />
+      <module name="globalMallToLogistics" options="" />
+      <module name="logi-admin" options="-parameters" />
+      <module name="logi-oms" options="-parameters" />
+      <module name="logi-tms" options="-parameters" />
+      <module name="logi-wms" options="-parameters" />
+      <module name="mall-admin" options="-parameters" />
+      <module name="mall-portal" options="-parameters" />
+    </option>
+  </component>
+</project>
