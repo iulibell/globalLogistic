@@ -1,14 +1,18 @@
 package com.api;
 
+/**
+ * 与前端 dictionary.dict_type=api_message 的 dict_value 对齐，便于国际化展示。
+ */
 public enum ResultCode implements IErrorCode {
-    SUCCESS(200, "操作成功"),
-    FAIL(400, "操作失败"),
-    VALIDATION_ERROR(404, "参数校验失败"),
-    UNAUTHORIZED(401, "未授权"),
-    FORBIDDEN(403, "禁止访问"),
-    INTERNAL_ERROR(500, "内部错误");
-    private int code;
-    private String message;
+    SUCCESS(200, "operation_success"),
+    FAIL(400, "operation_failed"),
+    VALIDATION_ERROR(404, "validation_failed"),
+    UNAUTHORIZED(401, "unauthorized"),
+    FORBIDDEN(403, "forbidden"),
+    INTERNAL_ERROR(500, "internal_error");
+
+    private final int code;
+    private final String message;
 
     ResultCode(int code, String message) {
         this.code = code;

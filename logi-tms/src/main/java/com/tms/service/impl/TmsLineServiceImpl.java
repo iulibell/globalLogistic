@@ -1,5 +1,6 @@
-package com.tms.dto.impl;
+package com.tms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -24,6 +25,8 @@ public class TmsLineServiceImpl implements TmsLineService {
 
     @Override
     public TmsLineDto getLineById(Long id) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         TmsLineDto tmsLineDto = new TmsLineDto();
         BeanUtils.copyProperties(tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
                 .eq(TmsLine::getId,id)),tmsLineDto);
@@ -32,6 +35,8 @@ public class TmsLineServiceImpl implements TmsLineService {
 
     @Override
     public List<TmsLineDto> getLine(int pageNum, int pageSize) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         IPage<TmsLine> page = new Page<>(pageNum,pageSize);
         tmsLineDao.selectPage(page,new LambdaQueryWrapper<TmsLine>()
                 .eq(TmsLine::getStatus,(short)1));
@@ -44,6 +49,8 @@ public class TmsLineServiceImpl implements TmsLineService {
 
     @Override
     public void addLine(TmsLineDto tmsLineDto) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         Long lineId = snowflakeIdGenerator.nextId();
         TmsLine tmsLine = new TmsLine();
         BeanUtils.copyProperties(tmsLineDto,tmsLine);
@@ -53,6 +60,8 @@ public class TmsLineServiceImpl implements TmsLineService {
 
     @Override
     public void updateLine(TmsLineDto tmsLineDto) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         TmsLine tmsLine = new TmsLine();
         BeanUtils.copyProperties(tmsLineDto,tmsLine);
         tmsLineDao.update(new LambdaUpdateWrapper<TmsLine>()

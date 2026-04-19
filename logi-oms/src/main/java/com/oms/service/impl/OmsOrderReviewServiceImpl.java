@@ -1,5 +1,6 @@
 package com.oms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -59,6 +60,8 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
 
     @Override
     public List<OmsOrderReviewDto> getOrderReview(int pageNum, int pageSize) {
+        StpUtil.checkPermission("reviewer");
+        StpUtil.checkLogin();
         IPage<OmsOrderReview> page = new Page<>(pageNum,pageSize);
         omsOrderReviewDao.selectPage(page,null);
         return page.convert(omsOrderReview -> {
@@ -71,6 +74,8 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
     @Override
     @Transactional
     public void accessOrderReview(String orderId,String remark) {
+        StpUtil.checkPermission("reviewer");
+        StpUtil.checkLogin();
         updateOrderStatus(orderId,(short)2,remark);
 
         OmsOrderDto omsOrderDto = new OmsOrderDto();
@@ -90,11 +95,15 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
     @Override
     @Transactional
     public void rejectOrderReview(String orderId,String remark) {
+        StpUtil.checkPermission("reviewer");
+        StpUtil.checkLogin();
         updateOrderStatus(orderId,(short)1,remark);
         wmsServiceClient.stockUnlock(orderId);
     }
 
     private void updateOrderStatus(String orderId,Short orderStatus,String remark){
+        StpUtil.checkPermission("reviewer");
+        StpUtil.checkLogin();
         omsOrderReviewDao.update(new LambdaUpdateWrapper<OmsOrderReview>()
                 .eq(OmsOrderReview::getOrderId,orderId)
                 .set(OmsOrderReview::getStatus, (short)1));

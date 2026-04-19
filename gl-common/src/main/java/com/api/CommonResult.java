@@ -18,6 +18,13 @@ public class CommonResult <T> {
     }
 
     /**
+     * 与下游返回体一致（如 Feign 将错误 JSON 转为统一 {@link CommonResult}）
+     */
+    public static <T> CommonResult<T> of(int code, String message, T data) {
+        return new CommonResult<>(code, message, data);
+    }
+
+    /**
      * 操作成功
      * @param data
      * @return 操作成功结果

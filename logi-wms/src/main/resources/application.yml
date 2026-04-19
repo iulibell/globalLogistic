@@ -1,19 +1,37 @@
 spring:
   application:
     name: logi-wms
+  rabbitmq:
+    host: ${RABBITMQ_HOST:127.0.0.1}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
   data:
     redis:
       host: 127.0.0.1
       port: 6379
+  cloud:
+    loadbalancer:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
 server:
   port: 8721
 
 sa-token:
   token-name: satoken
+  jwt-secret-key: globalLogi-shared-jwt-secret-for-dev-DO-NOT-USE-in-prod-32b
   timeout: 2592000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  token-prefix: Bearer
+  is-log: true
   is-read-header: true
   is-read-body: false
-  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
 
 secure:
   ignore:

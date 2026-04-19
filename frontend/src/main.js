@@ -1,5 +1,6 @@
 import './assets/main.css'
 import './assets/buttons.css'
+import './assets/toast.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

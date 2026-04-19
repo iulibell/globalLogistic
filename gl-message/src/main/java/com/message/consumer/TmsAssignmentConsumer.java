@@ -26,7 +26,7 @@ public class TmsAssignmentConsumer {
     @RabbitListener(queues = RabbitConstant.ASSIGN_DEAD_QUEUE)
     public void assignDeadQueue(Channel channel, Message mqMessage, String transportOrderId) throws IOException {
         if (transportOrderId == null)
-            Assert.fail("派单死信队列未接收到transportOrderId");
+            Assert.fail("mq_dlq_tms_transport_order_id");
         long deliveryTag = mqMessage.getMessageProperties().getDeliveryTag();
         try{
             CommonResult<Boolean> result = tmsServiceClient.handleAssignWindowExpired(transportOrderId);

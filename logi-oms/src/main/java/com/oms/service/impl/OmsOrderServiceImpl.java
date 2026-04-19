@@ -1,5 +1,6 @@
 package com.oms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -68,6 +69,8 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Override
     public List<OmsOrderDto> getOrder(int pageNum, int pageSize) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         IPage<OmsOrder> page = new Page<>(pageNum,pageSize);
         omsOrderDao.selectPage(page,null);
         return page.convert(omsOrder -> {
@@ -79,6 +82,8 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Override
     public OmsOrderDto getOrderById(String orderId) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         OmsOrder omsOrder = omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId));
         OmsOrderDto omsOrderDto = new OmsOrderDto();

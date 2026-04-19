@@ -5,23 +5,68 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/global_logistic?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+    gateway:
+      server:
+        webflux:
+          routes:
+            # 默认 lb://服务名（与 spring.application.name 一致）；无 Nacos 时可设 SERVICE_URI_* 为 http://host:port
+            - id: gl-system
+              uri: ${SERVICE_URI_GL_SYSTEM:lb://gl-system}
+              predicates:
+                - Path=/system/**
+            - id: gl-auth
+              uri: ${SERVICE_URI_GL_AUTH:lb://gl-auth}
+              predicates:
+                - Path=/auth/**
+            - id: logi-admin
+              uri: ${SERVICE_URI_LOGI_ADMIN:lb://logi-admin}
+              predicates:
+                - Path=/admin/**
+            - id: logi-tms
+              uri: ${SERVICE_URI_LOGI_TMS:lb://logi-tms}
+              predicates:
+                - Path=/tms/**
+            - id: logi-oms
+              uri: ${SERVICE_URI_LOGI_OMS:lb://logi-oms}
+              predicates:
+                - Path=/oms/**
+            - id: logi-wms
+              uri: ${SERVICE_URI_LOGI_WMS:lb://logi-wms}
+              predicates:
+                - Path=/wms/**
 server:
-  port: 8502
+  port: ${GATEWAY_PORT:8502}
 
 sa-token:
   token-name: satoken
+  jwt-secret-key: globalLogi-shared-jwt-secret-for-dev-DO-NOT-USE-in-prod-32b
   timeout: 2592000
-  is-read-header: true
-  is-read-body: false
-  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  token-prefix: Bearer
+  is-log: true
 
 secure:
   ignore:
     urls:
       - "/system/login"
       - "/system/register"
+      - "/system/register/sendCaptcha"
       - "/auth/login"
       - "/auth/register"
+      - "/auth/register/sendCaptcha"
 
 # 内部 /oms|wms|tms/sys/**：enabled=true 且配置 token-value 时校验 X-Internal-Token
 security:

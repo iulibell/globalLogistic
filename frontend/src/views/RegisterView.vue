@@ -1,7 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
-import { register as registerApi } from '@/api/auth.js'
+import { register as registerApi, sendRegisterCaptcha } from '@/api/auth.js'
+import { translateApiMessage } from '@/utils/apiMessageI18n.js'
+import { pageDictFallback } from '@/utils/pageDictionaryFallback.js'
+import { showToast } from '@/utils/toast.js'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import { useUiLang } from '@/composables/useUiLang.js'
 import { useMultiDictionary } from '@/composables/useMultiDictionary.js'
@@ -17,7 +20,7 @@ const FALLBACK_USER_TYPES = [
 
 const router = useRouter()
 const { uiLang } = useUiLang()
-const { t: regT } = useMultiDictionary(['page_register'], uiLang)
+const { t: regT } = useMultiDictionary(['page_register', 'api_message', 'api_auth'], uiLang)
 const { options: userTypeOptions } = useSortedDictionaryOptions(
   'register_user_type',
   uiLang,
@@ -28,13 +31,79 @@ const userName = ref('')
 const password = ref('')
 const nickname = ref('')
 const phone = ref('')
+const verifyCode = ref('')
 const userType = ref('2')
 const showPassword = ref(false)
 const agreed = ref(false)
 
 const loading = ref(false)
-const errorMsg = ref('')
+const sendLoading = ref(false)
+const countdown = ref(0)
+/** @type {ReturnType<typeof setInterval> | null} */
+let countdownTimer = null
 const successMsg = ref('')
+
+const fieldErrors = ref({
+  userName: '',
+  password: '',
+  phone: '',
+  verifyCode: '',
+  userType: '',
+  agreed: '',
+})
+
+function clearFieldError(key) {
+  if (fieldErrors.value[key]) {
+    fieldErrors.value = { ...fieldErrors.value, [key]: '' }
+  }
+}
+
+function validateRegisterForm() {
+  const fb = (key) => pageDictFallback('page_register', key, uiLang.value)
+  const next = {
+    userName: '',
+    password: '',
+    phone: '',
+    verifyCode: '',
+    userType: '',
+    agreed: '',
+  }
+  let ok = true
+  if (!agreed.value) {
+    next.agreed = regT('page_register', 'err_must_agree', fb('err_must_agree'))
+    ok = false
+  }
+  if (!userName.value.trim()) {
+    next.userName = regT('page_register', 'err_username_required', fb('err_username_required'))
+    ok = false
+  }
+  if (!password.value) {
+    next.password = regT('page_register', 'err_password_required', fb('err_password_required'))
+    ok = false
+  }
+  const p = phone.value.trim()
+  if (!p) {
+    next.phone = regT('page_register', 'err_phone_required', fb('err_phone_required'))
+    ok = false
+  } else if (!/^1\d{10}$/.test(p)) {
+    next.phone = regT('page_register', 'err_phone_invalid', fb('err_phone_invalid'))
+    ok = false
+  }
+  const code = verifyCode.value.trim()
+  if (!code) {
+    next.verifyCode = regT('page_register', 'err_verify_required', fb('err_verify_required'))
+    ok = false
+  } else if (!/^\d{6}$/.test(code)) {
+    next.verifyCode = regT('page_register', 'err_verify_format', fb('err_verify_format'))
+    ok = false
+  }
+  if (!userType.value || !String(userType.value).trim()) {
+    next.userType = regT('page_register', 'err_user_type_required', fb('err_user_type_required'))
+    ok = false
+  }
+  fieldErrors.value = next
+  return ok
+}
 
 const passwordInputType = computed(() => (showPassword.value ? 'text' : 'password'))
 
@@ -88,25 +157,84 @@ const ariaTogglePw = computed(() =>
     : regT('page_register', 'aria_show_password', '显示密码'),
 )
 
+onUnmounted(() => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+    countdownTimer = null
+  }
+})
+
+function startCaptchaCountdown() {
+  countdown.value = 60
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+  }
+  countdownTimer = setInterval(() => {
+    countdown.value -= 1
+    if (countdown.value <= 0 && countdownTimer) {
+      clearInterval(countdownTimer)
+      countdownTimer = null
+    }
+  }, 1000)
+}
+
+async function sendCaptcha() {
+  const p = phone.value.trim()
+  const fb = (key) => pageDictFallback('page_register', key, uiLang.value)
+  if (!p) {
+    fieldErrors.value = {
+      ...fieldErrors.value,
+      phone: regT('page_register', 'err_phone_required', fb('err_phone_required')),
+    }
+    return
+  }
+  if (!/^1\d{10}$/.test(p)) {
+    fieldErrors.value = {
+      ...fieldErrors.value,
+      phone: regT('page_register', 'err_phone_invalid', fb('err_phone_invalid')),
+    }
+    return
+  }
+  fieldErrors.value = { ...fieldErrors.value, phone: '' }
+  if (countdown.value > 0 || sendLoading.value) {
+    return
+  }
+  sendLoading.value = true
+  try {
+    const res = await sendRegisterCaptcha({ phone: p })
+    if (res.code !== 200) {
+      const raw =
+        res.message && String(res.message).trim()
+          ? String(res.message).trim()
+          : 'register_captcha_send_failed'
+      throw new Error(raw)
+    }
+    startCaptchaCountdown()
+    if (res.data && typeof res.data === 'object' && res.data !== null && 'debugCode' in res.data) {
+      // 仅后端开启 debug-return 时存在，便于本地联调
+      console.info('[dev] register captcha debugCode:', res.data.debugCode)
+    }
+  } catch (e) {
+    const raw = e instanceof Error ? e.message : 'register_captcha_send_failed'
+    showToast(translateApiMessage(raw, regT, uiLang.value), { type: 'error' })
+  } finally {
+    sendLoading.value = false
+  }
+}
+
 function pickSuccessText(res) {
   if (typeof res.data === 'string' && res.data.trim()) {
-    return res.data.trim()
+    return translateApiMessage(res.data.trim(), regT, uiLang.value)
   }
   if (res.message && String(res.message).trim()) {
-    return String(res.message).trim()
+    return translateApiMessage(String(res.message).trim(), regT, uiLang.value)
   }
   return reg.value.msgSuccessDefault
 }
 
 async function onSubmit() {
-  errorMsg.value = ''
   successMsg.value = ''
-  if (!agreed.value) {
-    errorMsg.value = regT(
-      'page_register',
-      'err_must_agree',
-      '请先阅读并勾选同意服务条款与隐私政策',
-    )
+  if (!validateRegisterForm()) {
     return
   }
   loading.value = true
@@ -115,6 +243,7 @@ async function onSubmit() {
       userName: userName.value.trim(),
       password: password.value,
       phone: phone.value.trim(),
+      verifyCode: verifyCode.value.trim(),
       userType: userType.value,
     }
     const nick = nickname.value.trim()
@@ -123,13 +252,14 @@ async function onSubmit() {
     }
     const res = await registerApi(body)
     if (res.code !== 200) {
-      const msg =
-        res.message && String(res.message).trim() ? res.message : reg.value.errRegisterFailed
-      throw new Error(msg)
+      const raw =
+        res.message && String(res.message).trim() ? String(res.message).trim() : 'register_failed'
+      throw new Error(raw)
     }
     successMsg.value = pickSuccessText(res)
   } catch (e) {
-    errorMsg.value = e instanceof Error ? e.message : reg.value.errRegisterFailed
+    const raw = e instanceof Error ? e.message : 'register_failed'
+    showToast(translateApiMessage(raw, regT, uiLang.value), { type: 'error' })
   } finally {
     loading.value = false
   }
@@ -171,10 +301,19 @@ function goLogin() {
         <template v-else>
           <h1 class="page-title">{{ reg.titleCreate }}</h1>
 
-          <form class="form" @submit.prevent="onSubmit">
+          <form class="form" novalidate @submit.prevent="onSubmit">
             <label class="field">
               <span class="label">{{ reg.labelUsername }}</span>
-              <input v-model="userName" class="input" type="text" autocomplete="username" required />
+              <input
+                v-model="userName"
+                class="input"
+                :class="{ 'input--error': fieldErrors.userName }"
+                type="text"
+                autocomplete="username"
+                :aria-invalid="fieldErrors.userName ? 'true' : 'false'"
+                @input="clearFieldError('userName')"
+              />
+              <p v-if="fieldErrors.userName" class="field-error">{{ fieldErrors.userName }}</p>
             </label>
 
             <label class="field">
@@ -183,9 +322,11 @@ function goLogin() {
                 <input
                   v-model="password"
                   class="input input-password"
+                  :class="{ 'input--error': fieldErrors.password }"
                   :type="passwordInputType"
                   autocomplete="new-password"
-                  required
+                  :aria-invalid="fieldErrors.password ? 'true' : 'false'"
+                  @input="clearFieldError('password')"
                 />
                 <button
                   type="button"
@@ -223,28 +364,74 @@ function goLogin() {
                   </svg>
                 </button>
               </div>
+              <p v-if="fieldErrors.password" class="field-error">{{ fieldErrors.password }}</p>
             </label>
 
             <label class="field">
               <span class="label">{{ reg.labelPhone }}</span>
+              <div class="phone-row">
+                <input
+                  v-model="phone"
+                  class="input input-phone"
+                  :class="{ 'input--error': fieldErrors.phone }"
+                  type="tel"
+                  inputmode="numeric"
+                  maxlength="11"
+                  autocomplete="tel"
+                  :aria-invalid="fieldErrors.phone ? 'true' : 'false'"
+                  @input="clearFieldError('phone')"
+                />
+                <button
+                  type="button"
+                  class="btn-code"
+                  :disabled="sendLoading || countdown > 0"
+                  @click="sendCaptcha"
+                >
+                  {{
+                    countdown > 0
+                      ? regT('page_register', 'btn_send_code_wait', '{n}秒后可重发').replace(
+                          '{n}',
+                          String(countdown),
+                        )
+                      : regT('page_register', 'btn_send_code', '获取验证码')
+                  }}
+                </button>
+              </div>
+              <p v-if="fieldErrors.phone" class="field-error">{{ fieldErrors.phone }}</p>
+            </label>
+
+            <label class="field">
+              <span class="label">{{
+                regT('page_register', 'label_verify_code', '验证码')
+              }}</span>
               <input
-                v-model="phone"
+                v-model="verifyCode"
                 class="input"
-                type="tel"
+                :class="{ 'input--error': fieldErrors.verifyCode }"
+                type="text"
                 inputmode="numeric"
-                maxlength="11"
-                autocomplete="tel"
-                required
+                maxlength="6"
+                autocomplete="one-time-code"
+                :aria-invalid="fieldErrors.verifyCode ? 'true' : 'false'"
+                @input="clearFieldError('verifyCode')"
               />
+              <p v-if="fieldErrors.verifyCode" class="field-error">{{ fieldErrors.verifyCode }}</p>
             </label>
 
             <label class="field">
               <span class="label">{{ reg.labelRole }}</span>
-              <select v-model="userType" class="input select" required>
+              <select
+                v-model="userType"
+                class="input select"
+                :class="{ 'input--error': fieldErrors.userType }"
+                :aria-invalid="fieldErrors.userType ? 'true' : 'false'"
+                @change="clearFieldError('userType')"
+              >
                 <option v-for="opt in userTypeOptions" :key="opt.value" :value="opt.value">
                   {{ opt.label }}
                 </option>
               </select>
+              <p v-if="fieldErrors.userType" class="field-error">{{ fieldErrors.userType }}</p>
             </label>
 
             <label class="field">
@@ -252,17 +439,24 @@ function goLogin() {
               <input v-model="nickname" class="input" type="text" autocomplete="nickname" />
             </label>
 
-            <label class="terms-row">
-              <input v-model="agreed" type="checkbox" class="terms-check" />
-              <span class="terms-text">
-                {{ reg.termsPrefix }}
-                <a href="#" @click.prevent>{{ reg.termsLinkTos }}</a>
-                {{ reg.termsJoin }}
-                <a href="#" @click.prevent>{{ reg.termsLinkPrivacy }}</a>
-              </span>
-            </label>
-
-            <p v-if="errorMsg" class="error" role="alert">{{ errorMsg }}</p>
+            <div class="terms-block">
+              <label class="terms-row">
+                <input
+                  v-model="agreed"
+                  type="checkbox"
+                  class="terms-check"
+                  :aria-invalid="fieldErrors.agreed ? 'true' : 'false'"
+                  @change="clearFieldError('agreed')"
+                />
+                <span class="terms-text">
+                  {{ reg.termsPrefix }}
+                  <a href="#" @click.prevent>{{ reg.termsLinkTos }}</a>
+                  {{ reg.termsJoin }}
+                  <a href="#" @click.prevent>{{ reg.termsLinkPrivacy }}</a>
+                </span>
+              </label>
+              <p v-if="fieldErrors.agreed" class="field-error terms-error">{{ fieldErrors.agreed }}</p>
+            </div>
 
             <button type="submit" class="btn-submit" :disabled="loading">
               {{ submitLabel }}
@@ -458,8 +652,70 @@ function goLogin() {
   box-shadow: 0 0 0 2px rgba(61, 141, 255, 0.2);
 }
 
+.input--error {
+  border-color: #c62828;
+}
+
+.input--error:focus {
+  border-color: #c62828;
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+}
+
+.field-error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #c62828;
+}
+
+.terms-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.terms-error {
+  padding-left: 26px;
+}
+
 .input-password {
   padding-right: 40px;
+}
+
+.phone-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.input-phone {
+  flex: 1;
+  min-width: 0;
+}
+
+.btn-code {
+  flex-shrink: 0;
+  border: 1px solid var(--17-border);
+  border-radius: 4px;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--17-link);
+  background: var(--17-card-elevated);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+
+.btn-code:hover:not(:disabled) {
+  border-color: var(--17-teal);
+}
+
+.btn-code:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .password-wrap {
@@ -528,13 +784,6 @@ function goLogin() {
 
 .terms-text a:hover {
   text-decoration: underline;
-}
-
-.error {
-  margin: -4px 0 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: #c0392b;
 }
 
 .btn-submit {

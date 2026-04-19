@@ -1,11 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { useAuthSession } from '@/composables/useAuthSession.js'
 import LanguageDropdown from '@/components/LanguageDropdown.vue'
 import { useUiLang } from '@/composables/useUiLang.js'
 import { useMultiDictionary } from '@/composables/useMultiDictionary.js'
 import { useSortedDictionaryOptions } from '@/composables/useSortedDictionaryOptions.js'
+import { translateApiMessage } from '@/utils/apiMessageI18n.js'
+import { pageDictFallback } from '@/utils/pageDictionaryFallback.js'
+import { showToast } from '@/utils/toast.js'
 
 const FALLBACK_ROLES = [
   { value: 'super', label: '超级管理员' },
@@ -16,16 +19,41 @@ const FALLBACK_ROLES = [
 ]
 
 const router = useRouter()
+const route = useRoute()
 const { login } = useAuthSession()
 const { uiLang } = useUiLang()
-const { t: loginT } = useMultiDictionary(['page_login'], uiLang)
+const { t: loginT } = useMultiDictionary(['page_login', 'api_message', 'api_auth'], uiLang)
 const { options: roleOptions } = useSortedDictionaryOptions('login_role_option', uiLang, FALLBACK_ROLES)
 
 const username = ref('')
 const password = ref('')
 const requiredRoleKey = ref('manager')
 const loading = ref(false)
-const errorMsg = ref('')
+
+const fieldErrors = ref({ role: '', username: '', password: '' })
+
+function clearFieldError(key) {
+  fieldErrors.value = { ...fieldErrors.value, [key]: '' }
+}
+
+function validateLoginForm() {
+  fieldErrors.value = { role: '', username: '', password: '' }
+  let ok = true
+  const fb = (key) => pageDictFallback('page_login', key, uiLang.value)
+  if (!requiredRoleKey.value || !String(requiredRoleKey.value).trim()) {
+    fieldErrors.value.role = loginT('page_login', 'err_role_required', fb('err_role_required'))
+    ok = false
+  }
+  if (!username.value.trim()) {
+    fieldErrors.value.username = loginT('page_login', 'err_username_required', fb('err_username_required'))
+    ok = false
+  }
+  if (!password.value) {
+    fieldErrors.value.password = loginT('page_login', 'err_password_required', fb('err_password_required'))
+    ok = false
+  }
+  return ok
+}
 
 const submitLabel = computed(() =>
   loading.value
@@ -34,7 +62,9 @@ const submitLabel = computed(() =>
 )
 
 async function onSubmit() {
-  errorMsg.value = ''
+  if (!validateLoginForm()) {
+    return
+  }
   loading.value = true
   try {
     await login({
@@ -42,10 +72,14 @@ async function onSubmit() {
       password: password.value,
       requiredRoleKey: requiredRoleKey.value,
     })
-    await router.replace('/')
+    const redir = route.query.redirect
+    const dest =
+      typeof redir === 'string' && redir.startsWith('/') && !redir.startsWith('//') ? redir : '/'
+    await router.replace(dest)
   } catch (e) {
-    errorMsg.value =
-      e instanceof Error ? e.message : loginT('page_login', 'error_default', '登录失败')
+    const raw = e instanceof Error ? e.message : 'login_failed'
+    const text = translateApiMessage(raw, loginT, uiLang.value)
+    showToast(text, { type: 'error' })
   } finally {
     loading.value = false
   }
@@ -67,30 +101,53 @@ async function onSubmit() {
       <div class="form-shell">
         <h1 class="welcome">{{ loginT('page_login', 'welcome_title', '欢迎回来') }}</h1>
 
-        <form class="form" @submit.prevent="onSubmit">
+        <form class="form" novalidate @submit.prevent="onSubmit">
           <label class="field">
             <span class="label">{{ loginT('page_login', 'label_role', '身份') }}</span>
-            <select v-model="requiredRoleKey" class="input select" required>
+            <select
+              v-model="requiredRoleKey"
+              class="input select"
+              :class="{ 'input--error': fieldErrors.role }"
+              :aria-invalid="fieldErrors.role ? 'true' : 'false'"
+              @change="clearFieldError('role')"
+            >
               <option v-for="opt in roleOptions" :key="opt.value" :value="opt.value">
                 {{ opt.label }}
               </option>
             </select>
+            <p v-if="fieldErrors.role" class="field-error">{{ fieldErrors.role }}</p>
           </label>
           <label class="field">
             <span class="label">{{ loginT('page_login', 'label_username', '用户名') }}</span>
-            <input v-model="username" class="input" type="text" autocomplete="username" required />
+            <input
+              v-model="username"
+              class="input"
+              :class="{ 'input--error': fieldErrors.username }"
+              type="text"
+              autocomplete="username"
+              :aria-invalid="fieldErrors.username ? 'true' : 'false'"
+              @input="clearFieldError('username')"
+            />
+            <p v-if="fieldErrors.username" class="field-error">{{ fieldErrors.username }}</p>
           </label>
           <label class="field">
             <span class="label">{{ loginT('page_login', 'label_password', '密码') }}</span>
-            <input v-model="password" class="input" type="password" autocomplete="current-password" required />
+            <input
+              v-model="password"
+              class="input"
+              :class="{ 'input--error': fieldErrors.password }"
+              type="password"
+              autocomplete="current-password"
+              :aria-invalid="fieldErrors.password ? 'true' : 'false'"
+              @input="clearFieldError('password')"
+            />
+            <p v-if="fieldErrors.password" class="field-error">{{ fieldErrors.password }}</p>
           </label>
 
           <div class="row-forgot">
             <RouterLink to="/" class="link-quiet">{{ loginT('page_login', 'link_home', '返回首页') }}</RouterLink>
             <a href="#" class="link-forgot" @click.prevent>{{ loginT('page_login', 'link_forgot', '忘记密码') }}</a>
           </div>
-
-          <p v-if="errorMsg" class="error" role="alert">{{ errorMsg }}</p>
 
           <button type="submit" class="btn-submit" :disabled="loading">
             {{ submitLabel }}
@@ -290,6 +347,22 @@ async function onSubmit() {
   box-shadow: 0 0 0 2px rgba(61, 141, 255, 0.2);
 }
 
+.input--error {
+  border-color: #c62828;
+}
+
+.input--error:focus {
+  border-color: #c62828;
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.2);
+}
+
+.field-error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #c62828;
+}
+
 .select {
   cursor: pointer;
 }
@@ -320,13 +393,6 @@ async function onSubmit() {
 
 .link-quiet:hover {
   color: var(--17-link-hover);
-}
-
-.error {
-  margin: -4px 0 0;
-  font-size: 13px;
-  font-weight: 600;
-  color: #c0392b;
 }
 
 .btn-submit {

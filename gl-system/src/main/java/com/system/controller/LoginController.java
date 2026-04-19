@@ -30,6 +30,6 @@ public class LoginController {
     @PostMapping("/logout")
     public CommonResult<?> logout() {
         loginAndLogoutService.logout();
-        return CommonResult.successMsg("已退出登录");
+        return CommonResult.successMsg("logout_success");
     }
 }

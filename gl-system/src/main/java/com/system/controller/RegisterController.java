@@ -2,6 +2,7 @@ package com.system.controller;
 
 import com.api.CommonResult;
 import com.dto.RegisterParamDto;
+import com.dto.SendRegisterCaptchaDto;
 import com.system.service.RegisterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +23,12 @@ public class RegisterController {
     @PostMapping("/register")
     @Operation(summary = "物流系统的用户注册接口")
     public CommonResult<?> register(@Valid @RequestBody RegisterParamDto registerParamDto) {
-        registerService.register(registerParamDto);
-        return CommonResult.success("注册成功,请等待审核");
+        return registerService.register(registerParamDto);
+    }
+
+    @PostMapping("/register/sendCaptcha")
+    @Operation(summary = "发送注册验证码（写入 Redis，限流 60 秒/次）")
+    public CommonResult<?> sendRegisterCaptcha(@Valid @RequestBody SendRegisterCaptchaDto dto) {
+        return registerService.sendRegisterCaptcha(dto.getPhone());
     }
 }

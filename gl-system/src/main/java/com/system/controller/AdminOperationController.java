@@ -36,12 +36,12 @@ public class AdminOperationController {
     @PostMapping("/admin/updateSysUserInfo")
     public CommonResult<?> updateSysUserInfo(@RequestBody SysUserDto sysUserDto) {
         sysUserService.updateSysUserInfo(sysUserDto);
-        return CommonResult.success("已修改该用户信息!");
+        return CommonResult.success("admin_user_updated");
     }
 
     @PostMapping("/admin/deleteSysUser")
     public CommonResult<?> deleteSysUser(@RequestParam String userId) {
         sysUserService.deleteSysUser(userId);
-        return CommonResult.success("你已删除该用户!");
+        return CommonResult.success("admin_user_deleted");
     }
 }

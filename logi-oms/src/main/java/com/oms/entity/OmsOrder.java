@@ -60,7 +60,7 @@ public class OmsOrder {
     @Schema(description = "商品类型")
     private String type;
     @Schema(description = "订单状态: 0->待审核,1->未通过审核,2->已审核,3->待支付,4->超时未支付,5->已支付")
-    @ParamValidator(value = {"0","1","2","3","4","5"},message = "订单状态错误")
+    @ParamValidator(value = {"0","1","2","3","4","5"}, message = "oms_order_status_invalid")
     private Short status;
     @Size(max = 500)
     @Schema(description = "备注(未通过审核的原因)")

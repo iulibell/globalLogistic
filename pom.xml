@@ -47,10 +47,19 @@
         <mybatis-plus.version>3.5.15</mybatis-plus.version>
         <!-- Sa-Token 1.37 的 Redis Jackson 实现依赖 Jackson 2；Boot 4 使用 Jackson 3，须用 Boot4 系列与 BOM 对齐 -->
         <sa-token.version>1.45.0</sa-token.version>
+        <!-- 与 Spring Boot 4.x、Spring Cloud 2025.1.x 对齐（Nacos 注册发现） -->
+        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>

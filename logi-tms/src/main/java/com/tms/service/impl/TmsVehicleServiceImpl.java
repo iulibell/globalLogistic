@@ -1,5 +1,6 @@
-package com.tms.dto.impl;
+package com.tms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.tms.dao.TmsVehicleDao;
 import com.tms.dto.TmsVehicleDto;
 import com.tms.entity.TmsVehicle;
@@ -15,6 +16,8 @@ public class TmsVehicleServiceImpl implements TmsVehicleService {
 
     @Override
     public void addVehicle(TmsVehicleDto tmsVehicleDto) {
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
         TmsVehicle tmsVehicle = new TmsVehicle();
         BeanUtils.copyProperties(tmsVehicleDto,tmsVehicle);
         //后续可添加审核机制

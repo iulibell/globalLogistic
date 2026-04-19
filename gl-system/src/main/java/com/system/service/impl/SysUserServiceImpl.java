@@ -46,6 +46,9 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUserDto fetchSysUserByUserId(String userId) {
         SysUser sysUser = sysUserDao.selectOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUserId,userId));
+        if (sysUser == null) {
+            return null;
+        }
         SysUserDto sysUserDto = new SysUserDto();
         BeanUtil.copyProperties(sysUser,sysUserDto);
         return sysUserDto;

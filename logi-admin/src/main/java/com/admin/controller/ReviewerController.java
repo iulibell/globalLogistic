@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/admin/reviewer")
+@RequestMapping("/admin")
 @Tag(name = "ReviewerController", description = "审核员管理接口")
 public class ReviewerController {
 
@@ -26,37 +26,37 @@ public class ReviewerController {
         reviewerService.getRegisterFromSys(registerParamDto);
     }
 
-    @GetMapping("/fetchRegisterApplication")
+    @GetMapping("/reviewer/fetchRegisterApplication")
     public CommonResult<?> fetchRegisterApplication(@RequestParam(defaultValue = "1") int pageNum,
                                                     @RequestParam(defaultValue = "10") int pageSize) {
         return CommonResult.success(reviewerService.fetchRegisterApplication(pageNum, pageSize));
     }
 
-    @PostMapping("/accessRegister")
+    @PostMapping("/reviewer/accessRegister")
     public CommonResult<?> accessRegister(@Valid @RequestBody RegisterParamDto registerParamDto) {
         reviewerService.accessRegister(registerParamDto);
-        return CommonResult.success("该注册申请已通过!");
+        return CommonResult.success("reviewer_register_approved");
     }
 
-    @PostMapping("/rejectRegister")
+    @PostMapping("/reviewer/rejectRegister")
     public CommonResult<?> rejectRegister(@Valid @RequestBody RegisterParamDto registerParamDto) {
         reviewerService.rejectRegister(registerParamDto);
-        return CommonResult.success("该注册申请已被退回!");
+        return CommonResult.success("reviewer_register_rejected");
     }
 
-    @GetMapping("/getOrderReview")
+    @GetMapping("/reviewer/getOrderReview")
     public CommonResult<?> getOrderReview(@RequestParam(defaultValue = "1") int pageNum,
                                           @RequestParam(defaultValue = "10") int pageSize) {
         return CommonResult.success(reviewerService.getOrderReview(pageNum, pageSize));
     }
 
-    @PostMapping("/accessOrderReview")
+    @PostMapping("/reviewer/accessOrderReview")
     public CommonResult<?> accessOrderReview(@RequestParam String orderId,
                                              @RequestParam String remark) {
         return reviewerService.accessOrderReview(orderId, remark);
     }
 
-    @PostMapping("/rejectOrderReview")
+    @PostMapping("/reviewer/rejectOrderReview")
     public CommonResult<?> rejectOrderReview(@RequestParam String orderId,
                                              @RequestParam String remark) {
         return reviewerService.rejectOrderReview(orderId, remark);

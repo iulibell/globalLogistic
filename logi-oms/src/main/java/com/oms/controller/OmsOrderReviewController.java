@@ -26,13 +26,13 @@ public class OmsOrderReviewController {
     public CommonResult<?> accessOrderReview(@RequestParam String orderId,
                                              @RequestParam String remark) {
         omsOrderReviewService.accessOrderReview(orderId, remark);
-        return CommonResult.success("该商品已通过审核");
+        return CommonResult.success("oms_review_product_passed");
     }
 
     @PostMapping("/rejectOrderReview")
     public CommonResult<?> rejectOrderReview(@RequestParam String orderId,
                                              @RequestParam String remark) {
         omsOrderReviewService.rejectOrderReview(orderId, remark);
-        return CommonResult.success("成功退回该订单申请");
+        return CommonResult.success("oms_review_order_returned");
     }
 }

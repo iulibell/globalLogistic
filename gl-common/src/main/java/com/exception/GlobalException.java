@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 须组件扫描到 {@code com.exception}（或等价注册）；{@code @AutoConfiguration} 单独注册时部分环境下 {@link ControllerAdvice} 不生效。
+ */
 @ControllerAdvice
 public class GlobalException {
 
@@ -36,7 +39,7 @@ public class GlobalException {
         if(bindingResult.hasErrors()){
             FieldError fieldError = bindingResult.getFieldError();
             if(fieldError != null){
-                message = fieldError.getField() + " " + fieldError.getDefaultMessage();
+                message = fieldError.getDefaultMessage();
             }
         }
         return CommonResult.validationError(message);
@@ -55,7 +58,7 @@ public class GlobalException {
         if(bindingResult.hasErrors()){
             FieldError fieldError = bindingResult.getFieldError();
             if(fieldError != null){
-                message = fieldError.getField() + " " + fieldError.getDefaultMessage();
+                message = fieldError.getDefaultMessage();
             }
         }
         return CommonResult.validationError(message);
@@ -72,7 +75,7 @@ public class GlobalException {
             return CommonResult.failed(errorCode);
         }
         String msg = e.getMessage();
-        return CommonResult.failed(msg != null && !msg.isEmpty() ? msg : "操作失败");
+        return CommonResult.failed(msg != null && !msg.isEmpty() ? msg : "generic_error");
     }
 
     /**
@@ -81,7 +84,7 @@ public class GlobalException {
     @ResponseBody
     @ExceptionHandler(RedisConnectionFailureException.class)
     public CommonResult<?> handleRedisConnectionFailure(RedisConnectionFailureException e) {
-        return CommonResult.failed("缓存服务不可用，请确认 Redis 已启动并可连接");
+        return CommonResult.failed("redis_unavailable");
     }
 
     @ResponseBody
@@ -89,9 +92,9 @@ public class GlobalException {
     public CommonResult<?> handleRedisSystem(RedisSystemException e) {
         Throwable c = e.getCause();
         if (c instanceof RedisConnectionFailureException) {
-            return CommonResult.failed("缓存服务不可用，请确认 Redis 已启动并可连接");
+            return CommonResult.failed("redis_unavailable");
         }
-        return CommonResult.failed("缓存异常，请稍后重试");
+        return CommonResult.failed("redis_error");
     }
 
     /** MyBatis 未绑定 SQL、SQL 错误等，避免直接 500 */
@@ -99,13 +102,13 @@ public class GlobalException {
     @ExceptionHandler({ MyBatisSystemException.class, PersistenceException.class })
     public CommonResult<?> handleMyBatis(RuntimeException e) {
         log.error("MyBatis/Persistence 异常（已转为友好提示返回前端）", e);
-        return CommonResult.failed("数据访问异常，请稍后重试或联系管理员");
+        return CommonResult.failed("data_access_error");
     }
 
     @ResponseBody
     @ExceptionHandler(DataAccessException.class)
     public CommonResult<?> handleDataAccess(DataAccessException e) {
         log.error("数据库访问异常（已转为友好提示返回前端），根因: {}", e.getMostSpecificCause().getMessage(), e);
-        return CommonResult.failed("数据库访问异常，请检查服务与连接配置");
+        return CommonResult.failed("db_access_error");
     }
 }

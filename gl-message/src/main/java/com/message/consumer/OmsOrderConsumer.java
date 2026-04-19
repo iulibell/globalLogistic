@@ -27,7 +27,7 @@ public class OmsOrderConsumer {
     @RabbitListener(queues = RabbitConstant.ORDER_DEAD_QUEUE)
     public void orderDeadQueue(Channel channel, Message mqMessage, String orderId) throws IOException {
         if(orderId == null)
-            Assert.fail("订单死信队列未接收到orderId");
+            Assert.fail("mq_dlq_oms_order_id");
         long deliveryTag = mqMessage.getMessageProperties().getDeliveryTag();
         try{
             CommonResult<Boolean> result = omsServiceClient.markOrderPaymentTimeout(orderId);

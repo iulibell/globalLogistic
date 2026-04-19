@@ -4,6 +4,7 @@ import com.api.CommonResult;
 import com.auth.client.SystemServiceClient;
 import com.auth.dto.LoginRequest;
 import com.dto.RegisterParamDto;
+import com.dto.SendRegisterCaptchaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -30,6 +31,12 @@ public class AuthController {
     @Operation(summary = "用户注册", description = "转发 gl-system /system/register")
     public CommonResult<?> register(@Valid @RequestBody RegisterParamDto registerParamDto) {
         return systemServiceClient.register(registerParamDto);
+    }
+
+    @PostMapping("/register/sendCaptcha")
+    @Operation(summary = "发送注册验证码", description = "转发 gl-system /system/register/sendCaptcha")
+    public CommonResult<?> sendRegisterCaptcha(@Valid @RequestBody SendRegisterCaptchaDto dto) {
+        return systemServiceClient.sendRegisterCaptcha(dto);
     }
 
     @PostMapping("/login")

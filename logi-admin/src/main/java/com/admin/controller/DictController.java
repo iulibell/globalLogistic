@@ -25,18 +25,24 @@ public class DictController {
     @PostMapping("/super/updateDictionary")
     public CommonResult<?> updateDictionary(@RequestBody DictionaryOperationDto dictionaryOperationDto) {
         dictionaryService.updateDictionary(dictionaryOperationDto);
-        return CommonResult.success("已更新该字典信息!");
+        return CommonResult.success("dict_updated");
     }
 
     @PostMapping("/super/addDictionary")
     public CommonResult<?> addDictionary(@RequestBody List<DictionaryDto> dictionaryDtoList) {
         dictionaryService.addDictionary(dictionaryDtoList);
-        return CommonResult.success("已成功添加该字典信息!");
+        return CommonResult.success("dict_added");
     }
 
     @PostMapping("/super/deleteDictionary")
     public CommonResult<?> deleteDictionary(@RequestBody DictionaryOperationDto dictionaryOperationDto) {
         dictionaryService.deleteDictionary(dictionaryOperationDto);
-        return CommonResult.success("已删除该字典!");
+        return CommonResult.success("dict_deleted");
+    }
+
+    @GetMapping("/super/getDictionary")
+    public CommonResult<?> getDictionary(@RequestParam(defaultValue = "1")int pageNum,
+                                         @RequestParam(defaultValue = "10")int pageSize){
+        return CommonResult.success(dictionaryService.getDictionary(pageNum,pageSize));
     }
 }

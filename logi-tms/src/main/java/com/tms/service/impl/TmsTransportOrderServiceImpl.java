@@ -1,5 +1,6 @@
-package com.tms.dto.impl;
+package com.tms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -55,6 +56,8 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
 
     @Override
     public List<TmsTransportOrderDto> getManualAssignment(int pageNum, int pageSize) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         IPage<TmsTransportOrder> page = new Page<>(pageNum,pageSize);
         tmsTransportOrderDao.selectPage(page, new LambdaQueryWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getStatus, (short) 6));
@@ -132,6 +135,8 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
 
     @Override
     public boolean manualAssignDriver(String transportOrderId, String driverId) {
+        StpUtil.checkPermission("manager");
+        StpUtil.checkLogin();
         int n = tmsTransportOrderDao.update(null, new LambdaUpdateWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
                 .eq(TmsTransportOrder::getStatus, (short) 6)

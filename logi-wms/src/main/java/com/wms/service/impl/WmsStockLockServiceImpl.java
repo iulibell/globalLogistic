@@ -27,13 +27,12 @@ public class WmsStockLockServiceImpl implements WmsStockLockService {
     @Resource
     private SnowflakeIdGenerator snowflakeIdGenerator;
 
-
     @Override
     public void WmsStockLock(OmsOrderDto omsOrderDto) {
         if (wmsStockDao.selectOne(new LambdaQueryWrapper<WmsStock>()
                 .eq(WmsStock::getStockId,omsOrderDto.getGoodsId()))
                 .getStockQuantity() - omsOrderDto.getQuantity() <= 0)
-            Assert.fail("库存数量不足");
+            Assert.fail("wms_stock_insufficient");
 
         wmsStockDao.update(new LambdaUpdateWrapper<WmsStock>()
                 .eq(WmsStock::getStockId,omsOrderDto.getGoodsId())

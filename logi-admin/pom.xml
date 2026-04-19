@@ -18,10 +18,13 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- 与 Spring Cloud LoadBalancer 的 BlockingRestClassesPresentCondition 对齐（Boot 4 下建议显式引入） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-restclient</artifactId>
@@ -57,7 +60,6 @@
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <!-- MyBatis-Plus 由父工程 mybatis-plus-spring-boot4-starter 引入；此处仅补 JDBC 与 MySQL 驱动 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>

@@ -7,37 +7,37 @@ import java.math.BigDecimal;
 
 @Data
 public class OmsOrderDto {
-    @NotBlank(message = "订单id不能为空")
+    @NotBlank(message = "oms_v_order_id")
     private String orderId;
-    @NotBlank(message = "商家id不能为空")
+    @NotBlank(message = "oms_v_merchant_id")
     private String merchantId;
-    @NotBlank(message = "用户id不能为空")
+    @NotBlank(message = "oms_v_user_id")
     private String userId;
-    @NotBlank(message = "商品id不能为空")
+    @NotBlank(message = "oms_v_goods_id")
     private String goodsId;
-    @NotBlank(message = "仓库id不能为空")
+    @NotBlank(message = "oms_v_warehouse_id")
     private Long warehouseId;
-    @NotBlank(message = "库位id不能为空")
+    @NotBlank(message = "oms_v_location_id")
     private Long locationId;
-    @NotBlank(message = "商品名称不能为空")
+    @NotBlank(message = "oms_v_sku_name")
     private String skuName;
-    @NotBlank(message = "商品编号不能为空")
+    @NotBlank(message = "oms_v_sku_code")
     private String skuCode;
-    @NotBlank(message = "支付金额不能为空")
+    @NotBlank(message = "oms_v_price")
     private BigDecimal price;
-    @NotBlank(message = "用户手机号不能为空")
+    @NotBlank(message = "oms_v_user_phone")
     private String userPhone;
-    @NotBlank(message = "商家手机号不能为空")
+    @NotBlank(message = "oms_v_merchant_phone")
     private String merchantPhone;
-    @NotBlank(message = "仓库所属城市不能为空")
+    @NotBlank(message = "oms_v_warehouse_city")
     private String warehouseCity;
-    @NotBlank(message = "用户城市不能为空")
+    @NotBlank(message = "oms_v_city")
     private String city;
-    @NotBlank(message = "种类不能为空")
+    @NotBlank(message = "oms_v_category")
     private Short category;
-    @NotBlank(message = "购买数量不能为空")
+    @NotBlank(message = "oms_v_quantity")
     private Integer quantity;
-    @NotBlank(message = "商品类型不能为空")
+    @NotBlank(message = "oms_v_type")
     private String type;
     private String remark;
 }

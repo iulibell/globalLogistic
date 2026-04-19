@@ -13,14 +13,10 @@ spring:
   cloud:
     loadbalancer:
       enabled: true
-    # 直连各服务：不依赖服务发现与 BlockingLoadBalancerClient（本地/单实例最稳；多实例可改 URL 或去掉 url 走注册中心）
-    openfeign:
-      client:
-        config:
-          logi-oms:
-            url: ${FEIGN_OMS_URL:http://127.0.0.1:8711}
-          gl-system:
-            url: ${FEIGN_SYSTEM_URL:http://127.0.0.1:8501}
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
 server:
   port: 8601
 
@@ -30,10 +26,14 @@ mybatis-plus:
 
 sa-token:
   token-name: satoken
+  jwt-secret-key: globalLogi-shared-jwt-secret-for-dev-DO-NOT-USE-in-prod-32b
   timeout: 2592000
-  is-read-header: true
-  is-read-body: false
-  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  token-prefix: Bearer
+  is-log: true
 
 snowflake:
   worker-id: 1

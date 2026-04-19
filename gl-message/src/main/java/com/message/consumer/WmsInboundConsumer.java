@@ -26,7 +26,7 @@ public class WmsInboundConsumer {
     @RabbitListener(queues = RabbitConstant.INBOUND_DEAD_QUEUE)
     public void inboundDeadQueue(Channel channel, Message mqMessage, String applyId) throws IOException {
         if (applyId == null)
-            Assert.fail("申请入库死信队列未接收到applyId");
+            Assert.fail("mq_dlq_wms_apply_id");
         long deliveryTag = mqMessage.getMessageProperties().getDeliveryTag();
         try{
             CommonResult<Boolean> result = wmsServiceClient.markInboundApplyPaymentTimeout(applyId);

@@ -1,12 +1,5 @@
 package com.system.service.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpLogic;
 import cn.hutool.core.util.StrUtil;
@@ -24,11 +17,13 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 @Service
 @Slf4j
 public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
 
-    /** 与 {@link com.system.config.SaTokenJwtAutoConfig} 中 {@code @Primary} 的 {@link StpLogic} 一致（JWT + Redis Session） */
     @Resource
     private StpLogic stpLogic;
 
@@ -82,10 +77,10 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
             try {
                 return user.getUserId().trim();
             } catch (NumberFormatException ignored) {
-                Assert.fail("发生了异常,请稍后再试!");
+                Assert.fail("login_stp_error");
             }
         }
-        Assert.fail("账号数据异常，请联系管理员");
+        Assert.fail("login_account_data_error");
         return "";
     }
 
@@ -93,33 +88,39 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
     @SuppressWarnings("null")
     public SaTokenInfo login(LoginParamDto loginParamDto, String requiredRoleKey) {
         if (StrUtil.isEmpty(loginParamDto.getUsername()) || StrUtil.isEmpty(loginParamDto.getPassword())) {
-            Assert.fail("账号或密码不能为空");
+            Assert.fail("login_account_or_password_empty");
         }
         if (StrUtil.isBlank(requiredRoleKey)) {
-            Assert.fail("登录入口角色无效");
+            Assert.fail("login_role_invalid");
         }
 
         SysUser sysUser = sysUserDao.selectOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, loginParamDto.getUsername()));
         if (sysUser == null) {
-            Assert.fail("账号不存在");
+            Assert.fail("login_account_not_found");
         }
         String storedHash = sysUser.getPassword();
         if (StrUtil.isEmpty(storedHash)) {
-            Assert.fail("账号数据异常，请联系管理员");
+            Assert.fail("login_account_data_error");
         }
-        if (!BCrypt.checkpw(loginParamDto.getPassword(), storedHash)) {
-            Assert.fail("密码错误");
+        // 哈希非合法 BCrypt 时 checkpw 抛 IllegalArgumentException，若未捕获会变成 HTTP 500，前端只能看到「内部错误」
+        try {
+            if (!BCrypt.checkpw(loginParamDto.getPassword(), storedHash)) {
+                Assert.fail("login_password_wrong");
+            }
+        } catch (IllegalArgumentException ex) {
+            log.warn("密码字段非合法 BCrypt 哈希，按密码错误处理 user={}", loginParamDto.getUsername());
+            Assert.fail("login_password_wrong");
         }
         if (!Objects.equals(sysUser.getStatus(), (short) 1)) {
-            Assert.fail("账号已被禁用");
+            Assert.fail("login_account_disabled");
         }
         String actualRole = normalizeUserTypeToRoleKey(sysUser.getUserType());
         if (actualRole == null) {
-            Assert.fail("账号类型无效，请联系管理员");
+            Assert.fail("login_account_type_invalid");
         }
         if (!requiredRoleKey.equals(actualRole)) {
-            Assert.fail("所选角色与账号不符，请在上方选择正确的角色后再登录");
+            Assert.fail("login_role_mismatch");
         }
 
         String userId = logiStpLoginId(sysUser);

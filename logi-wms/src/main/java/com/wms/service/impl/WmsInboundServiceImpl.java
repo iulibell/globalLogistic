@@ -1,5 +1,6 @@
 package com.wms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -29,6 +30,8 @@ public class WmsInboundServiceImpl implements WmsInboundService {
 
     @Override
     public List<WmsInboundDto> getInbound(int pageNum, int pageSize) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         IPage<WmsInbound> page = new Page<>(pageNum,pageSize);
         wmsInboundDao.selectPage(page,new LambdaQueryWrapper<WmsInbound>()
                 .eq(WmsInbound::getStatus,(short)0));
@@ -41,6 +44,8 @@ public class WmsInboundServiceImpl implements WmsInboundService {
 
     @Override
     public WmsInboundDto getInboundById(String inbound) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         WmsInboundDto wmsInboundDto = new WmsInboundDto();
         BeanUtils.copyProperties(wmsInboundDao.selectOne(new LambdaQueryWrapper<WmsInbound>()
                 .eq(WmsInbound::getInboundId,inbound)),wmsInboundDto);
@@ -49,6 +54,8 @@ public class WmsInboundServiceImpl implements WmsInboundService {
 
     @Override
     public void confirmInbound(String inboundId,String skuCode) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         String stockId = snowflakeIdGenerator.nextId() + skuCode;
 
         wmsInboundDao.update(new LambdaUpdateWrapper<WmsInbound>()

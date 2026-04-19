@@ -11,15 +11,15 @@ public interface OmsServiceClient {
     @GetMapping("/oms/getOrder")
     CommonResult<?> getOrder(@RequestParam(defaultValue = "1") int pageNum,
                              @RequestParam(defaultValue = "10") int pageSize);
-    @GetMapping("/getOrderById")
+    @GetMapping("/oms/getOrderById")
     CommonResult<?> getOrderById(@RequestParam String orderId);
-    @GetMapping("/getOrderReview")
+    @GetMapping("/oms/getOrderReview")
     CommonResult<?> getOrderReview(@RequestParam(defaultValue = "1") int pageNum,
                                    @RequestParam(defaultValue = "10") int pageSize);
-    @PostMapping("/accessOrderReview")
+    @PostMapping("/oms/accessOrderReview")
     CommonResult<?> accessOrderReview(@RequestParam String orderId,
                                       @RequestParam String remark);
-    @PostMapping("/rejectOrderReview")
+    @PostMapping("/oms/rejectOrderReview")
     CommonResult<?> rejectOrderReview(@RequestParam String orderId,
                                       @RequestParam String remark);
 }

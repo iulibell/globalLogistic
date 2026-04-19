@@ -1,16 +1,21 @@
+server:
+  port: ${SERVER_PORT:8731}
+
 spring:
   application:
     name: gl-message
   cloud:
-    openfeign:
-      client:
-        config:
-          logi-oms:
-            url: http://127.0.0.1:8711
-          logi-tms:
-            url: http://127.0.0.1:8701
-          logi-wms:
-            url: http://127.0.0.1:8721
+    loadbalancer:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/global_logistic?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 # 与业务服务 security.internal.token-value 保持一致；生产用环境变量
 security:

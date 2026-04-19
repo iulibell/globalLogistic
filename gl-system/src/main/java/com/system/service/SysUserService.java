@@ -26,7 +26,7 @@ public interface SysUserService {
     /**
      * 根据用户id返回单个用户(super操作)
      * @param userId 用户id
-     * @return 单个用户
+     * @return 单个用户；不存在时返回 {@code null}
      */
     SysUserDto fetchSysUserByUserId(String userId);
 

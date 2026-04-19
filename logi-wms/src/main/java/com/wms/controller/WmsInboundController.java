@@ -29,7 +29,7 @@ public class WmsInboundController {
     public CommonResult<?> confirmInbound(@RequestParam String inboundId,
                                           @RequestParam String skuCode) {
         wmsInboundService.confirmInbound(inboundId, skuCode);
-        return CommonResult.success("已成功确认入库");
+        return CommonResult.success("wms_inbound_confirmed");
     }
 
     @PostMapping("/sys/markInboundApplyPaymentTimeout")

@@ -1,11 +1,13 @@
 package com.system;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.system", "com.service", "com.exception"})
 @EnableFeignClients
+@MapperScan("com.system.dao")
 public class SystemApplication {
     public static void main(String[] args) {
         SpringApplication.run(SystemApplication.class);

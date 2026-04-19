@@ -1,2 +1,3 @@
+com.config.RedisConfig
 com.config.SaTokenJwtAutoConfiguration
 com.config.SaTokenWebMvcSecurityAutoConfiguration

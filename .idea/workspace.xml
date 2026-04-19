@@ -5,46 +5,88 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdeb0fa9-a33e-4021-8916-9dd359a1c1e2" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/config/SnowflakeConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/schedule/ReviewedSchedule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsLogisticServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/reviewer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/api/super.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/toast.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/apiAuthI18n.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/apiMessageI18n.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/pageDictionaryFallback.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/utils/toast.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/OrderReviewView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/ProfileInfoView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/ProfileLayout.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/RegisterApplicationsView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/SuperUserAdminView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/config/FeignExceptionAdvice.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/dto/SendRegisterCaptchaDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/config/JacksonObjectMapperConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/config/SnowflakeConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/OmsApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/config/SnowflakeConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-oms/src/test/java/test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/TmsDriverDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsDriverServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsLineServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsLogisticServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsTransportOrderServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsVehicleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql/dictionary_api_message_inserts_mysql.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sql/insert_page_profile_i18n_mysql.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/TheWelcome.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/WelcomeItem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconCommunity.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconDocumentation.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconEcosystem.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconSupport.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons/IconTooling.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/auth.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SiteHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SiteHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/composables/useAuthSession.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/composables/useAuthSession.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/constants/authStorage.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/constants/authStorage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/LoginView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/RegisterView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/RegisterView.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/AuthApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/AuthApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/client/SystemServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/client/SystemServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/src/main/java/com/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-auth/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/AuthApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/AuthApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/client/SystemServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/client/SystemServiceClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/config/FeignTokenRelayConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/config/FeignTokenRelayConfiguration.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/controller/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/controller/AuthController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/dto/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-auth/target/classes/com/auth/dto/LoginRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/config/SaTokenWebMvcSecurityAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/config/SaTokenWebMvcSecurityAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/api/CommonResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/api/CommonResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/api/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/api/ResultCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/config/RedisConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/constant/RedisConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/constant/RedisConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/dto/RegisterParamDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/dto/RegisterParamDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/exception/GlobalException.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/exception/GlobalException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-common/src/main/java/com/security/SaTokenRouteChecks.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/java/com/security/SaTokenRouteChecks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/api/CommonPage.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/api/CommonPage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/api/CommonResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/api/CommonResult.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/config/SaTokenWebMvcSecurityAutoConfiguration$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/config/SaTokenWebMvcSecurityAutoConfiguration$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/api/ResultCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/api/ResultCode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/config/RedisConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/config/RedisConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/constant/RedisConstant.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/constant/RedisConstant.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/entity/WebLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/entity/WebLog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/dto/RegisterParamDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/dto/RegisterParamDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/exception/GlobalException.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/exception/GlobalException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-common/target/classes/com/security/SaTokenRouteChecks.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-common/target/classes/com/security/SaTokenRouteChecks.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-gateway/src/main/java/com/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/src/main/java/com/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-gateway/src/main/java/com/gateway/config/SaTokenGatewayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/src/main/java/com/gateway/config/SaTokenGatewayConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-gateway/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/GatewayApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/GatewayApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/config/CorsConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/config/SaTokenGatewayConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-gateway/target/classes/com/gateway/config/SaTokenGatewayConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-message/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/src/main/java/com/message/MessageApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/java/com/message/MessageApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/OmsOrderConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/OmsOrderConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/TmsAssignmentConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/TmsAssignmentConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/WmsInboundConsumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/java/com/message/consumer/WmsInboundConsumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-message/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-message/target/classes/com/message/MessageApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/com/message/MessageApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-message/target/classes/com/message/config/InternalCallbackFeignConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/com/message/config/InternalCallbackFeignConfiguration.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-message/target/classes/com/message/config/RabbitMqConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/com/message/config/RabbitMqConfig.class" afterDir="false" />
@@ -60,19 +102,64 @@
       <change beforePath="$PROJECT_DIR$/gl-message/target/classes/com/message/service/client/WmsServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/com/message/service/client/WmsServiceClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-message/target/classes/com/message/service/impl/MqMessageLogServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/target/classes/com/message/service/impl/MqMessageLogServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gl-system/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/entity/SysUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/entity/SysUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/SystemApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/SystemApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/config/SnowFlakeConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-message/src/main/java/com/message/config/SnowflakeConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/AdminOperationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/AdminOperationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/controller/RegisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/dto/LoginParamDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/dto/LoginParamDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/RegisterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/RegisterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/SysUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/SysUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/LoginAndLogoutServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/LoginAndLogoutServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/RegisterServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/RegisterServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/SysUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/java/com/system/service/impl/SysUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/SystemApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/SystemApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/config/SnowFlakeConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/config/SnowFlakeConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/AdminOperationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/AdminOperationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/RegisterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/controller/RegisterController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/dto/LoginParamDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/dto/LoginParamDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/RegisterService.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/RegisterService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/impl/LoginAndLogoutServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/impl/LoginAndLogoutServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/impl/RegisterServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/gl-system/target/classes/com/system/service/impl/RegisterServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/AdminApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/AdminApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/controller/DictController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/controller/DictController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/controller/ReviewerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/controller/ReviewerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/dto/DictionaryOperationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/dto/DictionaryOperationDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/entity/Dictionary.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/entity/Dictionary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/entity/RegisterApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/entity/RegisterApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/DictionaryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/DictionaryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/client/OmsServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/client/OmsServiceClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/DictionaryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/DictionaryServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/ManagerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/ManagerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/ReviewerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/ReviewerServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/SuperServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/java/com/admin/service/impl/SuperServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/AdminApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/AdminApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/controller/DictController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/controller/DictController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/entity/Dictionary.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/entity/Dictionary.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-admin/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/controller/ReviewerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/controller/ReviewerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/dto/DictionaryOperationDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/dto/DictionaryOperationDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/entity/RegisterApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/entity/RegisterApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/DictionaryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/DictionaryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/client/OmsServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/client/OmsServiceClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/DictionaryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/DictionaryServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/ManagerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/ManagerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/ReviewerServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/ReviewerServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/SuperServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-admin/target/classes/com/admin/service/impl/SuperServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/controller/OmsOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/controller/OmsOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/controller/OmsOrderReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/controller/OmsOrderReviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/dto/OmsOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/dto/OmsOrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/dto/TmsTransportOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/dto/TmsTransportOrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/entity/OmsOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/entity/OmsOrder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/service/impl/OmsOrderReviewServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/service/impl/OmsOrderReviewServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/service/impl/OmsOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/java/com/oms/service/impl/OmsOrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/controller/OmsOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/controller/OmsOrderController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/controller/OmsOrderReviewController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/controller/OmsOrderReviewController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/dao/OmsOrderDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/dao/OmsOrderDao.class" afterDir="false" />
@@ -85,6 +172,7 @@
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrderItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrderItem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrderReview.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/entity/OmsOrderReview.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/schedule/ReviewedSchedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/schedule/ReviewedSchedule.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/OmsOrderReviewService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/OmsOrderReviewService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/OmsOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/OmsOrderService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/client/TmsServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/client/TmsServiceClient.class" afterDir="false" />
@@ -92,81 +180,27 @@
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/impl/OmsOrderReviewServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/impl/OmsOrderReviewServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/impl/OmsOrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-oms/target/classes/com/oms/service/impl/OmsOrderServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-tms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/controller/TmsDriverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/controller/TmsDriverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsDriverServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsDriverServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsLineServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsLineServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsLogisticServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsTransportOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsTransportOrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/service/impl/TmsVehicleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsVehicleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/TmsApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/TmsApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/TmsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/TmsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsDriverServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsLineServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsLogisticServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsTransportOrderServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/dto/impl/TmsVehicleServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/entity/TmsDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/java/com/tms/entity/TmsDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-tms/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsDriverController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsDriverController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsLogisticController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsLogisticController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsTransportOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/controller/TmsTransportOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsDriverDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsDriverDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsLineDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsLineDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsLogisticDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsLogisticDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsTransportOrderDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsTransportOrderDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsVehicleDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dao/TmsVehicleDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsLineDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsLineDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsLogisticDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsLogisticDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsTransportOrderDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsTransportOrderDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsVehicleDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/dto/TmsVehicleDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsDriver.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsDriver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsLine.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsLine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsLogistic.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsLogistic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsTransportOrder.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsTransportOrder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsVehicle.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/entity/TmsVehicle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsDriverService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsDriverService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsLineService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsLineService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsLogisticService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsLogisticService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsTransportOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsTransportOrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsVehicleService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/TmsVehicleService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/impl/TmsDriverServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/impl/TmsLineServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/impl/TmsLogisticServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/impl/TmsTransportOrderServiceImpl.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-tms/target/classes/com/tms/service/impl/TmsVehicleServiceImpl.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logi-wms/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/WmsApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/WmsApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsInboundController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsInboundController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsOutboundController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsOutboundController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsStockController.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/controller/WmsStockController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundApplyDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundApplyDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundItemDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsInboundItemDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundItemDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundItemDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundLockDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsOutboundLockDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsStockDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsStockDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsStockLockDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsStockLockDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsWarehouseDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dao/WmsWarehouseDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/OmsOrderDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/OmsOrderDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/TmsTransportOrderDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/TmsTransportOrderDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundApplyDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundApplyDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundItemDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsInboundItemDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsOutboundDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsOutboundDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsOutboundItemDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsOutboundItemDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsWarehouseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/dto/WmsWarehouseDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/Keeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/Keeper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInbound.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInbound.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInboundApply.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInboundApply.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInboundItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsInboundItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsOutbound.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsOutbound.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsOutboundItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsOutboundItem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsStock.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsStock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsStockLock.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsStockLock.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsWarehouse.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/entity/WmsWarehouse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsInboundApplyService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsInboundApplyService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsInboundService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsInboundService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsOutboundService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsOutboundService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsStockLockService.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/WmsStockLockService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/client/TmsServiceClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/client/TmsServiceClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsInboundApplyServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsInboundApplyServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsInboundServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsInboundServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsOutboundServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsOutboundServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsStockLockServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/target/classes/com/wms/service/impl/WmsStockLockServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/WmsApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/WmsApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/controller/WmsInboundController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/controller/WmsInboundController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/controller/WmsOutboundController.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/controller/WmsOutboundController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/dto/WmsOutboundDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/dto/WmsOutboundDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsInboundApplyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsInboundApplyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsInboundServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsInboundServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsOutboundServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsOutboundServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsStockLockServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/java/com/wms/service/impl/WmsStockLockServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logi-wms/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/logi-wms/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sql/dictionary_frontend_inserts_mysql.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sql/dictionary_frontend_inserts_mysql.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -202,12 +236,17 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="3CIsoNXpI70vOCwBB3utMGu6BKw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "JUnit.test.testPwd.executor": "Run",
     "Maven.logi-oms [clean].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -217,7 +256,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.AdminApplication.executor": "Run",
+    "Spring Boot.AuthApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
     "Spring Boot.GlobalMallToLogisticsApplication.executor": "Run",
+    "Spring Boot.MessageApplication.executor": "Run",
+    "Spring Boot.OmsApplication.executor": "Run",
+    "Spring Boot.SystemApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "ms-17 (2)",
     "kotlin-language-version-configured": "true",
@@ -232,16 +276,22 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "MavenSettings",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.oms.config" />
+      <recent name="com.admin.dto" />
+      <recent name="com.message.config" />
       <recent name="com.wms.dto" />
       <recent name="com.oms.dto" />
-      <recent name="com.tms.dto" />
-      <recent name="com.admin.dto" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -253,7 +303,17 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.AdminApplication">
+  <component name="RunManager" selected="JUnit.test.testPwd">
+    <configuration name="test.testPwd" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="logi-oms" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="test" />
+      <option name="METHOD_NAME" value="testPwd" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
@@ -285,6 +345,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="OmsApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="logi-oms" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.oms.OmsApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="gl-system" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.system.SystemApplication" />
@@ -306,6 +373,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.test.testPwd" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -334,10 +406,16 @@
       <workItem from="1776481267835" duration="8397000" />
       <workItem from="1776506575928" duration="1983000" />
       <workItem from="1776514716646" duration="9837000" />
+      <workItem from="1776532242939" duration="207000" />
+      <workItem from="1776585101248" duration="8132000" />
+      <workItem from="1776598298770" duration="7559000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

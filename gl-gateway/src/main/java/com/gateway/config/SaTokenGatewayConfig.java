@@ -35,7 +35,7 @@ public class SaTokenGatewayConfig {
         return new SaReactorFilter()
                 .addInclude("/**")
                 .setAuth(obj -> {
-                    ServerWebExchange ex = SaReactorSyncHolder.getContext();
+                    ServerWebExchange ex = SaReactorSyncHolder.getExchange();
                     if (ex != null && HttpMethod.OPTIONS.equals(ex.getRequest().getMethod())) {
                         return;
                     }
@@ -44,7 +44,7 @@ public class SaTokenGatewayConfig {
                     }
                 })
                 .setError(e -> {
-                    ServerWebExchange exchange = SaReactorSyncHolder.getContext();
+                    ServerWebExchange exchange = SaReactorSyncHolder.getExchange();
                     HttpHeaders headers = exchange.getResponse().getHeaders();
                     headers.set("Content-Type", "application/json; charset=utf-8");
                     headers.set("Access-Control-Allow-Origin", "*");
@@ -60,12 +60,12 @@ public class SaTokenGatewayConfig {
                     } else if (e instanceof NotPermissionException) {
                         result = CommonResult.forbidden();
                     } else {
-                        result = CommonResult.failed(e.getMessage());
+                        result = CommonResult.failed("gateway_internal_error");
                     }
                     try {
                         return errorJsonMapper.writeValueAsString(result);
                     } catch (JsonProcessingException ex) {
-                        return "{\"code\":500,\"message\":\"响应序列化失败\",\"data\":null}";
+                        return "{\"code\":500,\"message\":\"gateway_response_serialize_failed\",\"data\":null}";
                     }
                 })
                 .setExcludeList(SaTokenRouteChecks.mergedWhitelist(whitelistProperties.getUrls()));

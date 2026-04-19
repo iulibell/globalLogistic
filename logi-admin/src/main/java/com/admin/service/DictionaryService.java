@@ -13,7 +13,7 @@ public interface DictionaryService {
     void addDictionary(List<DictionaryDto> dictionaryDto);
 
     /**
-     * 获取字典列表(super操作)
+     * 获取字典列表(前端调用)
      * @param dictType 字典类型
      * @return 字典列表
      */
@@ -30,4 +30,12 @@ public interface DictionaryService {
      * @param dictionaryOperationDto 字典操作dto
      */
     void deleteDictionary(DictionaryOperationDto dictionaryOperationDto);
+
+    /**
+     * 获取字典列表(super操作)
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return 字典列表
+     */
+    List<DictionaryDto> getDictionary(int pageNum, int pageSize);
 }

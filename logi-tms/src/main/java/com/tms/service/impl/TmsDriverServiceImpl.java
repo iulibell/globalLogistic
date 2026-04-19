@@ -1,5 +1,6 @@
-package com.tms.dto.impl;
+package com.tms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
 @Service
 public class TmsDriverServiceImpl implements TmsDriverService {
 
@@ -40,6 +40,8 @@ public class TmsDriverServiceImpl implements TmsDriverService {
 
     @Override
     public List<TmsTransportOrderDto> getTransportOrder(int pageNum, int pageSize, String currentCity) {
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
         IPage<TmsTransportOrder> page = new Page<>(pageNum, pageSize);
         tmsTransportOrderDao.selectPage(page, new LambdaQueryWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getOrigin, currentCity)
@@ -54,9 +56,11 @@ public class TmsDriverServiceImpl implements TmsDriverService {
     @Override
     @Transactional
     public boolean accessAssignment(String transportOrderId, String driverId) {
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
         if (tmsVehicleDao.selectOne(new LambdaQueryWrapper<TmsVehicle>()
                 .eq(TmsVehicle::getDriverId, driverId)) == null) {
-            Assert.fail("请完善货车的信息");
+            Assert.fail("tms_vehicle_incomplete");
         }
         int grabbed = tmsTransportOrderDao.update(new LambdaUpdateWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
@@ -71,7 +75,7 @@ public class TmsDriverServiceImpl implements TmsDriverService {
                 .set(TmsDriver::getStatus, (short) 1)
                 .setSql("weight = COALESCE(weight, 0) + 1"));
         if (driverUpdated == 0) {
-            Assert.fail("司机不存在或状态更新失败");
+            Assert.fail("tms_driver_update_failed");
         }
         redisService.delete(RedisConstant.ASSIGN_KEY_PREFIX + transportOrderId);
         return true;
@@ -79,11 +83,13 @@ public class TmsDriverServiceImpl implements TmsDriverService {
 
     @Override
     public void confirmDeparture(String transportOrderId, String city) {
-        updateOrderStatusIf(transportOrderId, (short) 1, (short) 2, "仅已接单状态可确认发车");
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
+        updateOrderStatusIf(transportOrderId, (short) 1, (short) 2, "tms_status_departure_invalid");
         TmsTransportOrder order = tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getTransportOrderId, transportOrderId));
         if (order == null) {
-            Assert.fail("运输单不存在");
+            Assert.fail("tms_order_not_found");
         }
         TmsLogistic tmsLogistic = new TmsLogistic();
         BeanUtils.copyProperties(order, tmsLogistic);
@@ -93,12 +99,16 @@ public class TmsDriverServiceImpl implements TmsDriverService {
 
     @Override
     public void confirmArrived(String transportOrderId) {
-        updateOrderStatusIf(transportOrderId, (short) 2, (short) 3, "仅运输中状态可确认送达");
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
+        updateOrderStatusIf(transportOrderId, (short) 2, (short) 3, "tms_status_arrived_invalid");
     }
 
     @Override
     public void confirmReceived(String transportOrderId) {
-        updateOrderStatusIf(transportOrderId, (short) 3, (short) 4, "仅已送达状态可确认签收");
+        StpUtil.checkPermission("driver");
+        StpUtil.checkLogin();
+        updateOrderStatusIf(transportOrderId, (short) 3, (short) 4, "tms_status_received_invalid");
     }
 
     private void updateOrderStatusIf(String transportOrderId, short expectedStatus, short newStatus, String illegalMessage) {

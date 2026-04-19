@@ -24,12 +24,12 @@ export function useAuthSession() {
   async function login(credentials) {
     const res = await loginApi(credentials)
     if (res.code !== 200) {
-      const msg = res.message && String(res.message).trim() ? res.message : '登录失败'
+      const msg = res.message && String(res.message).trim() ? res.message : 'login_failed'
       throw new Error(msg)
     }
     const d = res.data || {}
     if (!d.token) {
-      throw new Error('登录响应缺少 token')
+      throw new Error('login_response_missing_token')
     }
     sessionStorage.setItem(AUTH_TOKEN_KEY, d.token)
     const snapshot = {

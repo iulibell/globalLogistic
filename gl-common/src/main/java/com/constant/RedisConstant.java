@@ -8,6 +8,14 @@ public class RedisConstant {
     public static final String REGIS_KEY_PREFIX = "register:";
     public static final int REGIS_EXPIRE_TIME = 24;
 
+    /** 注册短信/验证码：手机号 -> 验证码，5 分钟有效 */
+    public static final String REGIS_CAPTCHA_PREFIX = "register:captcha:";
+    public static final int REGIS_CAPTCHA_EXPIRE_MINUTES = 5;
+
+    /** 同一手机号发送验证码最小间隔（秒） */
+    public static final String REGIS_CAPTCHA_SEND_PREFIX = "register:captcha:send:";
+    public static final int REGIS_CAPTCHA_SEND_INTERVAL_SECONDS = 60;
+
     /**
      * 电商订单待支付
      * 时间30min

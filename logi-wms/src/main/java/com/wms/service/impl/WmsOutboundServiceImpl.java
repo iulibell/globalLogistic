@@ -1,5 +1,6 @@
 package com.wms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -29,6 +30,8 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
 
     @Override
     public void confirmOutbound(String outboundId) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         wmsOutboundDao.update(new LambdaUpdateWrapper<WmsOutbound>()
                 .eq(WmsOutbound::getOutboundId,outboundId)
                 .set(WmsOutbound::getStatus,(short)1));
@@ -36,6 +39,8 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
 
     @Override
     public WmsOutboundDto getOutboundById(String outboundId) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         WmsOutboundDto wmsOutboundDto = new WmsOutboundDto();
         BeanUtils.copyProperties(wmsOutboundDao.selectOne(new LambdaQueryWrapper<WmsOutbound>()
                 .eq(WmsOutbound::getOutboundId,outboundId)),wmsOutboundDto);
@@ -44,6 +49,8 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
 
     @Override
     public List<WmsOutboundDto> getOutbound(int pageNum, int pageSize) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         IPage<WmsOutbound> page = new Page<>(pageNum,pageSize);
         wmsOutboundDao.selectPage(page,new LambdaQueryWrapper<WmsOutbound>()
                 .eq(WmsOutbound::getStatus,(short)0));

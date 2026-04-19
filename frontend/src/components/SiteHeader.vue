@@ -28,7 +28,8 @@ const navResources = computed(() => t('site_nav_top', 'resources', '资源'))
 const txtHelp = computed(() => t('site_header', 'link_help', '帮助'))
 const txtLogin = computed(() => t('site_header', 'link_login', '登录'))
 const txtRegister = computed(() => t('site_header', 'link_register', '注册'))
-const txtLogout = computed(() => t('site_header', 'btn_logout', '退出'))
+const txtProfile = computed(() => t('site_header', 'link_profile', '个人中心'))
+const txtMenuLogout = computed(() => t('site_header', 'menu_logout', '退出登录'))
 const txtTrackDemo = computed(() => t('site_header', 'btn_track_demo', '查询'))
 
 /** 顶部 mega 悬浮面板：随 gl_ui_lang 从字典加载 */
@@ -296,10 +297,24 @@ async function onLogout() {
       <div class="nav-actions">
         <LanguageDropdown v-model="uiLang" />
 
-        <template v-if="isLoggedIn">
-          <span class="user-name" :title="profile?.username">{{ profile?.nickname || profile?.username }}</span>
-          <button type="button" class="link-login" @click="onLogout">{{ txtLogout }}</button>
-        </template>
+        <div v-if="isLoggedIn" class="user-menu">
+          <button
+            type="button"
+            class="user-menu-trigger"
+            aria-haspopup="menu"
+            :title="profile?.username || undefined"
+          >
+            {{ profile?.nickname || profile?.username }}
+          </button>
+          <div class="user-menu-dropdown" role="menu" aria-label="Account">
+            <div class="user-menu-dropdown-inner">
+              <RouterLink to="/profile" class="user-menu-item" role="menuitem">{{ txtProfile }}</RouterLink>
+              <button type="button" class="user-menu-item" role="menuitem" @click="onLogout">
+                {{ txtMenuLogout }}
+              </button>
+            </div>
+          </div>
+        </div>
         <template v-else>
           <RouterLink to="/login" class="link-login">{{ txtLogin }}</RouterLink>
           <RouterLink to="/register" class="btn-register">{{ txtRegister }}</RouterLink>
@@ -1207,14 +1222,98 @@ a.link-login.router-link-active {
   color: #fff;
 }
 
-.user-name {
-  max-width: 120px;
+.user-menu {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.user-menu-trigger {
+  max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 13px;
   font-weight: 600;
   color: var(--17-muted);
+  padding: 6px 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
+  border-radius: 6px;
+  line-height: 1.3;
+}
+
+.user-menu-trigger:hover,
+.user-menu:hover .user-menu-trigger {
+  color: var(--17-link);
+}
+
+.user-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding-top: 8px;
+  margin: 0;
+  min-width: 168px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    visibility 0.15s;
+  z-index: 200;
+}
+
+.user-menu-dropdown-inner {
+  padding: 6px 0;
+  background: var(--17-card-elevated);
+  border: 1px solid var(--17-border);
+  border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+.user-menu:hover .user-menu-dropdown,
+.user-menu:focus-within .user-menu-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.user-menu-item {
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  border: none;
+  background: none;
+  color: var(--17-ink);
+  cursor: pointer;
+  font-family: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
+  line-height: 1.35;
+}
+
+.user-menu-item:hover {
+  background: rgba(61, 141, 255, 0.08);
+  color: var(--17-link);
+}
+
+a.user-menu-item {
+  color: inherit;
+}
+
+a.user-menu-item:hover {
+  color: var(--17-link);
 }
 
 @media (min-width: 900px) {

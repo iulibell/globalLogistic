@@ -29,6 +29,6 @@ public class WmsOutboundController {
     @PostMapping("/confirmOutbound")
     public CommonResult<?> confirmOutbound(@RequestParam String outboundId) {
         wmsOutboundService.confirmOutbound(outboundId);
-        return CommonResult.success("已成功确认出库");
+        return CommonResult.success("wms_outbound_confirmed");
     }
 }

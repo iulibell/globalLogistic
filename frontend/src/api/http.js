@@ -1,13 +1,22 @@
 import { AUTH_TOKEN_KEY } from '@/constants/authStorage.js'
 
+/** 与后端 sa-token.token-prefix: Bearer 一致：请求头 satoken 的值为 `Bearer ` + token。 */
+function satokenHeaderValue(raw) {
+  if (raw == null || typeof raw !== 'string') return ''
+  const t = raw.trim()
+  if (!t) return ''
+  return /^Bearer\s/i.test(t) ? t : `Bearer ${t}`
+}
+
 function buildHeaders({ auth }) {
   const headers = {
     Accept: 'application/json',
   }
   if (auth) {
     const token = sessionStorage.getItem(AUTH_TOKEN_KEY)
-    if (token) {
-      headers.satoken = token
+    const v = satokenHeaderValue(token)
+    if (v) {
+      headers.satoken = v
     }
   }
   return headers
@@ -56,5 +65,15 @@ export async function postJson(path, body = {}, { auth = true } = {}) {
     headers,
     body: JSON.stringify(body ?? {}),
   })
-  return parseJsonResponse(res)
+  const json = await parseJsonResponse(res)
+  if (!res.ok) {
+    const msg =
+      json && typeof json.message === 'string' && json.message.trim()
+        ? json.message.trim()
+        : json && typeof json.error === 'string' && json.error.trim()
+          ? json.error.trim()
+          : `http_${res.status}`
+    throw new Error(msg)
+  }
+  return json
 }

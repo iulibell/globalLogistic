@@ -15,6 +15,11 @@ export function register(payload) {
   return postJson('/auth/register', payload, { auth: false })
 }
 
+/** @param {{ phone: string }} payload */
+export function sendRegisterCaptcha(payload) {
+  return postJson('/auth/register/sendCaptcha', payload, { auth: false })
+}
+
 export function logout() {
   return postJson('/auth/logout', {}, { auth: true })
 }

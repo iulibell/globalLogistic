@@ -1,0 +1,53 @@
+/* 全局轻提示（登录/注册等错误反馈） */
+#app-toast-root {
+  position: fixed;
+  left: 50%;
+  top: max(16px, env(safe-area-inset-top));
+  transform: translateX(-50%);
+  z-index: 10050;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: min(420px, calc(100vw - 32px));
+}
+
+.app-toast {
+  pointer-events: auto;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
+}
+
+.app-toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.app-toast--error {
+  color: #7f1d1d;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.app-toast--success {
+  color: #14532d;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+}
+
+.app-toast--info {
+  color: #1e3a5f;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}

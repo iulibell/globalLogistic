@@ -19,10 +19,10 @@ public class OmsOrderController {
     public CommonResult<?> addOrder(@RequestBody OmsOrderDto omsOrderDto) {
         if (omsOrderDto.getCategory() == (short) 0) {
             omsOrderService.addOrder(omsOrderDto);
-            return CommonResult.success("订单发起成功,请等待审核!");
+            return CommonResult.success("oms_order_submit_wait_review");
         }
         omsOrderReviewService.addOrderView(omsOrderDto);
-        return CommonResult.success("订单发起成功,请尽快完成支付!");
+        return CommonResult.success("oms_order_submit_pay");
     }
 
     @PostMapping("/sys/deleteOrder")
@@ -49,12 +49,12 @@ public class OmsOrderController {
     @PostMapping("/cancelOrder")
     public CommonResult<?> cancelOrder(@RequestParam String orderId) {
         omsOrderService.cancelOrder(orderId);
-        return CommonResult.success("你已取消订单");
+        return CommonResult.success("oms_order_cancelled");
     }
 
     @PostMapping("/payForOrder")
     public CommonResult<?> payForOrder(@RequestParam String orderId) {
         omsOrderService.payForOrder(orderId);
-        return CommonResult.success("支付成功!");
+        return CommonResult.success("oms_order_paid");
     }
 }

@@ -18,6 +18,7 @@ public final class SaTokenRouteChecks {
 
     private static final String[] BUILTIN_ANON = {
             "/system/register",
+            "/system/register/sendCaptcha",
             "/admin/reviewer/getRegisterFromSys",
             "/error",
             "/favicon.ico",
@@ -30,6 +31,7 @@ public final class SaTokenRouteChecks {
             "/system/login",
             "/auth/login",
             "/auth/register",
+            "/auth/register/sendCaptcha",
             // 门户/追踪页等多处拉取展示文案，无需登录（仍只读启用项）
             "/admin/sys/getDictionary/**"
     };

@@ -7,13 +7,33 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+      # 登录用户缓存 key 前缀（见 CacheServiceImpl）；完整 key = key + userId
+      key: gl-system:login:user
+      # 与 setLoginStatus 使用的 TimeUnit 一致：{@link LoginAndLogoutServiceImpl} 传入 HOURS；720h ≈ sa-token timeout 30 天
+      expire: 720
+  cloud:
+    loadbalancer:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+        group: ${NACOS_GROUP:DEFAULT_GROUP}
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/global_logistic?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 sa-token:
   token-name: satoken
+  jwt-secret-key: globalLogi-shared-jwt-secret-for-dev-DO-NOT-USE-in-prod-32b
   timeout: 2592000
-  is-read-header: true
-  is-read-body: false
-  jwt-secret-key: globalLogistics-dev-jwt-secret-change-in-production-min-32-chars-ok-00000000
+  active-timeout: -1
+  is-concurrent: true
+  is-share: false
+  token-style: uuid
+  token-prefix: Bearer
+  is-log: true
 
 secure:
   ignore:
@@ -23,3 +43,9 @@ security:
   internal:
     enabled: false
     token-value: ${SECURITY_INTERNAL_TOKEN:}
+
+# 开发环境可 true：发送验证码接口在 data 中返回 debugCode；生产必须为 false
+app:
+  register:
+    captcha:
+      debug-return: ${REGISTER_CAPTCHA_DEBUG_RETURN:true}

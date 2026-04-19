@@ -5,25 +5,25 @@ import lombok.Data;
 
 @Data
 public class WmsOutboundDto {
-    @NotBlank(message = "出库id不能为空")
+    @NotBlank(message = "wms_v_outbound_id")
     private String outboundId;
-    @NotBlank(message = "仓库id不能为空")
+    @NotBlank(message = "wms_v_warehouse_id")
     private Long warehouseId;
-    @NotBlank(message = "库存id不能为空")
+    @NotBlank(message = "wms_v_stock_id")
     private String stockId;
-    @NotBlank(message = "关联订单id不能为空")
+    @NotBlank(message = "wms_v_order_id")
     private String orderId;
-    @NotBlank(message = "库位id不能为空")
+    @NotBlank(message = "wms_v_location_id")
     private Long locationId;
-    @NotBlank(message = "商品名称不能为空")
+    @NotBlank(message = "wms_v_sku_name")
     private String skuName;
-    @NotBlank(message = "商品编号不能为空")
+    @NotBlank(message = "wms_v_sku_code")
     private String skuCode;
-    @NotBlank(message = "用户手机号不能为空")
+    @NotBlank(message = "wms_v_user_phone")
     private String userPhone;
-    @NotBlank(message = "商家手机号不能为空")
+    @NotBlank(message = "wms_v_merchant_phone")
     private String merchantPhone;
-    @NotBlank(message = "用户城市不能为空")
+    @NotBlank(message = "wms_v_city")
     private String city;
     private Short status;
 }

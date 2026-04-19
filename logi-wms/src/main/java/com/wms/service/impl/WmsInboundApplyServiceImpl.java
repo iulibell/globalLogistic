@@ -1,5 +1,6 @@
 package com.wms.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -57,6 +58,8 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
 
     @Override
     public List<WmsInboundApplyDto> getInboundApply(int pageNum, int pageSize) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         IPage<WmsInboundApply> page = new Page<>(pageNum,pageSize);
         wmsInboundApplyDao.selectPage(page,null);
         return page.convert(wmsInboundApply -> {
@@ -69,6 +72,8 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     @Override
     @Transactional
     public void accessInboundApply(String applyId, BigDecimal fee) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         wmsInboundApplyDao.update(new LambdaUpdateWrapper<WmsInboundApply>()
                 .eq(WmsInboundApply::getApplyId,applyId)
                 .set(WmsInboundApply::getStatus,(short)2)
@@ -85,6 +90,8 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     @Override
     @Transactional
     public void rejectInboundApply(String applyId, String remark) {
+        StpUtil.checkPermission("keeper");
+        StpUtil.checkLogin();
         wmsInboundApplyDao.update(new LambdaUpdateWrapper<WmsInboundApply>()
                 .eq(WmsInboundApply::getApplyId,applyId)
                 .set(WmsInboundApply::getStatus,(short)1)

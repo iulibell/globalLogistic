@@ -22,7 +22,7 @@ public class TmsDriver {
     @Schema(description = "车牌号")
     private String vehicleNo;
     @Size(max = 20)
-    @Schema(description = "负责城市")
+    @Schema(description = "所在城市")
     private String currentCity;
     @Schema(description = "权重,默认值为100")
     private Integer weight;
