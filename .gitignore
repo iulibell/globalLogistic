@@ -1,0 +1,25 @@
+# --- OS / Editor ---
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# --- Java / Maven ---
+**/target/
+*.log
+logs/
+
+# --- Node / Frontend ---
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/coverage/
+*.tsbuildinfo
+.eslintcache
+
+# --- Env / Local overrides ---
+.env
+.env.*
+*.local
+

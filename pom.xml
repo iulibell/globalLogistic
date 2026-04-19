@@ -31,7 +31,6 @@
         <module>gl-auth</module>
         <module>gl-gateway</module>
         <module>gl-system</module>
-        <module>gl-search</module>
     </modules>
     <scm>
         <connection/>

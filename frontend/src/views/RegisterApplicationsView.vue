@@ -90,7 +90,7 @@ function buildRegisterBody(row) {
       ? String(row.nickname).trim()
       : String(row.username || '').trim()
   return {
-    userName: String(row.username || '').trim(),
+    username: String(row.username || '').trim(),
     password: String(row.password || ''),
     nickname: nick,
     userType: ut,

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/sql/ddl_from_entities_mysql.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/sql/insert_page_profile_i18n_mysql.sql" dialect="GenericSQL" />
-  </component>
-</project>

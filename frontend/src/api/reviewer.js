@@ -14,7 +14,7 @@ export function fetchRegisterApplicationPage(pageNum = 1, pageSize = 20) {
 }
 
 /**
- * 与后端 RegisterParamDto 字段一致（JSON 驼峰 userName）
+ * 与后端 RegisterParamDto 字段一致（username）
  * @param {{ username: string, password: string, nickname?: string, userType: number|string, phone: string }} row
  */
 export function postAccessRegister(body) {

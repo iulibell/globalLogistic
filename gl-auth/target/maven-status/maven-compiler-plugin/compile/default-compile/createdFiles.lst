@@ -1,5 +1,0 @@
-com\auth\dto\LoginRequest.class
-com\auth\config\FeignTokenRelayConfiguration.class
-com\auth\AuthApplication.class
-com\auth\client\SystemServiceClient.class
-com\auth\controller\AuthController.class

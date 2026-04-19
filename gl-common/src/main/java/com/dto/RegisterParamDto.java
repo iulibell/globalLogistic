@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class RegisterParamDto {
     @NotBlank(message = "validation_register_username_required")
-    private String userName;
+    private String username;
     @NotBlank(message = "validation_register_password_required")
     private String password;
     private String nickname;

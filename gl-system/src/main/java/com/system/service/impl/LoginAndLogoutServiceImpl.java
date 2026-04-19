@@ -94,10 +94,21 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
             Assert.fail("login_role_invalid");
         }
 
-        SysUser sysUser = sysUserDao.selectOne(new LambdaQueryWrapper<SysUser>()
+        List<SysUser> candidates = sysUserDao.selectList(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, loginParamDto.getUsername()));
-        if (sysUser == null) {
+        if (candidates == null || candidates.isEmpty()) {
             Assert.fail("login_account_not_found");
+        }
+        SysUser sysUser = null;
+        for (SysUser candidate : candidates) {
+            if (requiredRoleKey.equals(normalizeUserTypeToRoleKey(candidate.getUserType()))) {
+                sysUser = candidate;
+                break;
+            }
+        }
+        // 选择了不匹配的登录身份（或库中 userType 异常）时，给出明确业务提示，而非 MyBatis 多结果异常
+        if (sysUser == null) {
+            Assert.fail("validation_usertype_invalid");
         }
         String storedHash = sysUser.getPassword();
         if (StrUtil.isEmpty(storedHash)) {
@@ -120,7 +131,7 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
             Assert.fail("login_account_type_invalid");
         }
         if (!requiredRoleKey.equals(actualRole)) {
-            Assert.fail("login_role_mismatch");
+            Assert.fail("validation_usertype_invalid");
         }
 
         String userId = logiStpLoginId(sysUser);

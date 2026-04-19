@@ -67,7 +67,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public CommonResult<String> register(RegisterParamDto registerParamDto) {
-        if (StrUtil.isEmpty(registerParamDto.getUserName()) || StrUtil.isEmpty(registerParamDto.getPassword())
+        if (StrUtil.isEmpty(registerParamDto.getUsername()) || StrUtil.isEmpty(registerParamDto.getPassword())
                 || StrUtil.isEmpty(registerParamDto.getPhone())) {
             Assert.fail("register_required_fields_incomplete");
         }

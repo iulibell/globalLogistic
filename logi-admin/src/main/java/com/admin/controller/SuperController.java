@@ -15,19 +15,19 @@ public class SuperController {
     @GetMapping("/fetchSysUserInfo")
     public CommonResult<?> fetchSysUserInfo(@RequestParam(defaultValue = "1") int pageNum,
                                             @RequestParam(defaultValue = "10") int pageSize) {
-        return CommonResult.success(superService.fetchSysUserInfo(pageNum, pageSize));
+        return superService.fetchSysUserInfo(pageNum, pageSize);
     }
 
     @GetMapping("/fetchSysUserByUserType")
     public CommonResult<?> fetchSysUserByUserType(@RequestParam(defaultValue = "1") int pageNum,
                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                   @RequestParam String userType) {
-        return CommonResult.success(superService.fetchSysUserByUserType(pageNum, pageSize, userType));
+        return superService.fetchSysUserByUserType(pageNum, pageSize, userType);
     }
 
     @GetMapping("/fetchSysUserByUserId")
     public CommonResult<?> fetchSysUserByUserId(@RequestParam String userId) {
-        return CommonResult.success(superService.fetchSysUserByUserId(userId));
+        return superService.fetchSysUserByUserId(userId);
     }
 
     @PostMapping("/updateSysUserInfo")

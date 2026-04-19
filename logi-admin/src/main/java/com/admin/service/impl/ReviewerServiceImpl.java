@@ -45,7 +45,7 @@ public class ReviewerServiceImpl implements ReviewerService {
     @Transactional
     public void getRegisterFromSys(RegisterParamDto registerParamDto){
         RegisterApplication app = new RegisterApplication();
-        app.setUsername(registerParamDto.getUserName());
+        app.setUsername(registerParamDto.getUsername());
         app.setPassword(BCrypt.hashpw(registerParamDto.getPassword(), BCrypt.gensalt()));
         app.setNickname(registerParamDto.getNickname());
         if (StringUtils.hasText(registerParamDto.getUserType())) {

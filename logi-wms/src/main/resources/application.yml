@@ -10,6 +10,11 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/global_logistic?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
     loadbalancer:
       enabled: true
@@ -41,3 +46,7 @@ security:
   internal:
     enabled: false
     token-value: ${SECURITY_INTERNAL_TOKEN:}
+
+snowflake:
+  worker-id: 1
+  datacenter-id: 1

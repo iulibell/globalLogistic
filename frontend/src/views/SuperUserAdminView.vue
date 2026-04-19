@@ -592,15 +592,18 @@ watch(
 
 .th-actions,
 .td-actions {
-  text-align: right;
+  text-align: center;
   white-space: nowrap;
+  width: 140px;
+  min-width: 140px;
 }
 
 .td-actions {
   display: flex;
   gap: 8px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .btn-action {
@@ -733,6 +736,16 @@ watch(
   background: rgba(6, 10, 18, 0.95);
   color: #e8eef6;
   font-size: 14px;
+}
+
+.field select.field-input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%239eb0c8' d='M0.94 0.72a.75.75 0 0 1 1.06 0L5 3.72 8 0.72a.75.75 0 1 1 1.06 1.06L5.53 5.31a.75.75 0 0 1-1.06 0L0.94 1.78a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
 }
 
 .field-input:disabled {

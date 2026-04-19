@@ -145,6 +145,11 @@ const KEY_FALLBACK = {
     '2': 'Failed to send code',
     '3': 'Не удалось отправить код',
   },
+  validation_usertype_invalid: {
+    '1': '非本平台用户',
+    '2': 'Invalid user type',
+    '3': 'Недопустимый тип пользователя',
+  },
   admin_user_updated: {
     '1': '用户信息已更新',
     '2': 'User updated',

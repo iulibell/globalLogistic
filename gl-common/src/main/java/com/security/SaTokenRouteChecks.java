@@ -19,7 +19,7 @@ public final class SaTokenRouteChecks {
     private static final String[] BUILTIN_ANON = {
             "/system/register",
             "/system/register/sendCaptcha",
-            "/admin/reviewer/getRegisterFromSys",
+            "/admin/getRegisterFromSys",
             "/error",
             "/favicon.ico",
             "/swagger-ui.html",
@@ -109,9 +109,7 @@ public final class SaTokenRouteChecks {
 
         SaRouter.match("/oms/**").notMatch("/oms/sys/**").check(r -> StpUtil.checkLogin());
 
-        SaRouter.match("/admin/reviewer/**")
-                .notMatch("/admin/reviewer/getRegisterFromSys")
-                .check(r -> StpUtil.checkPermission("reviewer"));
+        SaRouter.match("/admin/reviewer/**").check(r -> StpUtil.checkPermission("reviewer"));
         SaRouter.match("/admin/manager/**").check(r -> StpUtil.checkPermission("manager"));
         SaRouter.match("/admin/super/**").check(r -> StpUtil.checkPermission("super"));
         SaRouter.match("/admin/sys/**")
