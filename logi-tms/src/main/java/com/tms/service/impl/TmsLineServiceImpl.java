@@ -27,16 +27,21 @@ public class TmsLineServiceImpl implements TmsLineService {
     public TmsLineDto getLineDetail(String origin, String dest) {
         StpUtil.checkPermissionOr("driver","manager");
         StpUtil.checkLogin();
-        TmsLine tmsLine;
-        if(tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
+        TmsLine tmsLine = tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
                 .eq(TmsLine::getOrigin,origin)
-                .eq(TmsLine::getDest,dest)) != null)
+                .eq(TmsLine::getDest,dest)
+                .orderByDesc(TmsLine::getId)
+                .last("limit 1"));
+        if (tmsLine == null) {
             tmsLine = tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
-                    .eq(TmsLine::getOrigin,origin)
-                    .eq(TmsLine::getDest,dest));
-        else tmsLine = tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
-                .eq(TmsLine::getOrigin,dest)
-                .eq(TmsLine::getDest,origin));
+                    .eq(TmsLine::getOrigin,dest)
+                    .eq(TmsLine::getDest,origin)
+                    .orderByDesc(TmsLine::getId)
+                    .last("limit 1"));
+        }
+        if (tmsLine == null) {
+            return null;
+        }
         TmsLineDto tmsLineDto = new TmsLineDto();
         BeanUtils.copyProperties(tmsLine,tmsLineDto);
         return tmsLineDto;

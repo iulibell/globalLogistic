@@ -9,9 +9,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.constant.RabbitConstant;
 import com.constant.RedisConstant;
 import com.service.RedisService;
+import com.tms.dao.TmsAssignedOrderDao;
 import com.tms.dao.TmsDriverDao;
 import com.tms.dao.TmsTransportOrderDao;
 import com.tms.dto.TmsTransportOrderDto;
+import com.tms.entity.TmsAssignedOrder;
 import com.tms.entity.TmsDriver;
 import com.tms.entity.TmsTransportOrder;
 import com.tms.service.TmsTransportOrderService;
@@ -33,6 +35,8 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
     TmsTransportOrderDao tmsTransportOrderDao;
     @Resource
     private TmsDriverDao tmsDriverDao;
+    @Resource
+    private TmsAssignedOrderDao tmsAssignedOrderDao;
     @Resource
     private SnowflakeIdGenerator snowflakeIdGenerator;
     @Resource
@@ -143,6 +147,19 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
                 .set(TmsTransportOrder::getDriverId, driverId)
                 .set(TmsTransportOrder::getStatus, (short) 1));
         if (n > 0) {
+            TmsTransportOrder assignedOrder = tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
+                    .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
+                    .last("limit 1"));
+            if (assignedOrder != null) {
+                TmsAssignedOrder tmsAssignedOrder = new TmsAssignedOrder();
+                tmsAssignedOrder.setTransportId(assignedOrder.getTransportOrderId());
+                tmsAssignedOrder.setOrigin(assignedOrder.getOrigin());
+                tmsAssignedOrder.setDest(assignedOrder.getDest());
+                tmsAssignedOrder.setFee(assignedOrder.getFee());
+                tmsAssignedOrder.setDriverId(driverId);
+                tmsAssignedOrder.setStatus((short) 0);
+                tmsAssignedOrderDao.insert(tmsAssignedOrder);
+            }
             redisService.delete(RedisConstant.ASSIGN_KEY_PREFIX + transportOrderId);
         }
         return n > 0;
@@ -175,6 +192,11 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
                 .set(TmsTransportOrder::getLastRejectDriverId, driverId)
                 .setSql("driver_id = NULL"));
         if (n > 0) {
+            tmsAssignedOrderDao.update(null, new LambdaUpdateWrapper<TmsAssignedOrder>()
+                    .eq(TmsAssignedOrder::getTransportId, transportOrderId)
+                    .eq(TmsAssignedOrder::getDriverId, driverId)
+                    .eq(TmsAssignedOrder::getStatus, (short) 0)
+                    .set(TmsAssignedOrder::getStatus, (short) 1));
             redisService.delete(RedisConstant.ASSIGN_KEY_PREFIX + transportOrderId);
         }
         return n > 0;

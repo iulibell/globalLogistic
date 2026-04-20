@@ -18,6 +18,22 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  notFound: {
+    type: Boolean,
+    default: false,
+  },
+  queryError: {
+    type: String,
+    default: '',
+  },
+  logistic: {
+    type: Object,
+    default: null,
+  },
 })
 
 const emit = defineEmits(['reset', 'query', 'clear'])
@@ -25,41 +41,34 @@ const emit = defineEmits(['reset', 'query', 'clear'])
 const copiedTip = ref('')
 
 const { uiLang } = useUiLang()
-const { t: dictT } = useMultiDictionary(
-  ['tracking_status_tab', 'tracking_progress_label', 'page_tracking_result'],
-  uiLang,
-)
+const { t: dictT } = useMultiDictionary(['page_tracking_result', 'tracking_status_tab', 'tracking_progress_label', 'page_profile'], uiLang)
 
 const primaryNumber = computed(() => props.numbers[0] || '')
 const extraCount = computed(() => Math.max(0, props.numbers.length - 1))
 
-const latest = computed(() => props.timeline[0] || null)
+const latest = computed(() => (props.timeline.length ? props.timeline[props.timeline.length - 1] : null))
+const statusPill = computed(() => {
+  const s = props.logistic?.status
+  if (s === 1 || s === '1') return '运输途中'
+  if (s === 2 || s === '2') return '已送达'
+  return '物流更新'
+})
+const routeText = computed(() => {
+  const origin = props.logistic?.origin != null && String(props.logistic.origin).trim() ? String(props.logistic.origin).trim() : '-'
+  const dest = props.logistic?.dest != null && String(props.logistic.dest).trim() ? String(props.logistic.dest).trim() : '-'
+  return `${origin} -> ${dest}`
+})
 
-const STATUS_TAB_KEYS = [
-  { key: 'all', icon: 'all' },
-  { key: 'transit', icon: 'plane' },
-  { key: 'pickup', icon: 'box' },
-  { key: 'except', icon: 'alert' },
-  { key: 'delivered', icon: 'check' },
-]
-
-const statusTabs = computed(() =>
-  STATUS_TAB_KEYS.map(({ key, icon }) => ({
-    key,
-    icon,
-    label: dictT('tracking_status_tab', key, fallbackTabLabel(key)),
-  })),
+const transportOrderPrefix = computed(() =>
+  dictT('page_profile', 'col_transport_order_id', '运输单号'),
 )
 
-function fallbackTabLabel(key) {
-  const m = {
-    all: '全部',
-    transit: '运输途中',
-    pickup: '待揽收',
-    except: '可能异常',
-    delivered: '成功签收',
-  }
-  return m[key] ?? key
+function timelineStatusLabel(s) {
+  // 轨迹状态约定：2=运输中，3=已送达，4=已签收（兼容旧数据 1=运输中）
+  if (s === 1 || s === '1' || s === 2 || s === '2') return '运输中'
+  if (s === 3 || s === '3') return '已送达'
+  if (s === 4 || s === '4') return '已签收'
+  return dictT('tracking_status_tab', 'all', '全部')
 }
 
 async function copyNo() {
@@ -92,29 +101,6 @@ function copyAllDetail() {
       <div class="result-columns">
         <div class="result-main">
           <article class="detail-card">
-            <!-- 状态条与主卡一体，右侧栏与主卡顶部对齐 -->
-            <div class="detail-card-status">
-              <div
-                class="status-strip"
-                role="tablist"
-                :aria-label="dictT('page_tracking_result', 'aria_status_filter', '运单状态筛选')"
-              >
-                <button
-                  v-for="tab in statusTabs"
-                  :key="tab.key"
-                  type="button"
-                  class="status-tab"
-                  :class="{ active: tab.key === 'all' }"
-                >
-                  <span class="status-tab-ico" :data-i="tab.icon" aria-hidden="true" />
-                  <span class="status-tab-num">{{
-                    tab.key === 'all' ? numbers.length : tab.key === 'transit' ? 1 : 0
-                  }}</span>
-                  <span class="status-tab-label">{{ tab.label }}</span>
-                </button>
-              </div>
-            </div>
-
             <header class="detail-head">
             <div class="detail-head-left">
               <span class="carrier-ico" aria-hidden="true">
@@ -141,12 +127,10 @@ function copyAllDetail() {
                     </svg>
                   </button>
                   <span v-if="extraCount > 0" class="detail-no-more">+{{ extraCount }}</span>
-                  <span class="detail-status-pill">{{
-                    dictT('page_tracking_result', 'detail_status_pill', '运输途中')
-                  }}</span>
+                  <span class="detail-status-pill">{{ statusPill }}</span>
                   <span v-if="copiedTip" class="copy-toast">{{ copiedTip }}</span>
                 </div>
-                <p class="detail-route">中国 中国邮政 → 俄罗斯联邦（演示数据）</p>
+                <p class="detail-route">{{ routeText }}</p>
               </div>
             </div>
             <div class="detail-head-actions">
@@ -164,7 +148,7 @@ function copyAllDetail() {
               <button
                 type="button"
                 class="icon-btn"
-                :title="dictT('page_tracking_result', 'title_refresh', '刷新（演示）')"
+                :title="dictT('page_tracking_result', 'title_refresh', '刷新')"
                 @click="emit('query')"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -189,42 +173,12 @@ function copyAllDetail() {
             <p class="detail-latest-txt">{{ latest.place }}，{{ latest.detail }}</p>
           </div>
 
-          <!-- 横向进度（示意） -->
-          <div class="progress-wrap" aria-hidden="true">
-            <div class="progress-track">
-              <div class="progress-fill" style="width: 46%" />
-            </div>
-            <div class="progress-nodes">
-              <div class="pnode done">
-                <span class="pnode-dot" />
-                <span class="pnode-label">{{
-                  dictT('tracking_progress_label', 'picked_up', '已揽收')
-                }}</span>
-              </div>
-              <div class="pnode current">
-                <span class="pnode-dot">
-                  <svg class="pnode-plane" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 12L12 3l4 4-6 6h6l2 2-2 2H8l-5-5z" />
-                  </svg>
-                </span>
-                <span class="pnode-label">{{
-                  dictT('tracking_progress_label', 'in_transit', '运输途中')
-                }}</span>
-              </div>
-              <div class="pnode">
-                <span class="pnode-dot hollow" />
-                <span class="pnode-label">{{
-                  dictT('tracking_progress_label', 'out_for_delivery', '派送中')
-                }}</span>
-              </div>
-              <div class="pnode">
-                <span class="pnode-dot hollow" />
-                <span class="pnode-label">{{ dictT('tracking_progress_label', 'signed', '签收') }}</span>
-              </div>
-            </div>
+          <div v-if="loading" class="detail-state detail-state--loading">查询中...</div>
+          <div v-else-if="notFound" class="detail-state detail-state--err">
+            {{ queryError && String(queryError).trim() ? queryError : '该单号不存在' }}
           </div>
 
-          <section class="trace-section">
+          <section v-if="!notFound" class="trace-section">
             <div class="trace-toolbar">
               <h2 class="trace-title">{{ dictT('page_tracking_result', 'trace_title', '轨迹信息') }}</h2>
               <div class="trace-actions">
@@ -242,11 +196,18 @@ function copyAllDetail() {
               <li v-for="(ev, idx) in timeline" :key="idx" class="trace-row">
                 <div class="trace-time">{{ ev.time }}</div>
                 <div class="trace-body">
-                  <div class="trace-line">{{ ev.place }}，{{ ev.detail }}</div>
-                  <div class="trace-sub">{{ ev.status }}</div>
+                  <div class="trace-line">{{ ev.place }}，{{ transportOrderPrefix }}：{{ ev.detail }}</div>
+                  <div class="trace-sub">{{ timelineStatusLabel(ev.status) }}</div>
                 </div>
               </li>
             </ol>
+          </section>
+
+          <section v-if="!notFound" class="bottom-banner" aria-hidden="true">
+            <div class="bottom-banner-overlay">
+              <p class="bottom-banner-title">支持全球 3200+ 家运输商查询</p>
+              <p class="bottom-banner-sub">覆盖主流国际物流线路，轨迹节点标准化输出</p>
+            </div>
           </section>
           </article>
         </div>
@@ -288,7 +249,7 @@ function copyAllDetail() {
               dictT(
                 'page_tracking_result',
                 'side_promo_api_desc',
-                '稳定轨迹数据，一次对接多承运商查询与推送（演示文案）。',
+                '稳定轨迹数据，一次对接多承运商查询与推送。',
               )
             }}</p>
           </div>
@@ -301,7 +262,7 @@ function copyAllDetail() {
               dictT(
                 'page_tracking_result',
                 'side_promo_webhook_desc',
-                '订阅运输节点变更，由系统主动向您的业务 URL 推送 JSON 载荷（演示文案）。',
+                '订阅运输节点变更，由系统主动向您的业务 URL 推送 JSON 载荷。',
               )
             }}</p>
           </div>
@@ -470,6 +431,9 @@ function copyAllDetail() {
   border-radius: 14px;
   box-shadow: var(--17-shadow);
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .detail-head {
@@ -602,6 +566,26 @@ function copyAllDetail() {
   line-height: 1.55;
   color: var(--17-ink);
   font-weight: 500;
+}
+
+.detail-state {
+  margin: 10px 18px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.detail-state--loading {
+  color: #d8e7ff;
+  background: rgba(61, 141, 255, 0.12);
+  border: 1px solid rgba(61, 141, 255, 0.28);
+}
+
+.detail-state--err {
+  color: #ffd7d7;
+  background: rgba(203, 74, 74, 0.2);
+  border: 1px solid rgba(203, 74, 74, 0.45);
 }
 
 /* —— 横向进度 —— */
@@ -776,6 +760,48 @@ function copyAllDetail() {
   margin-top: 4px;
   font-size: 12px;
   color: var(--17-muted);
+}
+
+.bottom-banner {
+  margin: auto 18px 18px;
+  min-height: 132px;
+  border-radius: 12px;
+  border: 1px solid rgba(96, 131, 255, 0.28);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(130, 162, 255, 0.35) 0 2px, transparent 3px),
+    radial-gradient(circle at 22% 42%, rgba(130, 162, 255, 0.28) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 45% 25%, rgba(130, 162, 255, 0.26) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 72% 35%, rgba(130, 162, 255, 0.25) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 88% 20%, rgba(130, 162, 255, 0.3) 0 2px, transparent 3px),
+    linear-gradient(120deg, #09184b 0%, #0a1f67 50%, #071447 100%);
+}
+
+.bottom-banner-overlay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 132px;
+  padding: 18px 22px;
+  background:
+    linear-gradient(90deg, rgba(4, 9, 28, 0.1), rgba(4, 9, 28, 0.4)),
+    radial-gradient(circle at 85% 50%, rgba(146, 167, 255, 0.2), transparent 42%);
+}
+
+.bottom-banner-title {
+  margin: 0;
+  color: #f5f8ff;
+  font-size: clamp(20px, 3vw, 34px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.bottom-banner-sub {
+  margin: 0;
+  color: rgba(226, 236, 255, 0.86);
+  font-size: clamp(12px, 1.1vw, 14px);
+  line-height: 1.5;
 }
 
 /* —— 右侧边栏 —— */

@@ -102,7 +102,19 @@ function rowSkuName(row) {
   return row?.skuName ?? row?.sku_name ?? ''
 }
 function rowStatus(row) {
-  return row?.status ?? ''
+  return row?.status
+}
+
+function statusText(row) {
+  const s = rowStatus(row)
+  if (s === 1 || s === '1') return '已审核'
+  if (s === 0 || s === '0') return '待审核'
+  return s != null && s !== '' ? String(s) : valueEmpty.value
+}
+
+function canOperate(row) {
+  const s = rowStatus(row)
+  return !(s === 1 || s === '1')
 }
 
 async function loadPage() {
@@ -214,14 +226,19 @@ onMounted(() => loadPage())
               <tr v-for="(row, idx) in rows" :key="rowApplyId(row) || `ap-${idx}`">
                 <td>{{ rowApplyId(row) || valueEmpty }}</td>
                 <td>{{ rowSkuName(row) || valueEmpty }}</td>
-                <td>{{ rowStatus(row) || valueEmpty }}</td>
+                <td>{{ statusText(row) }}</td>
                 <td class="td-actions">
-                  <button type="button" class="btn-action btn-action--ok" :disabled="!!actingApplyId" @click="openPass(row)">
-                    {{ btnPass }}
-                  </button>
-                  <button type="button" class="btn-action btn-action--danger" :disabled="!!actingApplyId" @click="openReject(row)">
-                    {{ btnReject }}
-                  </button>
+                  <div class="actions-wrap">
+                    <template v-if="canOperate(row)">
+                      <button type="button" class="btn-action btn-action--ok" :disabled="!!actingApplyId" @click="openPass(row)">
+                        {{ btnPass }}
+                      </button>
+                      <button type="button" class="btn-action btn-action--danger" :disabled="!!actingApplyId" @click="openReject(row)">
+                        {{ btnReject }}
+                      </button>
+                    </template>
+                    <span v-else class="op-empty">{{ valueEmpty }}</span>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -280,7 +297,8 @@ onMounted(() => loadPage())
 .data-table th { font-weight: 600; color: #8fa3bc; white-space: nowrap; }
 .data-table td { color: #e8eef6; }
 .th-actions, .td-actions { width: 190px; text-align: center; white-space: nowrap; }
-.td-actions { display: flex; justify-content: center; align-items: center; gap: 8px; }
+.actions-wrap { display: inline-flex; justify-content: center; align-items: center; gap: 8px; min-width: 150px; }
+.op-empty { color: #8fa3bc; font-size: 13px; }
 .btn-action { display: inline-flex; align-items: center; justify-content: center; padding: 6px 14px; font-size: 12px; font-weight: 700; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
 .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-action--ok { color: #e8fff4; background: linear-gradient(180deg, #2ebc7a, #1e9c62); border-color: rgba(46, 188, 122, 0.5); }

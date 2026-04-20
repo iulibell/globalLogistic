@@ -175,6 +175,11 @@ const KEY_FALLBACK = {
     '2': 'Inbound confirmed',
     '3': 'Приемка подтверждена',
   },
+  wms_outbound_confirmed: {
+    '1': '出库确认成功',
+    '2': 'Outbound confirmed',
+    '3': 'Отгрузка подтверждена',
+  },
 }
 
 /**

@@ -38,13 +38,33 @@ public class TmsLineController {
     }
 
     @PostMapping("/manager/addLine")
-    public CommonResult<?> addLine(@RequestParam TmsLineDto tmsLineDto){
+    public CommonResult<?> addLine(@RequestParam Long lineId,
+                                   @RequestParam String origin,
+                                   @RequestParam String dest,
+                                   @RequestParam Double estimation,
+                                   @RequestParam Short status){
+        TmsLineDto tmsLineDto = new TmsLineDto();
+        tmsLineDto.setLineId(lineId);
+        tmsLineDto.setOrigin(origin);
+        tmsLineDto.setDest(dest);
+        tmsLineDto.setEstimation(estimation);
+        tmsLineDto.setStatus(status);
         tmsLineService.addLine(tmsLineDto);
         return CommonResult.success("添加线路成功!");
     }
 
     @PostMapping("/manager/updateLine")
-    public CommonResult<?> updateLine(@RequestParam TmsLineDto tmsLineDto){
+    public CommonResult<?> updateLine(@RequestParam Long lineId,
+                                      @RequestParam String origin,
+                                      @RequestParam String dest,
+                                      @RequestParam Double estimation,
+                                      @RequestParam Short status){
+        TmsLineDto tmsLineDto = new TmsLineDto();
+        tmsLineDto.setLineId(lineId);
+        tmsLineDto.setOrigin(origin);
+        tmsLineDto.setDest(dest);
+        tmsLineDto.setEstimation(estimation);
+        tmsLineDto.setStatus(status);
         tmsLineService.updateLine(tmsLineDto);
         return CommonResult.success("线路修改成功!");
     }

@@ -32,6 +32,8 @@ public final class SaTokenRouteChecks {
             "/auth/login",
             "/auth/register",
             "/auth/register/sendCaptcha",
+            // 门户物流查询（按运单号只读查询）
+            "/tms/getLogisticById",
             // 门户/追踪页等多处拉取展示文案，无需登录（仍只读启用项）
             "/admin/sys/getDictionary/**"
     };

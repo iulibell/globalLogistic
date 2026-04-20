@@ -21,6 +21,13 @@ public interface WmsInboundApplyService {
     List<WmsInboundApplyDto> getInboundApply(int pageNum, int pageSize);
 
     /**
+     * 根据入库申请id获取单个入库申请(keeper操作)
+     * @param applyId 入库申请id
+     * @return 入库申请单
+     */
+    WmsInboundApplyDto getInboundApplyById(String applyId);
+
+    /**
      * 通过入库申请审核(keeper操作)
      * @param applyId 申请id
      */
@@ -38,12 +45,6 @@ public interface WmsInboundApplyService {
      * @param applyId 申请id
      */
     void payForInbound(String applyId);
-
-    /**
-     * 删除入库申请订单
-     * @param applyId 申请id
-     */
-    void deleteInboundApply(String applyId);
 
     /**
      * 支付超时：仅当申请仍为「待支付(2)」时置为「超时未支付(3)」。已支付、已超时、已删除则不修改。

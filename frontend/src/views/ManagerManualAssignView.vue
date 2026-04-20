@@ -252,7 +252,11 @@ onMounted(() => loadPage())
 
 function fmtDriverStatus(s) {
   if (s == null || s === '') return valueEmpty.value
-  return String(s)
+  const raw = String(s).trim()
+  if (raw === '0') return '上线'
+  if (raw === '1') return '运输中'
+  if (raw === '2' || raw === '3') return '下线'
+  return raw
 }
 
 function isDriverRowSelected(d) {

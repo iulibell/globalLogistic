@@ -73,6 +73,46 @@ const router = createRouter({
           component: () => import('@/views/KeeperInboundApplyListView.vue'),
         },
         {
+          path: 'keeper/inbound-apply-query',
+          name: 'profile-keeper-inbound-apply-query',
+          component: () => import('@/views/KeeperInboundApplyQueryView.vue'),
+        },
+        {
+          path: 'keeper/outbound-list',
+          name: 'profile-keeper-outbound-list',
+          component: () => import('@/views/KeeperOutboundListView.vue'),
+        },
+        {
+          path: 'keeper/outbound-query',
+          name: 'profile-keeper-outbound-query',
+          component: () => import('@/views/KeeperOutboundQueryView.vue'),
+        },
+        {
+          path: 'keeper/stock-list',
+          name: 'profile-keeper-stock-list',
+          component: () => import('@/views/KeeperStockListView.vue'),
+        },
+        {
+          path: 'keeper/stock-query',
+          name: 'profile-keeper-stock-query',
+          component: () => import('@/views/KeeperStockQueryView.vue'),
+        },
+        {
+          path: 'driver/transport-orders',
+          name: 'profile-driver-transport-orders',
+          component: () => import('@/views/DriverTransportOrderListView.vue'),
+        },
+        {
+          path: 'driver/current-assignment',
+          name: 'profile-driver-current-assignment',
+          component: () => import('@/views/DriverCurrentAssignmentView.vue'),
+        },
+        {
+          path: 'driver/line-detail',
+          name: 'profile-driver-line-detail',
+          component: () => import('@/views/DriverLineDetailView.vue'),
+        },
+        {
           path: 'super/users',
           name: 'profile-super-users',
           component: () => import('@/views/SuperUserAdminView.vue'),
@@ -102,7 +142,20 @@ const MANAGER_PROFILE_NAMES = new Set([
   'profile-manager-line-query',
   'profile-manager-line-detail',
 ])
-const KEEPER_PROFILE_NAMES = new Set(['profile-keeper-inbound-list', 'profile-keeper-inbound-apply'])
+const KEEPER_PROFILE_NAMES = new Set([
+  'profile-keeper-inbound-list',
+  'profile-keeper-inbound-apply',
+  'profile-keeper-inbound-apply-query',
+  'profile-keeper-outbound-list',
+  'profile-keeper-outbound-query',
+  'profile-keeper-stock-list',
+  'profile-keeper-stock-query',
+])
+const DRIVER_PROFILE_NAMES = new Set([
+  'profile-driver-transport-orders',
+  'profile-driver-current-assignment',
+  'profile-driver-line-detail',
+])
 
 router.beforeEach((to, from, next) => {
   if (SUPER_PROFILE_NAMES.has(to.name)) {
@@ -149,6 +202,19 @@ router.beforeEach((to, from, next) => {
       const raw = sessionStorage.getItem(AUTH_PROFILE_KEY)
       const p = raw ? JSON.parse(raw) : null
       if (!p || p.role !== 'keeper') {
+        next({ name: 'profile' })
+        return
+      }
+    } catch {
+      next({ name: 'profile' })
+      return
+    }
+  }
+  if (DRIVER_PROFILE_NAMES.has(to.name)) {
+    try {
+      const raw = sessionStorage.getItem(AUTH_PROFILE_KEY)
+      const p = raw ? JSON.parse(raw) : null
+      if (!p || p.role !== 'driver') {
         next({ name: 'profile' })
         return
       }

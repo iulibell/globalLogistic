@@ -1,6 +1,9 @@
 -- =============================================================================
 -- page_profile: 经理端路线功能新增文案补丁
--- 包含：路线列表新增/更新/详情按钮、详情页标题与提示、手动派单司机弹窗文案
+-- 包含：
+-- 1) 经理端路线列表新增/更新/详情按钮、详情页标题与提示
+-- 2) 手动派单司机弹窗文案
+-- 3) 仓管端入库列表 / 入库申请文案
 -- 执行方式：在目标库直接执行本文件（MySQL）
 -- =============================================================================
 
@@ -37,7 +40,43 @@ WHERE `dict_type` = 'page_profile'
     'col_driver_vehicle_no',
     'col_driver_current_city',
     'col_driver_status',
-    'btn_confirm_assign'
+    'btn_confirm_assign',
+    'nav_keeper_inbound_list',
+    'nav_keeper_inbound_apply',
+    'doc_title_keeper_inbound_list',
+    'doc_title_keeper_inbound_apply',
+    'section_keeper_inbound_list',
+    'lead_keeper_inbound_list',
+    'col_keeper_inbound_id',
+    'col_keeper_sku_code',
+    'col_keeper_sku_name',
+    'btn_keeper_confirm_inbound',
+    'keeper_inbound_empty',
+    'keeper_inbound_load_error',
+    'keeper_inbound_need_fields',
+    'keeper_inbound_confirm_ok',
+    'keeper_inbound_confirm_fail',
+    'section_keeper_inbound_apply',
+    'lead_keeper_inbound_apply',
+    'col_keeper_apply_id',
+    'btn_keeper_apply_pass',
+    'btn_keeper_apply_reject',
+    'keeper_apply_dialog_pass',
+    'keeper_apply_dialog_reject',
+    'keeper_apply_fee_label',
+    'keeper_apply_remark_label',
+    'keeper_apply_empty',
+    'keeper_apply_load_error',
+    'keeper_apply_need_fee',
+    'keeper_apply_need_remark',
+    'keeper_apply_pass_ok',
+    'keeper_apply_reject_ok',
+    'keeper_apply_action_fail',
+    'nav_keeper_inbound_query',
+    'doc_title_keeper_inbound_query',
+    'section_keeper_inbound_query',
+    'lead_keeper_inbound_query',
+    'keeper_apply_not_found'
   );
 
 INSERT INTO `dictionary` (`dict_type`, `dict_name`, `dict_value`, `sort`, `status`, `lang`) VALUES
@@ -151,4 +190,148 @@ INSERT INTO `dictionary` (`dict_type`, `dict_name`, `dict_value`, `sort`, `statu
 
 ('page_profile', '确认指派', 'btn_confirm_assign', 9028, 1, '1'),
 ('page_profile', 'Confirm assign', 'btn_confirm_assign', 9028, 1, '2'),
-('page_profile', 'Подтвердить', 'btn_confirm_assign', 9028, 1, '3');
+('page_profile', 'Подтвердить', 'btn_confirm_assign', 9028, 1, '3'),
+
+('page_profile', '入库列表', 'nav_keeper_inbound_list', 9029, 1, '1'),
+('page_profile', 'Inbound list', 'nav_keeper_inbound_list', 9029, 1, '2'),
+('page_profile', 'Список приемки', 'nav_keeper_inbound_list', 9029, 1, '3'),
+
+('page_profile', '入库申请', 'nav_keeper_inbound_apply', 9030, 1, '1'),
+('page_profile', 'Inbound applications', 'nav_keeper_inbound_apply', 9030, 1, '2'),
+('page_profile', 'Заявки на приемку', 'nav_keeper_inbound_apply', 9030, 1, '3'),
+
+('page_profile', '入库列表', 'doc_title_keeper_inbound_list', 9031, 1, '1'),
+('page_profile', 'Inbound list', 'doc_title_keeper_inbound_list', 9031, 1, '2'),
+('page_profile', 'Список приемки', 'doc_title_keeper_inbound_list', 9031, 1, '3'),
+
+('page_profile', '入库申请', 'doc_title_keeper_inbound_apply', 9032, 1, '1'),
+('page_profile', 'Inbound applications', 'doc_title_keeper_inbound_apply', 9032, 1, '2'),
+('page_profile', 'Заявки на приемку', 'doc_title_keeper_inbound_apply', 9032, 1, '3'),
+
+('page_profile', '入库列表', 'section_keeper_inbound_list', 9033, 1, '1'),
+('page_profile', 'Inbound list', 'section_keeper_inbound_list', 9033, 1, '2'),
+('page_profile', 'Список приемки', 'section_keeper_inbound_list', 9033, 1, '3'),
+
+('page_profile', '分页查看入库单并执行确认入库。', 'lead_keeper_inbound_list', 9034, 1, '1'),
+('page_profile', 'Browse inbound orders and confirm inbound.', 'lead_keeper_inbound_list', 9034, 1, '2'),
+('page_profile', 'Постраничный список приемки и подтверждение приемки.', 'lead_keeper_inbound_list', 9034, 1, '3'),
+
+('page_profile', '入库单号', 'col_keeper_inbound_id', 9035, 1, '1'),
+('page_profile', 'Inbound ID', 'col_keeper_inbound_id', 9035, 1, '2'),
+('page_profile', 'ID приемки', 'col_keeper_inbound_id', 9035, 1, '3'),
+
+('page_profile', 'SKU 编码', 'col_keeper_sku_code', 9036, 1, '1'),
+('page_profile', 'SKU code', 'col_keeper_sku_code', 9036, 1, '2'),
+('page_profile', 'Код SKU', 'col_keeper_sku_code', 9036, 1, '3'),
+
+('page_profile', 'SKU 名称', 'col_keeper_sku_name', 9037, 1, '1'),
+('page_profile', 'SKU name', 'col_keeper_sku_name', 9037, 1, '2'),
+('page_profile', 'Название SKU', 'col_keeper_sku_name', 9037, 1, '3'),
+
+('page_profile', '确认入库', 'btn_keeper_confirm_inbound', 9038, 1, '1'),
+('page_profile', 'Confirm inbound', 'btn_keeper_confirm_inbound', 9038, 1, '2'),
+('page_profile', 'Подтвердить приемку', 'btn_keeper_confirm_inbound', 9038, 1, '3'),
+
+('page_profile', '暂无入库单', 'keeper_inbound_empty', 9039, 1, '1'),
+('page_profile', 'No inbound orders', 'keeper_inbound_empty', 9039, 1, '2'),
+('page_profile', 'Нет записей приемки', 'keeper_inbound_empty', 9039, 1, '3'),
+
+('page_profile', '入库列表加载失败', 'keeper_inbound_load_error', 9040, 1, '1'),
+('page_profile', 'Failed to load inbound list', 'keeper_inbound_load_error', 9040, 1, '2'),
+('page_profile', 'Ошибка загрузки списка приемки', 'keeper_inbound_load_error', 9040, 1, '3'),
+
+('page_profile', '缺少 inboundId 或 skuCode，无法确认入库', 'keeper_inbound_need_fields', 9041, 1, '1'),
+('page_profile', 'Missing inboundId or skuCode', 'keeper_inbound_need_fields', 9041, 1, '2'),
+('page_profile', 'Не хватает inboundId или skuCode', 'keeper_inbound_need_fields', 9041, 1, '3'),
+
+('page_profile', '确认入库成功', 'keeper_inbound_confirm_ok', 9042, 1, '1'),
+('page_profile', 'Inbound confirmed', 'keeper_inbound_confirm_ok', 9042, 1, '2'),
+('page_profile', 'Приемка подтверждена', 'keeper_inbound_confirm_ok', 9042, 1, '3'),
+
+('page_profile', '确认入库失败', 'keeper_inbound_confirm_fail', 9043, 1, '1'),
+('page_profile', 'Confirm inbound failed', 'keeper_inbound_confirm_fail', 9043, 1, '2'),
+('page_profile', 'Не удалось подтвердить приемку', 'keeper_inbound_confirm_fail', 9043, 1, '3'),
+
+('page_profile', '入库申请', 'section_keeper_inbound_apply', 9044, 1, '1'),
+('page_profile', 'Inbound applications', 'section_keeper_inbound_apply', 9044, 1, '2'),
+('page_profile', 'Заявки на приемку', 'section_keeper_inbound_apply', 9044, 1, '3'),
+
+('page_profile', '分页查看入库申请并执行通过/退回。', 'lead_keeper_inbound_apply', 9045, 1, '1'),
+('page_profile', 'Review inbound applications with approve/reject actions.', 'lead_keeper_inbound_apply', 9045, 1, '2'),
+('page_profile', 'Постраничный просмотр заявок с действиями одобрить/отклонить.', 'lead_keeper_inbound_apply', 9045, 1, '3'),
+
+('page_profile', '申请单号', 'col_keeper_apply_id', 9046, 1, '1'),
+('page_profile', 'Apply ID', 'col_keeper_apply_id', 9046, 1, '2'),
+('page_profile', 'ID заявки', 'col_keeper_apply_id', 9046, 1, '3'),
+
+('page_profile', '通过', 'btn_keeper_apply_pass', 9047, 1, '1'),
+('page_profile', 'Approve', 'btn_keeper_apply_pass', 9047, 1, '2'),
+('page_profile', 'Одобрить', 'btn_keeper_apply_pass', 9047, 1, '3'),
+
+('page_profile', '退回', 'btn_keeper_apply_reject', 9048, 1, '1'),
+('page_profile', 'Reject', 'btn_keeper_apply_reject', 9048, 1, '2'),
+('page_profile', 'Отклонить', 'btn_keeper_apply_reject', 9048, 1, '3'),
+
+('page_profile', '通过入库申请', 'keeper_apply_dialog_pass', 9049, 1, '1'),
+('page_profile', 'Approve inbound application', 'keeper_apply_dialog_pass', 9049, 1, '2'),
+('page_profile', 'Одобрить заявку', 'keeper_apply_dialog_pass', 9049, 1, '3'),
+
+('page_profile', '退回入库申请', 'keeper_apply_dialog_reject', 9050, 1, '1'),
+('page_profile', 'Reject inbound application', 'keeper_apply_dialog_reject', 9050, 1, '2'),
+('page_profile', 'Отклонить заявку', 'keeper_apply_dialog_reject', 9050, 1, '3'),
+
+('page_profile', '费用', 'keeper_apply_fee_label', 9051, 1, '1'),
+('page_profile', 'Fee', 'keeper_apply_fee_label', 9051, 1, '2'),
+('page_profile', 'Стоимость', 'keeper_apply_fee_label', 9051, 1, '3'),
+
+('page_profile', '退回备注', 'keeper_apply_remark_label', 9052, 1, '1'),
+('page_profile', 'Reject remark', 'keeper_apply_remark_label', 9052, 1, '2'),
+('page_profile', 'Комментарий отклонения', 'keeper_apply_remark_label', 9052, 1, '3'),
+
+('page_profile', '暂无入库申请', 'keeper_apply_empty', 9053, 1, '1'),
+('page_profile', 'No inbound applications', 'keeper_apply_empty', 9053, 1, '2'),
+('page_profile', 'Нет заявок на приемку', 'keeper_apply_empty', 9053, 1, '3'),
+
+('page_profile', '入库申请加载失败', 'keeper_apply_load_error', 9054, 1, '1'),
+('page_profile', 'Failed to load applications', 'keeper_apply_load_error', 9054, 1, '2'),
+('page_profile', 'Ошибка загрузки заявок', 'keeper_apply_load_error', 9054, 1, '3'),
+
+('page_profile', '请填写合法费用', 'keeper_apply_need_fee', 9055, 1, '1'),
+('page_profile', 'Enter a valid fee', 'keeper_apply_need_fee', 9055, 1, '2'),
+('page_profile', 'Укажите корректную стоимость', 'keeper_apply_need_fee', 9055, 1, '3'),
+
+('page_profile', '请填写退回备注', 'keeper_apply_need_remark', 9056, 1, '1'),
+('page_profile', 'Enter reject remark', 'keeper_apply_need_remark', 9056, 1, '2'),
+('page_profile', 'Введите комментарий отклонения', 'keeper_apply_need_remark', 9056, 1, '3'),
+
+('page_profile', '已通过入库申请', 'keeper_apply_pass_ok', 9057, 1, '1'),
+('page_profile', 'Application approved', 'keeper_apply_pass_ok', 9057, 1, '2'),
+('page_profile', 'Заявка одобрена', 'keeper_apply_pass_ok', 9057, 1, '3'),
+
+('page_profile', '已退回入库申请', 'keeper_apply_reject_ok', 9058, 1, '1'),
+('page_profile', 'Application rejected', 'keeper_apply_reject_ok', 9058, 1, '2'),
+('page_profile', 'Заявка отклонена', 'keeper_apply_reject_ok', 9058, 1, '3'),
+
+('page_profile', '操作失败', 'keeper_apply_action_fail', 9059, 1, '1'),
+('page_profile', 'Action failed', 'keeper_apply_action_fail', 9059, 1, '2'),
+('page_profile', 'Операция не выполнена', 'keeper_apply_action_fail', 9059, 1, '3'),
+
+('page_profile', '入库查询', 'nav_keeper_inbound_query', 9060, 1, '1'),
+('page_profile', 'Inbound query', 'nav_keeper_inbound_query', 9060, 1, '2'),
+('page_profile', 'Поиск приемки', 'nav_keeper_inbound_query', 9060, 1, '3'),
+
+('page_profile', '入库查询', 'doc_title_keeper_inbound_query', 9061, 1, '1'),
+('page_profile', 'Inbound query', 'doc_title_keeper_inbound_query', 9061, 1, '2'),
+('page_profile', 'Поиск приемки', 'doc_title_keeper_inbound_query', 9061, 1, '3'),
+
+('page_profile', '入库查询', 'section_keeper_inbound_query', 9062, 1, '1'),
+('page_profile', 'Inbound query', 'section_keeper_inbound_query', 9062, 1, '2'),
+('page_profile', 'Поиск приемки', 'section_keeper_inbound_query', 9062, 1, '3'),
+
+('page_profile', '输入申请单号查询单条入库申请。', 'lead_keeper_inbound_query', 9063, 1, '1'),
+('page_profile', 'Enter apply ID to query one inbound application.', 'lead_keeper_inbound_query', 9063, 1, '2'),
+('page_profile', 'Введите ID заявки для поиска одной записи.', 'lead_keeper_inbound_query', 9063, 1, '3'),
+
+('page_profile', '未找到该入库申请', 'keeper_apply_not_found', 9064, 1, '1'),
+('page_profile', 'Inbound application not found', 'keeper_apply_not_found', 9064, 1, '2'),
+('page_profile', 'Заявка не найдена', 'keeper_apply_not_found', 9064, 1, '3');

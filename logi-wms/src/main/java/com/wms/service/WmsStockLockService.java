@@ -6,7 +6,7 @@ public interface WmsStockLockService {
     /**
      * 进行商品锁操作
      *
-     * @param wmsStockDto 库存dto
+     * @param omsOrderDto 订单关联dto
      */
     void WmsStockLock(OmsOrderDto omsOrderDto);
 

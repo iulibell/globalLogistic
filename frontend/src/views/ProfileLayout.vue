@@ -71,6 +71,31 @@ const navKeeperInboundList = computed(() =>
 const navKeeperInboundApply = computed(() =>
   t('page_profile', 'nav_keeper_inbound_apply', pageDictFallback('page_profile', 'nav_keeper_inbound_apply', uiLang.value)),
 )
+const navKeeperInboundQuery = computed(() =>
+  t('page_profile', 'nav_keeper_inbound_query', pageDictFallback('page_profile', 'nav_keeper_inbound_query', uiLang.value)),
+)
+const navKeeperOutboundList = computed(() =>
+  t('page_profile', 'nav_keeper_outbound_list', pageDictFallback('page_profile', 'nav_keeper_outbound_list', uiLang.value) || '出库列表'),
+)
+const navKeeperOutboundQuery = computed(() =>
+  t('page_profile', 'nav_keeper_outbound_query', pageDictFallback('page_profile', 'nav_keeper_outbound_query', uiLang.value) || '出库查询'),
+)
+const navKeeperStockList = computed(() =>
+  t('page_profile', 'nav_keeper_stock_list', pageDictFallback('page_profile', 'nav_keeper_stock_list', uiLang.value) || '库存列表'),
+)
+const navKeeperStockQuery = computed(() =>
+  t('page_profile', 'nav_keeper_stock_query', pageDictFallback('page_profile', 'nav_keeper_stock_query', uiLang.value) || '查询库存'),
+)
+const navDriverTransportOrders = computed(() =>
+  t('page_profile', 'nav_driver_transport_orders', pageDictFallback('page_profile', 'nav_driver_transport_orders', uiLang.value) || '运输派单'),
+)
+const navDriverCurrentAssignment = computed(() =>
+  t(
+    'page_profile',
+    'nav_driver_current_assignment',
+    pageDictFallback('page_profile', 'nav_driver_current_assignment', uiLang.value) || '当前派单',
+  ),
+)
 
 const navSuperUsers = computed(() =>
   t('page_profile', 'nav_super_users', pageDictFallback('page_profile', 'nav_super_users', uiLang.value)),
@@ -90,6 +115,7 @@ const isReviewer = computed(() => profile.value?.role === 'reviewer')
 const isSuper = computed(() => profile.value?.role === 'super')
 const isManager = computed(() => profile.value?.role === 'manager')
 const isKeeper = computed(() => profile.value?.role === 'keeper')
+const isDriver = computed(() => profile.value?.role === 'driver')
 
 const valueEmpty = computed(() =>
   t('page_profile', 'value_empty', pageDictFallback('page_profile', 'value_empty', uiLang.value)),
@@ -186,6 +212,48 @@ function applyProfileDocumentTitle() {
       'page_profile',
       'doc_title_keeper_inbound_apply',
       pageDictFallback('page_profile', 'doc_title_keeper_inbound_apply', uiLang.value),
+    )
+  } else if (route.name === 'profile-keeper-inbound-apply-query') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_inbound_query',
+      pageDictFallback('page_profile', 'doc_title_keeper_inbound_query', uiLang.value),
+    )
+  } else if (route.name === 'profile-keeper-outbound-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_outbound_list',
+      pageDictFallback('page_profile', 'doc_title_keeper_outbound_list', uiLang.value) || '出库列表',
+    )
+  } else if (route.name === 'profile-keeper-outbound-query') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_outbound_query',
+      pageDictFallback('page_profile', 'doc_title_keeper_outbound_query', uiLang.value) || '出库查询',
+    )
+  } else if (route.name === 'profile-keeper-stock-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_stock_list',
+      pageDictFallback('page_profile', 'doc_title_keeper_stock_list', uiLang.value) || '库存列表',
+    )
+  } else if (route.name === 'profile-keeper-stock-query') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_stock_query',
+      pageDictFallback('page_profile', 'doc_title_keeper_stock_query', uiLang.value) || '查询库存',
+    )
+  } else if (route.name === 'profile-driver-transport-orders') {
+    piece = t(
+      'page_profile',
+      'doc_title_driver_transport_orders',
+      pageDictFallback('page_profile', 'doc_title_driver_transport_orders', uiLang.value) || '运输派单',
+    )
+  } else if (route.name === 'profile-driver-current-assignment') {
+    piece = t(
+      'page_profile',
+      'doc_title_driver_current_assignment',
+      pageDictFallback('page_profile', 'doc_title_driver_current_assignment', uiLang.value) || '当前派单',
     )
   } else if (route.name === 'profile-super-users') {
     piece = t(
@@ -337,6 +405,69 @@ onMounted(() => applyProfileDocumentTitle())
           >
             <span class="sidebar-link-glow" aria-hidden="true" />
             <span class="sidebar-link-text">{{ navKeeperInboundApply }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-inbound-apply-query' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperInboundQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-outbound-list' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperOutboundList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-outbound-query' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperOutboundQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-stock-list' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperStockList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-stock-query' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperStockQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isDriver"
+            :to="{ name: 'profile-driver-transport-orders' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navDriverTransportOrders }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isDriver"
+            :to="{ name: 'profile-driver-current-assignment' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navDriverCurrentAssignment }}</span>
           </RouterLink>
           <RouterLink
             v-if="isManager"

@@ -70,6 +70,14 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     }
 
     @Override
+    public WmsInboundApplyDto getInboundApplyById(String applyId) {
+        WmsInboundApplyDto wmsInboundApplyDto = new WmsInboundApplyDto();
+        BeanUtils.copyProperties(wmsInboundApplyDao.selectOne(new LambdaQueryWrapper<WmsInboundApply>()
+                .eq(WmsInboundApply::getApplyId,applyId)),wmsInboundApplyDto);
+        return wmsInboundApplyDto;
+    }
+
+    @Override
     @Transactional
     public void accessInboundApply(String applyId, BigDecimal fee) {
         StpUtil.checkPermission("keeper");
@@ -130,12 +138,6 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
         TmsTransportOrderDto tmsTransportOrderDto = getTmsTransportOrderDto(wmsInboundApply);
 
         tmsServiceClient.driverAssignment(tmsTransportOrderDto);
-    }
-
-    @Override
-    public void deleteInboundApply(String applyId) {
-        wmsInboundApplyDao.delete(new LambdaQueryWrapper<WmsInboundApply>()
-                .eq(WmsInboundApply::getApplyId,applyId));
     }
 
     @Override

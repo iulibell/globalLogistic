@@ -1,10 +1,26 @@
 <script setup>
+import { useUiLang } from '@/composables/useUiLang.js'
+import { useMultiDictionary } from '@/composables/useMultiDictionary.js'
+
 defineProps({
   events: {
     type: Array,
     required: true,
   },
 })
+
+const { uiLang } = useUiLang()
+const { t: dictT } = useMultiDictionary(['tracking_status_tab', 'tracking_progress_label'], uiLang)
+
+function statusText(s) {
+  const n = Number(s)
+  // 轨迹状态约定：2=运输中，3=已送达，4=已签收（兼容旧数据 1=运输中）
+  if (n === 1 || n === 2) return '运输中'
+  if (n === 3) return '已送达'
+  if (n === 4) return '已签收'
+  if (s == null || String(s).trim() === '') return dictT('tracking_status_tab', 'all', '全部')
+  return String(s)
+}
 </script>
 
 <template>
@@ -18,7 +34,7 @@ defineProps({
         </div>
         <div class="event">
           <div class="event-top">
-            <span class="event-status">{{ ev.status }}</span>
+            <span class="event-status">{{ statusText(ev.status) }}</span>
             <time>{{ ev.time }}</time>
           </div>
           <div class="event-place">{{ ev.place }}</div>

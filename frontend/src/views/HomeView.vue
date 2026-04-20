@@ -1,5 +1,4 @@
 <script setup>
-import { DEMO_TIMELINE } from '@/constants/trackingDemo.js'
 import { useTrackingQuery } from '@/composables/useTrackingQuery.js'
 import HomeFeaturesSection from '@/components/HomeFeaturesSection.vue'
 import MarketingStats from '@/components/MarketingStats.vue'
@@ -8,7 +7,20 @@ import SiteHeader from '@/components/SiteHeader.vue'
 import TrackingHero from '@/components/TrackingHero.vue'
 import TrackingResultPanel from '@/components/TrackingResultPanel.vue'
 
-const { trackingInput, queried, activeNumbers, canQuery, runQuery, resetQuery, clearInput } = useTrackingQuery()
+const {
+  trackingInput,
+  queried,
+  activeNumbers,
+  trackingTimeline,
+  queryLoading,
+  queryError,
+  notFound,
+  currentLogistic,
+  canQuery,
+  runQuery,
+  resetQuery,
+  clearInput,
+} = useTrackingQuery()
 </script>
 
 <template>
@@ -25,7 +37,11 @@ const { trackingInput, queried, activeNumbers, canQuery, runQuery, resetQuery, c
       v-if="queried"
       v-model:tracking-input="trackingInput"
       :numbers="activeNumbers"
-      :timeline="DEMO_TIMELINE"
+      :timeline="trackingTimeline"
+      :loading="queryLoading"
+      :not-found="notFound"
+      :query-error="queryError"
+      :logistic="currentLogistic"
       :can-query="canQuery"
       @query="runQuery"
       @clear="clearInput"

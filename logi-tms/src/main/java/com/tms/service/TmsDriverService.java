@@ -1,6 +1,8 @@
 package com.tms.service;
 
 import com.tms.dto.TmsDriverDto;
+import com.tms.dto.TmsAssignedOrderDto;
+import com.tms.dto.TmsCurrentAssignmentDto;
 import com.tms.dto.TmsTransportOrderDto;
 
 import java.util.List;
@@ -12,10 +14,40 @@ public interface TmsDriverService {
      *
      * @param pageNum 页数
      * @param pageSize 页大小
-     * @param currentCity 目前司机所在的城市
      * @return 派单列表
      */
-    List<TmsTransportOrderDto> getTransportOrder(int pageNum, int pageSize, String currentCity);
+    List<TmsTransportOrderDto> getTransportOrder(int pageNum, int pageSize);
+
+    /**
+     * 获取当前登录司机信息(driver操作)
+     * @return 当前司机信息
+     */
+    TmsDriverDto getCurrentDriverInfo();
+
+    /**
+     * 获取当前司机待处理的人工派单提示
+     */
+    List<TmsAssignedOrderDto> getPendingAssignedOrders();
+
+    /**
+     * 获取当前司机已接受的人工派单
+     */
+    List<TmsAssignedOrderDto> getCurrentAssignedOrders();
+
+    /**
+     * 获取当前司机正在处理的当前派单详情
+     */
+    TmsCurrentAssignmentDto getCurrentAssignmentDetail();
+
+    /**
+     * 接受一条人工派单提示（仅修改提示状态）
+     */
+    boolean acceptAssignedOrder(String transportId);
+
+    /**
+     * 拒绝一条人工派单提示（触发拒单扣权重逻辑）
+     */
+    boolean rejectAssignedOrder(String transportId);
 
     /**
      * 获取空闲的司机列表
@@ -51,4 +83,9 @@ public interface TmsDriverService {
      */
     void confirmReceived(String transportOrderId);
 
+    /**
+     * 修改状态(driver操作)
+     * @param status 状态
+     */
+    void updateStatus(String driverId, Short status);
 }

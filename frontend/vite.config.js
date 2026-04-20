@@ -7,6 +7,7 @@ import vue from '@vitejs/plugin-vue'
 const logiAdminTarget = process.env.VITE_PROXY_LOGI_ADMIN || 'http://127.0.0.1:8601'
 const glAuthTarget = process.env.VITE_PROXY_GL_AUTH || 'http://127.0.0.1:8602'
 const logiWmsTarget = process.env.VITE_PROXY_LOGI_WMS || 'http://127.0.0.1:8721'
+const logiTmsTarget = process.env.VITE_PROXY_LOGI_TMS || 'http://127.0.0.1:8701'
 
 const devProxy = {
   '/auth': {
@@ -19,6 +20,10 @@ const devProxy = {
   },
   '/wms': {
     target: logiWmsTarget,
+    changeOrigin: true,
+  },
+  '/tms': {
+    target: logiTmsTarget,
     changeOrigin: true,
   },
 }
