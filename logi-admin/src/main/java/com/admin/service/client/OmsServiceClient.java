@@ -8,18 +8,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("logi-oms")
 public interface OmsServiceClient {
-    @GetMapping("/oms/getOrder")
-    CommonResult<?> getOrder(@RequestParam(defaultValue = "1") int pageNum,
-                             @RequestParam(defaultValue = "10") int pageSize);
-    @GetMapping("/oms/getOrderById")
-    CommonResult<?> getOrderById(@RequestParam String orderId);
-    @GetMapping("/oms/getOrderReview")
+    @GetMapping("/oms/reviewer/getOrderReview")
     CommonResult<?> getOrderReview(@RequestParam(defaultValue = "1") int pageNum,
                                    @RequestParam(defaultValue = "10") int pageSize);
-    @PostMapping("/oms/accessOrderReview")
+    @PostMapping("/oms/reviewer/accessOrderReview")
     CommonResult<?> accessOrderReview(@RequestParam String orderId,
                                       @RequestParam String remark);
-    @PostMapping("/oms/rejectOrderReview")
+    @PostMapping("/oms/reviewer/rejectOrderReview")
     CommonResult<?> rejectOrderReview(@RequestParam String orderId,
                                       @RequestParam String remark);
 }

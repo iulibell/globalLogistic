@@ -43,8 +43,14 @@ const colRemark = computed(() =>
   t('page_profile', 'col_remark', pageDictFallback('page_profile', 'col_remark', uiLang.value)),
 )
 const colActions = computed(() => t('page_profile', 'col_actions', pageDictFallback('page_profile', 'col_actions', uiLang.value)))
-const btnApprove = computed(() => t('page_profile', 'btn_approve', pageDictFallback('page_profile', 'btn_approve', uiLang.value)))
-const btnReject = computed(() => t('page_profile', 'btn_reject', pageDictFallback('page_profile', 'btn_reject', uiLang.value)))
+const btnApprove = computed(
+  () =>
+    t('page_profile', 'btn_approve', pageDictFallback('page_profile', 'btn_approve', uiLang.value)) || '通过',
+)
+const btnReject = computed(
+  () =>
+    t('page_profile', 'btn_reject', pageDictFallback('page_profile', 'btn_reject', uiLang.value)) || '退回',
+)
 
 const emptyList = computed(() =>
   t('page_profile', 'order_review_empty', pageDictFallback('page_profile', 'order_review_empty', uiLang.value)),
@@ -66,7 +72,9 @@ const actingOrderId = ref(null)
 
 function isPending(row) {
   const s = row?.status
-  return s === 0 || s === '0'
+  if (s === 1 || s === '1') return false
+  // 0：待审核；未写入时视为待审核，便于展示「通过 / 退回」
+  return s === 0 || s === '0' || s == null
 }
 
 function statusLabel(s) {

@@ -24,8 +24,27 @@ public class TmsLineServiceImpl implements TmsLineService {
     private SnowflakeIdGenerator snowflakeIdGenerator;
 
     @Override
+    public TmsLineDto getLineDetail(String origin, String dest) {
+        StpUtil.checkPermissionOr("driver","manager");
+        StpUtil.checkLogin();
+        TmsLine tmsLine;
+        if(tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
+                .eq(TmsLine::getOrigin,origin)
+                .eq(TmsLine::getDest,dest)) != null)
+            tmsLine = tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
+                    .eq(TmsLine::getOrigin,origin)
+                    .eq(TmsLine::getDest,dest));
+        else tmsLine = tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()
+                .eq(TmsLine::getOrigin,dest)
+                .eq(TmsLine::getDest,origin));
+        TmsLineDto tmsLineDto = new TmsLineDto();
+        BeanUtils.copyProperties(tmsLine,tmsLineDto);
+        return tmsLineDto;
+    }
+
+    @Override
     public TmsLineDto getLineById(Long id) {
-        StpUtil.checkPermission("manager");
+        StpUtil.checkPermissionOr("manager","driver");
         StpUtil.checkLogin();
         TmsLineDto tmsLineDto = new TmsLineDto();
         BeanUtils.copyProperties(tmsLineDao.selectOne(new LambdaQueryWrapper<TmsLine>()

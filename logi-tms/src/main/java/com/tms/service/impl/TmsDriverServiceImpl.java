@@ -8,15 +8,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.constant.RedisConstant;
 import com.exception.Assert;
 import com.service.RedisService;
-import com.tms.dao.TmsDriverDao;
-import com.tms.dao.TmsLogisticDao;
-import com.tms.dao.TmsTransportOrderDao;
-import com.tms.dao.TmsVehicleDao;
+import com.tms.dao.*;
+import com.tms.dto.TmsDriverDto;
+import com.tms.dto.TmsLineDto;
 import com.tms.dto.TmsTransportOrderDto;
-import com.tms.entity.TmsDriver;
-import com.tms.entity.TmsLogistic;
-import com.tms.entity.TmsTransportOrder;
-import com.tms.entity.TmsVehicle;
+import com.tms.entity.*;
 import com.tms.service.TmsDriverService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +30,8 @@ public class TmsDriverServiceImpl implements TmsDriverService {
     @Resource
     private TmsDriverDao tmsDriverDao;
     @Resource
+    private TmsLineDao tmsLineDao;
+    @Resource
     private TmsVehicleDao tmsVehicleDao;
     @Resource
     private RedisService redisService;
@@ -50,6 +48,18 @@ public class TmsDriverServiceImpl implements TmsDriverService {
             TmsTransportOrderDto tmsTransportOrderDto = new TmsTransportOrderDto();
             BeanUtils.copyProperties(tmsTransportOrder, tmsTransportOrderDto);
             return tmsTransportOrderDto;
+        }).getRecords();
+    }
+
+    @Override
+    public List<TmsDriverDto> getAvailableDriver(int pageNum, int pageSize) {
+        IPage<TmsDriver> page = new Page<>(pageNum,pageSize);
+        tmsDriverDao.selectPage(page,new LambdaQueryWrapper<TmsDriver>()
+                .eq(TmsDriver::getStatus,(short)0));
+        return page.convert(tmsDriver -> {
+            TmsDriverDto tmsDriverDto = new TmsDriverDto();
+            BeanUtils.copyProperties(tmsDriver,tmsDriverDto);
+            return tmsDriverDto;
         }).getRecords();
     }
 

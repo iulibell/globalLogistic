@@ -15,19 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/system")
-@Tag(name = "RegisterController", description = "系统类接口")
+@Tag(name = "RegisterController", description = "门户用户注册：验证码、重复申请校验及向管理端写入待审核注册申请。")
 public class RegisterController {
     @Resource
     private RegisterService registerService;
 
     @PostMapping("/register")
-    @Operation(summary = "物流系统的用户注册接口")
+    @Operation(
+            summary = "提交注册申请",
+            description = "校验短信验证码与手机号唯一性，将申请写入 Redis 防重复并回调管理端生成待审核记录。")
     public CommonResult<?> register(@Valid @RequestBody RegisterParamDto registerParamDto) {
         return registerService.register(registerParamDto);
     }
 
     @PostMapping("/register/sendCaptcha")
-    @Operation(summary = "发送注册验证码（写入 Redis，限流 60 秒/次）")
+    @Operation(
+            summary = "发送注册验证码",
+            description = "向指定手机号下发 6 位数字验证码并写入 Redis；同一手机号 60 秒内不可重复发送。")
     public CommonResult<?> sendRegisterCaptcha(@Valid @RequestBody SendRegisterCaptchaDto dto) {
         return registerService.sendRegisterCaptcha(dto.getPhone());
     }

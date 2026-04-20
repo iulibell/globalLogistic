@@ -240,7 +240,7 @@ async function onSubmit() {
   loading.value = true
   try {
     const body = {
-      userName: userName.value.trim(),
+      username: userName.value.trim(),
       password: password.value,
       phone: phone.value.trim(),
       verifyCode: verifyCode.value.trim(),

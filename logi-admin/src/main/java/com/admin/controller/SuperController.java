@@ -3,22 +3,27 @@ package com.admin.controller;
 import com.admin.dto.SysUserDto;
 import com.admin.service.SuperService;
 import com.api.CommonResult;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/admin/super")
+@Tag(name = "SuperController", description = "超级管理员：跨模块查询与维护系统用户（转发 gl-system）。")
 public class SuperController {
     @Resource
     private SuperService superService;
 
     @GetMapping("/fetchSysUserInfo")
+    @Operation(summary = "分页查询全部用户", description = "超管权限；分页返回系统用户列表。")
     public CommonResult<?> fetchSysUserInfo(@RequestParam(defaultValue = "1") int pageNum,
                                             @RequestParam(defaultValue = "10") int pageSize) {
         return superService.fetchSysUserInfo(pageNum, pageSize);
     }
 
     @GetMapping("/fetchSysUserByUserType")
+    @Operation(summary = "按身份分页查询用户", description = "超管权限；按 userType 筛选用户。")
     public CommonResult<?> fetchSysUserByUserType(@RequestParam(defaultValue = "1") int pageNum,
                                                   @RequestParam(defaultValue = "10") int pageSize,
                                                   @RequestParam String userType) {
@@ -26,16 +31,19 @@ public class SuperController {
     }
 
     @GetMapping("/fetchSysUserByUserId")
+    @Operation(summary = "按用户 ID 查询", description = "超管权限；根据业务 userId 查询单用户。")
     public CommonResult<?> fetchSysUserByUserId(@RequestParam String userId) {
         return superService.fetchSysUserByUserId(userId);
     }
 
     @PostMapping("/updateSysUserInfo")
+    @Operation(summary = "更新用户信息", description = "超管权限；修改用户资料并同步至 gl-system。")
     public CommonResult<?> updateSysUserInfo(@RequestBody SysUserDto sysUserDto) {
         return superService.updateSysUserInfo(sysUserDto);
     }
 
     @PostMapping("/deleteSysUser")
+    @Operation(summary = "删除用户", description = "超管权限；按 userId 删除系统用户。")
     public CommonResult<?> deleteSysUser(@RequestParam String userId) {
         return superService.deleteSysUserInfo(userId);
     }

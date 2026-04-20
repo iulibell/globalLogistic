@@ -33,6 +33,46 @@ const router = createRouter({
           component: () => import('@/views/OrderReviewView.vue'),
         },
         {
+          path: 'manager/orders',
+          name: 'profile-manager-order-list',
+          component: () => import('@/views/ManagerOrderListView.vue'),
+        },
+        {
+          path: 'manager/order-query',
+          name: 'profile-manager-order-query',
+          component: () => import('@/views/ManagerOrderQueryView.vue'),
+        },
+        {
+          path: 'manager/manual-assign',
+          name: 'profile-manager-manual-assign',
+          component: () => import('@/views/ManagerManualAssignView.vue'),
+        },
+        {
+          path: 'manager/lines',
+          name: 'profile-manager-line-list',
+          component: () => import('@/views/ManagerLineListView.vue'),
+        },
+        {
+          path: 'manager/line-query',
+          name: 'profile-manager-line-query',
+          component: () => import('@/views/ManagerLineQueryView.vue'),
+        },
+        {
+          path: 'manager/line-detail',
+          name: 'profile-manager-line-detail',
+          component: () => import('@/views/ManagerLineDetailView.vue'),
+        },
+        {
+          path: 'keeper/inbound-list',
+          name: 'profile-keeper-inbound-list',
+          component: () => import('@/views/KeeperInboundListView.vue'),
+        },
+        {
+          path: 'keeper/inbound-apply',
+          name: 'profile-keeper-inbound-apply',
+          component: () => import('@/views/KeeperInboundApplyListView.vue'),
+        },
+        {
           path: 'super/users',
           name: 'profile-super-users',
           component: () => import('@/views/SuperUserAdminView.vue'),
@@ -54,6 +94,16 @@ const router = createRouter({
 
 const SUPER_PROFILE_NAMES = new Set(['profile-super-users', 'profile-super-by-type', 'profile-super-by-id'])
 
+const MANAGER_PROFILE_NAMES = new Set([
+  'profile-manager-order-list',
+  'profile-manager-order-query',
+  'profile-manager-manual-assign',
+  'profile-manager-line-list',
+  'profile-manager-line-query',
+  'profile-manager-line-detail',
+])
+const KEEPER_PROFILE_NAMES = new Set(['profile-keeper-inbound-list', 'profile-keeper-inbound-apply'])
+
 router.beforeEach((to, from, next) => {
   if (SUPER_PROFILE_NAMES.has(to.name)) {
     try {
@@ -73,6 +123,32 @@ router.beforeEach((to, from, next) => {
       const raw = sessionStorage.getItem(AUTH_PROFILE_KEY)
       const p = raw ? JSON.parse(raw) : null
       if (!p || p.role !== 'reviewer') {
+        next({ name: 'profile' })
+        return
+      }
+    } catch {
+      next({ name: 'profile' })
+      return
+    }
+  }
+  if (MANAGER_PROFILE_NAMES.has(to.name)) {
+    try {
+      const raw = sessionStorage.getItem(AUTH_PROFILE_KEY)
+      const p = raw ? JSON.parse(raw) : null
+      if (!p || p.role !== 'manager') {
+        next({ name: 'profile' })
+        return
+      }
+    } catch {
+      next({ name: 'profile' })
+      return
+    }
+  }
+  if (KEEPER_PROFILE_NAMES.has(to.name)) {
+    try {
+      const raw = sessionStorage.getItem(AUTH_PROFILE_KEY)
+      const p = raw ? JSON.parse(raw) : null
+      if (!p || p.role !== 'keeper') {
         next({ name: 'profile' })
         return
       }

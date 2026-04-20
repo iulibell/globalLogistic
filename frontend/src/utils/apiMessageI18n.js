@@ -86,6 +86,16 @@ const KEY_FALLBACK = {
     '3': 'Ошибка. Попробуйте позже.',
   },
   // api_auth 注册
+  validation_register_username_required: {
+    '1': '用户名不能为空',
+    '2': 'Username is required',
+    '3': 'Укажите имя пользователя',
+  },
+  validation_register_password_required: {
+    '1': '密码不能为空',
+    '2': 'Password is required',
+    '3': 'Укажите пароль',
+  },
   register_phone_invalid: { '1': '手机号格式不正确', '2': 'Invalid phone number', '3': 'Неверный номер телефона' },
   register_captcha_rate_limit: {
     '1': '发送过于频繁，请稍后再试',
@@ -159,6 +169,11 @@ const KEY_FALLBACK = {
     '1': '用户已删除',
     '2': 'User deleted',
     '3': 'Пользователь удалён',
+  },
+  wms_inbound_confirmed: {
+    '1': '入库确认成功',
+    '2': 'Inbound confirmed',
+    '3': 'Приемка подтверждена',
   },
 }
 

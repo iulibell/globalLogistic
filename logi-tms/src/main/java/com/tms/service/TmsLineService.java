@@ -22,6 +22,14 @@ public interface TmsLineService {
     List<TmsLineDto> getLine(int pageNum, int pageSize);
 
     /**
+     * 获取路线详情(driver操作)
+     * @param origin 起点
+     * @param dest 终点
+     * @return 路线详情
+     */
+    TmsLineDto getLineDetail(String origin, String dest);
+
+    /**
      * 添加路线(manager操作)
      * @param tmsLineDto 路线dto
      */

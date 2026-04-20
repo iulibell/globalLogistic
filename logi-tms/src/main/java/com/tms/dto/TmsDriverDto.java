@@ -11,4 +11,5 @@ public class TmsDriverDto {
     private String vehicleNo;
     @NotBlank(message = "所在城市不能为空")
     private String currentCity;
+    private Short status;
 }

@@ -31,7 +31,45 @@ const navRegisterApplication = computed(() =>
 )
 
 const navOrderReview = computed(() =>
-  t('page_profile', 'nav_order_review', pageDictFallback('page_profile', 'nav_order_review', uiLang.value)),
+  t(
+    'page_profile',
+    'nav_order_review',
+    pageDictFallback('page_profile', 'nav_order_review', uiLang.value) || '商品审核',
+  ),
+)
+
+const navManagerOrderList = computed(() =>
+  t('page_profile', 'nav_manager_order_list', pageDictFallback('page_profile', 'nav_manager_order_list', uiLang.value)),
+)
+const navManagerOrderQuery = computed(() =>
+  t('page_profile', 'nav_manager_order_query', pageDictFallback('page_profile', 'nav_manager_order_query', uiLang.value)),
+)
+const navManagerManualAssign = computed(() =>
+  t(
+    'page_profile',
+    'nav_manager_manual_assign',
+    pageDictFallback('page_profile', 'nav_manager_manual_assign', uiLang.value) || '手动派单',
+  ),
+)
+const navManagerLineList = computed(() =>
+  t(
+    'page_profile',
+    'nav_manager_line_list',
+    pageDictFallback('page_profile', 'nav_manager_line_list', uiLang.value) || '路线列表',
+  ),
+)
+const navManagerLineQuery = computed(() =>
+  t(
+    'page_profile',
+    'nav_manager_line_query',
+    pageDictFallback('page_profile', 'nav_manager_line_query', uiLang.value) || '查询路线',
+  ),
+)
+const navKeeperInboundList = computed(() =>
+  t('page_profile', 'nav_keeper_inbound_list', pageDictFallback('page_profile', 'nav_keeper_inbound_list', uiLang.value)),
+)
+const navKeeperInboundApply = computed(() =>
+  t('page_profile', 'nav_keeper_inbound_apply', pageDictFallback('page_profile', 'nav_keeper_inbound_apply', uiLang.value)),
 )
 
 const navSuperUsers = computed(() =>
@@ -50,6 +88,8 @@ const ariaSidebarNav = computed(() =>
 
 const isReviewer = computed(() => profile.value?.role === 'reviewer')
 const isSuper = computed(() => profile.value?.role === 'super')
+const isManager = computed(() => profile.value?.role === 'manager')
+const isKeeper = computed(() => profile.value?.role === 'keeper')
 
 const valueEmpty = computed(() =>
   t('page_profile', 'value_empty', pageDictFallback('page_profile', 'value_empty', uiLang.value)),
@@ -98,6 +138,54 @@ function applyProfileDocumentTitle() {
       'page_profile',
       'doc_title_order_review',
       pageDictFallback('page_profile', 'doc_title_order_review', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-order-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_order_list',
+      pageDictFallback('page_profile', 'doc_title_manager_order_list', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-order-query') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_order_query',
+      pageDictFallback('page_profile', 'doc_title_manager_order_query', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-manual-assign') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_manual_assign',
+      pageDictFallback('page_profile', 'doc_title_manager_manual_assign', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-line-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_line_list',
+      pageDictFallback('page_profile', 'doc_title_manager_line_list', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-line-query') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_line_query',
+      pageDictFallback('page_profile', 'doc_title_manager_line_query', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-line-detail') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_line_detail',
+      pageDictFallback('page_profile', 'doc_title_manager_line_detail', uiLang.value),
+    )
+  } else if (route.name === 'profile-keeper-inbound-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_inbound_list',
+      pageDictFallback('page_profile', 'doc_title_keeper_inbound_list', uiLang.value),
+    )
+  } else if (route.name === 'profile-keeper-inbound-apply') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_inbound_apply',
+      pageDictFallback('page_profile', 'doc_title_keeper_inbound_apply', uiLang.value),
     )
   } else if (route.name === 'profile-super-users') {
     piece = t(
@@ -180,6 +268,15 @@ onMounted(() => applyProfileDocumentTitle())
           </RouterLink>
           <RouterLink
             v-if="isReviewer"
+            :to="{ name: 'profile-order-review' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navOrderReview }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isReviewer"
             :to="{ name: 'profile-register-applications' }"
             class="sidebar-link"
             active-class="sidebar-link--active"
@@ -188,13 +285,67 @@ onMounted(() => applyProfileDocumentTitle())
             <span class="sidebar-link-text">{{ navRegisterApplication }}</span>
           </RouterLink>
           <RouterLink
-            v-if="isReviewer"
-            :to="{ name: 'profile-order-review' }"
+            v-if="isManager"
+            :to="{ name: 'profile-manager-order-list' }"
             class="sidebar-link"
             active-class="sidebar-link--active"
           >
             <span class="sidebar-link-glow" aria-hidden="true" />
-            <span class="sidebar-link-text">{{ navOrderReview }}</span>
+            <span class="sidebar-link-text">{{ navManagerOrderList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isManager"
+            :to="{ name: 'profile-manager-order-query' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navManagerOrderQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isManager"
+            :to="{ name: 'profile-manager-line-list' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navManagerLineList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isManager"
+            :to="{ name: 'profile-manager-line-query' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navManagerLineQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-inbound-list' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperInboundList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-inbound-apply' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperInboundApply }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isManager"
+            :to="{ name: 'profile-manager-manual-assign' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navManagerManualAssign }}</span>
           </RouterLink>
         </nav>
       </aside>

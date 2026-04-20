@@ -1,5 +1,6 @@
 package com.tms.service;
 
+import com.tms.dto.TmsDriverDto;
 import com.tms.dto.TmsTransportOrderDto;
 
 import java.util.List;
@@ -15,6 +16,14 @@ public interface TmsDriverService {
      * @return 派单列表
      */
     List<TmsTransportOrderDto> getTransportOrder(int pageNum, int pageSize, String currentCity);
+
+    /**
+     * 获取空闲的司机列表
+     * @param pageNum 页数
+     * @param pageSize 页大小
+     * @return 空闲司机列表
+     */
+    List<TmsDriverDto> getAvailableDriver(int pageNum, int pageSize);
 
     /**
      * 接收派单(driver操作)
@@ -41,4 +50,5 @@ public interface TmsDriverService {
      * @param transportOrderId 运输单id
      */
     void confirmReceived(String transportOrderId);
+
 }

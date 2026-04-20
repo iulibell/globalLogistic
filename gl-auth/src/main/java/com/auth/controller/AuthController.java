@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "AuthController", description = "认证门面（转发 gl-system）")
+@Tag(name = "AuthController", description = "统一 /auth 入口：注册、验证码、登录与登出，经 Feign 转发 gl-system。")
 public class AuthController {
 
     @Resource
