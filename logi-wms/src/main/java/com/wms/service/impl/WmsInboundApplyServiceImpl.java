@@ -2,6 +2,7 @@ package com.wms.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
+import io.seata.spring.annotation.GlobalTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -108,6 +109,7 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
 
     @Override
     @Transactional
+    @GlobalTransactional(name = "wms-pay-inbound", rollbackFor = Exception.class)
     public void payForInbound(String applyId) {
         String inboundId = snowflakeIdGenerator.nextId() + Arrays.toString(applyId.getBytes());
 

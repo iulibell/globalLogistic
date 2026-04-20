@@ -3,6 +3,7 @@ package com.oms.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
+import io.seata.spring.annotation.GlobalTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -46,6 +47,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Override
     @Transactional
+    @GlobalTransactional(name = "oms-add-order", rollbackFor = Exception.class)
     public void addOrder(OmsOrderDto omsOrderDto) {
         String orderId = String.valueOf(snowflakeIdGenerator.nextId()
                 + omsOrderDto.getMerchantId().indexOf(1,5));
@@ -106,6 +108,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
     @Override
     @Transactional
+    @GlobalTransactional(name = "oms-pay-order", rollbackFor = Exception.class)
     public void payForOrder(String orderId) {
         OmsOrderItem omsOrderItem = new OmsOrderItem();
         BeanUtils.copyProperties(omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()

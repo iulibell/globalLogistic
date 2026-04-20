@@ -3,6 +3,7 @@ package com.oms.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
+import io.seata.spring.annotation.GlobalTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -73,6 +74,7 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
 
     @Override
     @Transactional
+    @GlobalTransactional(name = "oms-access-order-review", rollbackFor = Exception.class)
     public void accessOrderReview(String orderId,String remark) {
         StpUtil.checkPermission("reviewer");
         StpUtil.checkLogin();
@@ -94,6 +96,7 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
 
     @Override
     @Transactional
+    @GlobalTransactional(name = "oms-reject-order-review", rollbackFor = Exception.class)
     public void rejectOrderReview(String orderId,String remark) {
         StpUtil.checkPermission("reviewer");
         StpUtil.checkLogin();

@@ -48,6 +48,19 @@ security:
     enabled: false
     token-value: ${SECURITY_INTERNAL_TOKEN:}
 
+seata:
+  enabled: true
+  tx-service-group: ${SEATA_TX_SERVICE_GROUP:global_logistic_tx_group}
+  service:
+    vgroup-mapping:
+      global_logistic_tx_group: ${SEATA_VGROUP_MAPPING:default}
+    grouplist:
+      default: ${SEATA_SERVER_ADDR:127.0.0.1:8091}
+  registry:
+    type: file
+  config:
+    type: file
+
 snowflake:
   worker-id: 1
   datacenter-id: 1
