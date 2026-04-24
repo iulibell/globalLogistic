@@ -18,6 +18,9 @@ public class TmsTransportOrder {
     @TableId(type = IdType.AUTO)
     private Long id;
     @Size(max = 255)
+    @Schema(description = "商品id")
+    private String goodsId;
+    @Size(max = 255)
     @Schema(description = "运输订单id")
     private String transportOrderId;
     @Size(max = 255)
@@ -25,9 +28,6 @@ public class TmsTransportOrder {
     private String orderId;
     @Schema(description = "仓库id")
     private Long warehouseId;
-    @Size(max = 255)
-    @Schema(description = "商家/收货用户id")
-    private String userId;
     @Size(max = 255)
     @Schema(description = "司机id")
     private String driverId;

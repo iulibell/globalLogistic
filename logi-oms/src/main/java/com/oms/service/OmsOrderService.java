@@ -27,6 +27,13 @@ public interface OmsOrderService {
     OmsOrderDto getOrderById(String orderId);
 
     /**
+     * 系统间调用：按订单id获取订单信息（无manager权限校验）
+     * @param orderId 订单id
+     * @return 单个订单信息
+     */
+    OmsOrderDto getOrderByIdForSys(String orderId);
+
+    /**
      * 删除超时订单(message模块调用)
      * @param orderId 订单id
      */
@@ -42,7 +49,7 @@ public interface OmsOrderService {
      * 商家对上架申请进行支付
      * @param orderId 申请订单id
      */
-    void payForOrder(String orderId);
+    boolean payForOrder(String orderId);
 
     /**
      * 支付超时：仅当订单仍为「已审核(2)」或「待支付(3)」时置为「超时未支付(4)」。已支付、已超时、已取消/已删单则不修改。

@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient("logi-tms")
 public interface TmsServiceClient {
-    @PostMapping("/sys/driverAssignment")
+    @PostMapping("/tms/sys/driverAssignment")
     void driverAssignment(@RequestBody TmsTransportOrderDto tmsTransportOrderDto);
 }

@@ -45,10 +45,12 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public void driverAssignment(TmsTransportOrderDto tmsTransportOrderDto) {
-        String transportOrderId = String.valueOf(snowflakeIdGenerator.nextId());
-
-        tmsTransportOrderDto.setTransportOrderId(transportOrderId);
+    public String driverAssignment(TmsTransportOrderDto tmsTransportOrderDto) {
+        String transportOrderId = tmsTransportOrderDto.getTransportOrderId();
+        if (transportOrderId == null || transportOrderId.isBlank()) {
+            transportOrderId = String.valueOf(snowflakeIdGenerator.nextId());
+            tmsTransportOrderDto.setTransportOrderId(transportOrderId);
+        }
 
         TmsTransportOrder tmsTransportOrder = new TmsTransportOrder();
         BeanUtils.copyProperties(tmsTransportOrderDto,tmsTransportOrder);
@@ -56,6 +58,7 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
         tmsTransportOrderDao.insert(tmsTransportOrder);
 
         scheduleAssignWindow(transportOrderId);
+        return transportOrderId;
     }
 
     @Override

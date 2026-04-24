@@ -1,4 +1,6 @@
 <script setup>
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { useTrackingQuery } from '@/composables/useTrackingQuery.js'
 import HomeFeaturesSection from '@/components/HomeFeaturesSection.vue'
 import MarketingStats from '@/components/MarketingStats.vue'
@@ -21,6 +23,34 @@ const {
   resetQuery,
   clearInput,
 } = useTrackingQuery()
+
+const route = useRoute()
+
+let autoQuerying = false
+async function tryAutoQueryFromRoute() {
+  const fromQuery = route.query.transportOrderId
+  const transportOrderId = fromQuery == null ? '' : String(fromQuery).trim()
+  if (!transportOrderId || autoQuerying) return
+  if (activeNumbers.value[0] === transportOrderId && queried.value) return
+  autoQuerying = true
+  trackingInput.value = transportOrderId
+  try {
+    await runQuery()
+  } finally {
+    autoQuerying = false
+  }
+}
+
+onMounted(() => {
+  tryAutoQueryFromRoute()
+})
+
+watch(
+  () => route.query.transportOrderId,
+  () => {
+    tryAutoQueryFromRoute()
+  },
+)
 </script>
 
 <template>

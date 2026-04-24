@@ -3,8 +3,6 @@ package com.admin.service;
 import com.api.CommonResult;
 import com.admin.dto.SysUserDto;
 
-import java.util.List;
-
 public interface SuperService {
     /**
      * 获取用户信息列表(超管操作)

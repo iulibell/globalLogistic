@@ -28,7 +28,7 @@ public class RedisConstant {
      * 时间1h
      */
     public static final String INBOUND_KEY_PREFIX = "inbound:";
-    public static final int INBOUND_EXPIRE_TIME = 1;
+    public static final int INBOUND_EXPIRE_TIME = 6;
 
     /**
      * 分配司机的派单待接单(没人接单将重新分配并增加fee)

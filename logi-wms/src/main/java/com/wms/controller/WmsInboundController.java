@@ -1,6 +1,7 @@
 package com.wms.controller;
 
 import com.api.CommonResult;
+import com.wms.dto.WmsInboundApplyDto;
 import com.wms.service.WmsInboundApplyService;
 import com.wms.service.WmsInboundService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
+
 @RestController
 @RequestMapping("/wms")
 @Tag(name = "WmsInboundController", description = "入库单与入库申请：查询、确认入库及支付超时标记。")
@@ -18,6 +20,17 @@ public class WmsInboundController {
     private WmsInboundApplyService wmsInboundApplyService;
     @Resource
     private WmsInboundService wmsInboundService;
+
+    @PostMapping("/addInboundApply")
+    public void addInboundApply(@RequestBody WmsInboundApplyDto wmsInboundApplyDto) {
+        wmsInboundApplyService.addInboundApply(wmsInboundApplyDto);
+    }
+
+    @PostMapping("/payForInbound")
+    public CommonResult<?> payForInbound(@RequestParam String applyId){
+        String transportOrderId = wmsInboundApplyService.payForInbound(applyId);
+        return CommonResult.success(transportOrderId);
+    }
 
     @GetMapping("/keeper/getInboundApply")
     @Operation(summary = "获取入库申请单",description = "返回入库申请分页列表。")
@@ -64,8 +77,10 @@ public class WmsInboundController {
             summary = "确认入库",
             description = "根据入库单与 SKU 确认实物入库，更新库存与单据状态。")
     public CommonResult<?> confirmInbound(@RequestParam String inboundId,
-                                          @RequestParam String skuCode) {
-        wmsInboundService.confirmInbound(inboundId, skuCode);
+                                          @RequestParam String skuCode,
+                                          @RequestParam Long locationId,
+                                          @RequestParam Short category) {
+        wmsInboundService.confirmInbound(inboundId, skuCode, locationId, category);
         return CommonResult.success("wms_inbound_confirmed");
     }
 

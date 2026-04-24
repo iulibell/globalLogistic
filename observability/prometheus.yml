@@ -1,0 +1,45 @@
+# 默认抓取本机各服务端口；在 observability 目录执行 docker compose 时，通过 host.docker.internal 访问宿主机
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: logi-gl-gateway
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8502"]
+
+  - job_name: logi-gl-system
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8501"]
+
+  - job_name: logi-gl-auth
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8602"]
+
+  - job_name: logi-admin
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8601"]
+
+  - job_name: logi-tms
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8701"]
+
+  - job_name: logi-oms
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8711"]
+
+  - job_name: logi-wms
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8721"]
+
+  - job_name: logi-gl-message
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["host.docker.internal:8731"]

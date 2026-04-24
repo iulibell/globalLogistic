@@ -56,6 +56,12 @@ public class OmsOrderController {
         return CommonResult.success(omsOrderService.getOrderById(orderId));
     }
 
+    @GetMapping("/sys/getOrderById")
+    @Operation(summary = "系统查询单个订单", description = "系统间调用：根据 orderId 获取单笔订单详情。")
+    public CommonResult<?> getOrderByIdForSys(@RequestParam String orderId) {
+        return CommonResult.success(omsOrderService.getOrderByIdForSys(orderId));
+    }
+
     @PostMapping("/cancelOrder")
     @Operation(summary = "用户取消订单", description = "买家主动取消未完结订单并释放相关资源。")
     public CommonResult<?> cancelOrder(@RequestParam String orderId) {
@@ -66,7 +72,10 @@ public class OmsOrderController {
     @PostMapping("/payForOrder")
     @Operation(summary = "支付成功回调", description = "支付完成后更新订单状态并触发后续履约流程。")
     public CommonResult<?> payForOrder(@RequestParam String orderId) {
-        omsOrderService.payForOrder(orderId);
-        return CommonResult.success("oms_order_paid");
+        boolean paid = omsOrderService.payForOrder(orderId);
+        if (paid) {
+            return CommonResult.success("oms_order_paid");
+        }
+        return CommonResult.success("oms_order_paid_idempotent");
     }
 }

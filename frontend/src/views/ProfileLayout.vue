@@ -106,6 +106,9 @@ const navSuperByType = computed(() =>
 const navSuperById = computed(() =>
   t('page_profile', 'nav_super_by_id', pageDictFallback('page_profile', 'nav_super_by_id', uiLang.value)),
 )
+const navSuperDictionary = computed(() =>
+  t('page_profile', 'nav_super_dictionary', pageDictFallback('page_profile', 'nav_super_dictionary', uiLang.value) || '字典列表'),
+)
 
 const ariaSidebarNav = computed(() =>
   t('page_profile', 'aria_sidebar_nav', pageDictFallback('page_profile', 'aria_sidebar_nav', uiLang.value)),
@@ -273,6 +276,12 @@ function applyProfileDocumentTitle() {
       'doc_title_super_by_id',
       pageDictFallback('page_profile', 'doc_title_super_by_id', uiLang.value),
     )
+  } else if (route.name === 'profile-super-dictionaries') {
+    piece = t(
+      'page_profile',
+      'doc_title_super_dictionary',
+      pageDictFallback('page_profile', 'doc_title_super_dictionary', uiLang.value) || '字典列表',
+    )
   } else {
     piece = t('page_profile', 'doc_title', pageDictFallback('page_profile', 'doc_title', uiLang.value))
   }
@@ -333,6 +342,15 @@ onMounted(() => applyProfileDocumentTitle())
           >
             <span class="sidebar-link-glow" aria-hidden="true" />
             <span class="sidebar-link-text">{{ navSuperById }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isSuper"
+            :to="{ name: 'profile-super-dictionaries' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navSuperDictionary }}</span>
           </RouterLink>
           <RouterLink
             v-if="isReviewer"

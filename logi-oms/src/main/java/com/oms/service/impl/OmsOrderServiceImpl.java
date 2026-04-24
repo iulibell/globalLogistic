@@ -14,14 +14,12 @@ import com.oms.dao.OmsOrderDao;
 import com.oms.dto.OmsOrderDto;
 import com.oms.dto.TmsTransportOrderDto;
 import com.oms.entity.OmsOrder;
-import com.oms.entity.OmsOrderItem;
 import com.oms.service.OmsOrderService;
 import com.oms.service.client.TmsServiceClient;
 import com.oms.service.client.WmsServiceClient;
 import com.service.RedisService;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,10 +47,6 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     @Transactional
     @GlobalTransactional(name = "oms-add-order", rollbackFor = Exception.class)
     public void addOrder(OmsOrderDto omsOrderDto) {
-        String orderId = String.valueOf(snowflakeIdGenerator.nextId()
-                + omsOrderDto.getMerchantId().indexOf(1,5));
-        omsOrderDto.setOrderId(orderId);
-
         OmsOrder omsOrder = new OmsOrder();
         BeanUtil.copyProperties(omsOrderDto,omsOrder);
         omsOrder.setStatus((short) 3);
@@ -60,13 +54,13 @@ public class OmsOrderServiceImpl implements OmsOrderService {
 
         wmsServiceClient.stockLock(omsOrderDto);
 
-        redisService.set(RedisConstant.ORDER_KEY_PREFIX + orderId,
+        redisService.set(RedisConstant.ORDER_KEY_PREFIX + omsOrderDto.getOrderId(),
                 "",
                 RedisConstant.ORDER_EXPIRE_TIME,
                 TimeUnit.MINUTES);
         rabbitTemplate.convertAndSend(RabbitConstant.ORDER_TTL_EXCHANGE,
                 RabbitConstant.ORDER_TTL_ROUTING_KEY,
-                orderId);
+                omsOrderDto.getOrderId());
     }
 
     @Override
@@ -86,6 +80,11 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     public OmsOrderDto getOrderById(String orderId) {
         StpUtil.checkPermission("manager");
         StpUtil.checkLogin();
+        return getOrderByIdForSys(orderId);
+    }
+
+    @Override
+    public OmsOrderDto getOrderByIdForSys(String orderId) {
         OmsOrder omsOrder = omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId));
         OmsOrderDto omsOrderDto = new OmsOrderDto();
@@ -97,6 +96,8 @@ public class OmsOrderServiceImpl implements OmsOrderService {
     public void deleteOrder(String orderId) {
         omsOrderDao.delete(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId));
+
+        wmsServiceClient.stockUnlock(orderId);
     }
 
     @Override
@@ -104,29 +105,34 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         redisService.delete(RedisConstant.ORDER_KEY_PREFIX + orderId);
         omsOrderDao.delete(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId));
+
+        wmsServiceClient.stockUnlock(orderId);
     }
 
     @Override
     @Transactional
     @GlobalTransactional(name = "oms-pay-order", rollbackFor = Exception.class)
-    public void payForOrder(String orderId) {
-        OmsOrderItem omsOrderItem = new OmsOrderItem();
-        BeanUtils.copyProperties(omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()
-                        .eq(OmsOrder::getOrderId,orderId)),
-                omsOrderItem);
-
-        omsOrderDao.update(new LambdaUpdateWrapper<OmsOrder>()
+    public boolean payForOrder(String orderId) {
+        int paid = omsOrderDao.update(new LambdaUpdateWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId)
+                .eq(OmsOrder::getStatus,(short)3)
                 .set(OmsOrder::getStatus,(short)5));
+        if (paid == 0) {
+            return false;
+        }
 
         OmsOrder omsOrder = omsOrderDao.selectOne(new LambdaQueryWrapper<OmsOrder>()
                 .eq(OmsOrder::getOrderId,orderId));
+        if (omsOrder == null) {
+            return false;
+        }
         TmsTransportOrderDto tmsTransportOrderDto = getTmsTransportOrderDto(omsOrder);
         tmsServiceClient.driverAssignment(tmsTransportOrderDto);
 
         wmsServiceClient.stockUnlock(orderId);
 
         redisService.delete(RedisConstant.ORDER_KEY_PREFIX + orderId);
+        return true;
     }
 
     @Override
@@ -155,6 +161,7 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         BigDecimal merchantHarvest = total.multiply(new BigDecimal("0.70")).setScale(2, RoundingMode.HALF_UP);
 
         TmsTransportOrderDto tmsTransportOrderDto = new TmsTransportOrderDto();
+        tmsTransportOrderDto.setPhone(omsOrder.getUserPhone());
         tmsTransportOrderDto.setOrigin(warehouseCity);
         tmsTransportOrderDto.setDest(city);
         tmsTransportOrderDto.setFee(fee);

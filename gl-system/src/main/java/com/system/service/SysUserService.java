@@ -1,9 +1,6 @@
 package com.system.service;
 
-import com.api.CommonResult;
 import com.system.dto.SysUserDto;
-import com.system.entity.SysUser;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 

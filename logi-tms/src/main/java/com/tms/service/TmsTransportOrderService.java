@@ -11,7 +11,7 @@ public interface TmsTransportOrderService {
      *
      * @param tmsTransportOrderDto 运输订单dto
      */
-    void driverAssignment(TmsTransportOrderDto tmsTransportOrderDto);
+    String driverAssignment(TmsTransportOrderDto tmsTransportOrderDto);
 
     /**
      * 获取需手动分配司机的运输订单列表

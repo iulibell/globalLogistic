@@ -63,7 +63,7 @@ public class OmsOrder {
     @ParamValidator(value = {"0","1","2","3","4","5"}, message = "oms_order_status_invalid")
     private Short status;
     @Size(max = 500)
-    @Schema(description = "备注(未通过审核的原因)")
+    @Schema(description = "备注(特殊商品未通过审核的原因)")
     private String remark;
     private Date createTime;
     private Date updateTime;

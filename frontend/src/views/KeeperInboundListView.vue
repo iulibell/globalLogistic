@@ -59,6 +59,33 @@ const confirmOk = computed(() =>
 const confirmFail = computed(() =>
   t('page_profile', 'keeper_inbound_confirm_fail', pageDictFallback('page_profile', 'keeper_inbound_confirm_fail', uiLang.value)),
 )
+const locationIdLabel = computed(() =>
+  t('page_profile', 'keeper_inbound_location_id', pageDictFallback('page_profile', 'keeper_inbound_location_id', uiLang.value) || '库位 ID'),
+)
+const needLocationMsg = computed(() =>
+  t(
+    'page_profile',
+    'keeper_inbound_need_location',
+    pageDictFallback('page_profile', 'keeper_inbound_need_location', uiLang.value) || '请填写有效的库位 ID',
+  ),
+)
+const dialogTitle = computed(() =>
+  t('page_profile', 'keeper_inbound_confirm_dialog_title', pageDictFallback('page_profile', 'keeper_inbound_confirm_dialog_title', uiLang.value) || '确认入库'),
+)
+const skuCodeLabel = computed(() =>
+  t('page_profile', 'col_keeper_sku_code', pageDictFallback('page_profile', 'col_keeper_sku_code', uiLang.value)),
+)
+const needSkuCodeMsg = computed(() =>
+  t('page_profile', 'keeper_inbound_need_sku_code', pageDictFallback('page_profile', 'keeper_inbound_need_sku_code', uiLang.value) || '请填写 skuCode'),
+)
+const categoryLabel = computed(() =>
+  t('page_profile', 'keeper_inbound_category', pageDictFallback('page_profile', 'keeper_inbound_category', uiLang.value) || '商品分类'),
+)
+const needCategoryMsg = computed(() =>
+  t('page_profile', 'keeper_inbound_need_category', pageDictFallback('page_profile', 'keeper_inbound_need_category', uiLang.value) || '请选择商品分类'),
+)
+const btnSave = computed(() => t('page_profile', 'btn_save', pageDictFallback('page_profile', 'btn_save', uiLang.value)))
+const btnCancel = computed(() => t('page_profile', 'btn_cancel', pageDictFallback('page_profile', 'btn_cancel', uiLang.value)))
 
 const rows = ref([])
 const loading = ref(true)
@@ -66,6 +93,11 @@ const errorMsg = ref('')
 const pageNum = ref(1)
 const pageSize = ref(10)
 const actingInboundId = ref('')
+const confirmOpen = ref(false)
+const confirmRow = ref(null)
+const inputSkuCode = ref('')
+const inputLocationId = ref('')
+const inputCategory = ref('0')
 
 function rowInboundId(row) {
   const v = row?.inboundId ?? row?.inbound_id
@@ -101,18 +133,53 @@ async function loadPage() {
 
 async function onConfirmInbound(row) {
   const inboundId = rowInboundId(row)
-  const skuCode = rowSkuCode(row)
-  if (!inboundId || !skuCode || actingInboundId.value) {
-    if (!inboundId || !skuCode) showToast(needFieldsMsg.value, { type: 'warning' })
+  if (!inboundId || actingInboundId.value) {
+    if (!inboundId) showToast(needFieldsMsg.value, { type: 'warning' })
     return
   }
+  confirmRow.value = row
+  inputSkuCode.value = rowSkuCode(row) || ''
+  inputLocationId.value = ''
+  inputCategory.value = '0'
+  confirmOpen.value = true
+}
+
+function closeConfirmDialog() {
+  if (actingInboundId.value) return
+  confirmOpen.value = false
+  confirmRow.value = null
+  inputSkuCode.value = ''
+  inputLocationId.value = ''
+  inputCategory.value = '0'
+}
+
+async function submitConfirmInbound() {
+  const row = confirmRow.value
+  const inboundId = rowInboundId(row)
+  const skuCode = String(inputSkuCode.value || '').trim()
+  const locationIdNum = Number(String(inputLocationId.value || '').trim())
+  const categoryNum = Number(String(inputCategory.value || '').trim())
+  if (!skuCode) {
+    showToast(needSkuCodeMsg.value, { type: 'warning' })
+    return
+  }
+  if (!(categoryNum === 0 || categoryNum === 1)) {
+    showToast(needCategoryMsg.value, { type: 'warning' })
+    return
+  }
+  if (!Number.isInteger(locationIdNum) || locationIdNum <= 0) {
+    showToast(needLocationMsg.value, { type: 'warning' })
+    return
+  }
+  if (!inboundId || !skuCode || actingInboundId.value) return
   actingInboundId.value = inboundId
   try {
-    const res = await postKeeperConfirmInbound(inboundId, skuCode)
+    const res = await postKeeperConfirmInbound(inboundId, skuCode, locationIdNum, categoryNum)
     if (res.code !== 200) {
       throw new Error(res.message && String(res.message).trim() ? String(res.message) : 'generic_error')
     }
     showToast(translateApiMessage('wms_inbound_confirmed', t, uiLang.value) || confirmOk.value, { type: 'success' })
+    closeConfirmDialog()
     await loadPage()
   } catch (e) {
     const raw = e instanceof Error ? e.message : 'generic_error'
@@ -185,6 +252,36 @@ onMounted(() => loadPage())
         </div>
       </template>
     </div>
+
+    <div v-if="confirmOpen" class="dialog-backdrop" @click.self="closeConfirmDialog">
+      <div class="dialog" role="dialog" aria-modal="true">
+        <h2 class="dialog-title">{{ dialogTitle }}</h2>
+        <div class="dialog-body">
+          <p class="dialog-meta">
+            {{ colInboundId }}: {{ rowInboundId(confirmRow) || valueEmpty }} / {{ colSkuCode }}: {{ rowSkuCode(confirmRow) || valueEmpty }}
+          </p>
+          <label class="field">
+            <span class="field-label">{{ skuCodeLabel }}</span>
+            <input v-model="inputSkuCode" type="text" class="field-input" />
+          </label>
+          <label class="field">
+            <span class="field-label">{{ locationIdLabel }}</span>
+            <input v-model="inputLocationId" type="number" min="1" step="1" class="field-input" />
+          </label>
+          <label class="field">
+            <span class="field-label">{{ categoryLabel }}</span>
+            <select v-model="inputCategory" class="field-input">
+              <option value="0">普通商品</option>
+              <option value="1">特殊商品</option>
+            </select>
+          </label>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn-action btn-action--ghost" :disabled="!!actingInboundId" @click="closeConfirmDialog">{{ btnCancel }}</button>
+          <button type="button" class="btn-action btn-action--ok" :disabled="!!actingInboundId" @click="submitConfirmInbound">{{ btnSave }}</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -232,4 +329,52 @@ onMounted(() => loadPage())
   background: rgba(61, 141, 255, 0.12); color: #d4e5ff; cursor: pointer;
 }
 .pager-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(2, 6, 12, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.dialog {
+  width: 100%;
+  max-width: 460px;
+  border-radius: 12px;
+  padding: 22px 22px 18px;
+  background: linear-gradient(160deg, #121a28, #0a0e16);
+  border: 1px solid rgba(61, 141, 255, 0.2);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+}
+
+.dialog-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #e8eef6;
+}
+
+.dialog-body { display: flex; flex-direction: column; gap: 12px; }
+.dialog-meta { margin: 0; font-size: 13px; color: #9eb0c8; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 12px; font-weight: 600; color: #8fa3bc; }
+.field-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(61, 141, 255, 0.22);
+  background: rgba(6, 10, 18, 0.95);
+  color: #e8eef6;
+  font-size: 14px;
+}
+.dialog-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+.btn-action--ghost {
+  color: #9eb0c8;
+  background: transparent;
+  border-color: rgba(126, 184, 255, 0.25);
+}
 </style>

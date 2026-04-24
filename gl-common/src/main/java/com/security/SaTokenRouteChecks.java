@@ -17,6 +17,8 @@ import java.util.List;
 public final class SaTokenRouteChecks {
 
     private static final String[] BUILTIN_ANON = {
+            // Prometheus / 健康检查（各服务直连端口抓取，勿对公网暴露）
+            "/actuator/**",
             "/system/register",
             "/system/register/sendCaptcha",
             "/admin/getRegisterFromSys",
@@ -35,7 +37,11 @@ public final class SaTokenRouteChecks {
             // 门户物流查询（按运单号只读查询）
             "/tms/getLogisticById",
             // 门户/追踪页等多处拉取展示文案，无需登录（仍只读启用项）
-            "/admin/sys/getDictionary/**"
+            "/admin/sys/getDictionary/**",
+            // 商城 mall-admin / mall-portal 经 Feign 调用（无物流域 token、JWT 密钥亦不同），视为内网联调入口
+            "/wms/addInboundApply",
+            "/wms/payForInbound",
+            "/wms/outbound/create"
     };
 
     private SaTokenRouteChecks() {
@@ -107,7 +113,9 @@ public final class SaTokenRouteChecks {
         SaRouter.match("/tms/driver/**").check(r -> StpUtil.checkPermission("driver"));
         SaRouter.match("/tms/manager/**").check(r -> StpUtil.checkPermission("manager"));
 
-        SaRouter.match("/wms/**").notMatch("/wms/sys/**").check(r -> StpUtil.checkPermission("keeper"));
+        SaRouter.match("/wms/**")
+                .notMatch("/wms/sys/**", "/wms/addInboundApply", "/wms/payForInbound", "/wms/outbound/create")
+                .check(r -> StpUtil.checkPermission("keeper"));
 
         SaRouter.match("/oms/**").notMatch("/oms/sys/**").check(r -> StpUtil.checkLogin());
 

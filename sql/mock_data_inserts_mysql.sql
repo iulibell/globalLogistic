@@ -41,13 +41,13 @@ INSERT INTO `wms_stock_lock` (`id`, `warehouse_id`, `order_id`, `stock_id`, `loc
 -- -----------------------------------------------------------------------------
 -- logi-wms: 入库申请 / 入库 / 明细
 -- -----------------------------------------------------------------------------
-INSERT INTO `wms_inbound_apply` (`id`, `warehouse_id`, `apply_id`, `merchant_id`, `merchant_phone`, `sku_name`, `warehouse_city`, `city`, `apply_quantity`, `status`, `merchant_remark`, `reject_remark`, `fee`, `create_time`, `update_time`) VALUES
-(1, 1, 'INB-APPLY-001', 'MCH001', '13800001001', '加厚纸箱 60*40', '上海', '杭州', 100, 1, '首批补货', NULL, 50.00, '2026-04-05 14:00:00', '2026-04-05 14:30:00'),
-(2, 2, 'INB-APPLY-002', 'MCH002', '13900002001', '加厚纸箱 60*40', '北京', '北京', 50, 0, '北京仓补货', NULL, 30.00, '2026-04-06 09:00:00', '2026-04-06 09:00:00');
+INSERT INTO `wms_inbound_apply` (`id`, `goods_id`, `warehouse_id`, `apply_id`, `merchant_id`, `merchant_phone`, `sku_name`, `warehouse_city`, `city`, `apply_quantity`, `status`, `merchant_remark`, `reject_remark`, `fee`, `create_time`, `update_time`) VALUES
+(1, NULL, 1, 'INB-APPLY-001', 'MCH001', '13800001001', '加厚纸箱 60*40', '上海', '杭州', 100, 1, '首批补货', NULL, 50.00, '2026-04-05 14:00:00', '2026-04-05 14:30:00'),
+(2, NULL, 2, 'INB-APPLY-002', 'MCH002', '13900002001', '加厚纸箱 60*40', '北京', '北京', 50, 0, '北京仓补货', NULL, 30.00, '2026-04-06 09:00:00', '2026-04-06 09:00:00');
 
-INSERT INTO `wms_inbound` (`id`, `warehouse_id`, `location_id`, `inbound_id`, `merchant_id`, `quantity`, `merchant_phone`, `sku_name`, `sku_code`, `merchant_remark`, `status`, `create_time`, `update_time`) VALUES
-(1, 1, 1001, 'INB-202604001', 'MCH001', 100, '13800001001', '加厚纸箱 60*40', 'SKU001', '首批到货', 1, '2026-04-05 16:00:00', '2026-04-05 17:00:00'),
-(2, 2, 2001, 'INB-202604002', 'MCH002', 50, '13900002001', '加厚纸箱 60*40', 'SKU001', '北京仓到货', 0, '2026-04-06 10:00:00', '2026-04-06 10:00:00');
+INSERT INTO `wms_inbound` (`id`, `goods_id`, `warehouse_id`, `location_id`, `inbound_id`, `merchant_id`, `quantity`, `merchant_phone`, `sku_name`, `sku_code`, `merchant_remark`, `status`, `create_time`, `update_time`) VALUES
+(1, NULL, 1, 1001, 'INB-202604001', 'MCH001', 100, '13800001001', '加厚纸箱 60*40', 'SKU001', '首批到货', 1, '2026-04-05 16:00:00', '2026-04-05 17:00:00'),
+(2, NULL, 2, 2001, 'INB-202604002', 'MCH002', 50, '13900002001', '加厚纸箱 60*40', 'SKU001', '北京仓到货', 0, '2026-04-06 10:00:00', '2026-04-06 10:00:00');
 
 INSERT INTO `wms_inbound_item` (`id`, `inbound_id`, `sku_name`, `sku_code`, `quantity`, `create_time`, `update_time`) VALUES
 (1, 'INB-202604001', '加厚纸箱 60*40', 'SKU001', 100, '2026-04-05 16:00:00', '2026-04-05 17:00:00'),

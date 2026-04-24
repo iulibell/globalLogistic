@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/sys")
 @Tag(name = "DictController", description = "多语言与前端文案字典：公开按类型拉取；超管分页维护及增删改。")
-public class DictController {
+public class DictionaryController {
     @Resource
     DictionaryService dictionaryService;
 

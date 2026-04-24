@@ -1,8 +1,8 @@
 server:
-  port: 8501
+  port: 8104
 spring:
   application:
-    name: gl-system
+    name: logi-gl-system
   data:
     redis:
       host: 127.0.0.1
@@ -23,6 +23,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:8}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
 
 sa-token:
   token-name: satoken

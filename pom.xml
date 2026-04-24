@@ -48,6 +48,8 @@
         <sa-token.version>1.45.0</sa-token.version>
         <!-- 与 Spring Boot 4.x、Spring Cloud 2025.1.x 对齐（Nacos 注册发现） -->
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
+        <!-- Seata 2.4.x 在 Spring Boot 4 下会引用已移除的 TransactionAutoConfiguration；2.6+ 已适配 Boot 4 -->
+        <seata.version>2.6.0</seata.version>
     </properties>
 
     <dependencyManagement>

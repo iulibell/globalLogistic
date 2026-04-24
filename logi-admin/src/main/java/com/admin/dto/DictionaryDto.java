@@ -15,4 +15,9 @@ public class DictionaryDto {
     private Integer sort;
     @NotBlank(message = "请完成对应的语言选择")
     private String lang;
+
+    /**
+     * 状态：0->禁用,1->启用
+     */
+    private Short status;
 }

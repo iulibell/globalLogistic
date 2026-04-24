@@ -203,7 +203,7 @@ function copyAllDetail() {
             </ol>
           </section>
 
-          <section v-if="!notFound" class="bottom-banner" aria-hidden="true">
+          <section class="bottom-banner" aria-hidden="true">
             <div class="bottom-banner-overlay">
               <p class="bottom-banner-title">支持全球 3200+ 家运输商查询</p>
               <p class="bottom-banner-sub">覆盖主流国际物流线路，轨迹节点标准化输出</p>

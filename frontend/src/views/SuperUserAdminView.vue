@@ -134,6 +134,8 @@ const editForm = ref({
 })
 
 const actingUserId = ref(null)
+const deleteConfirmOpen = ref(false)
+const deleteCandidate = ref(null)
 
 function rowKey(row, i) {
   const id = row?.userId ?? row?.id
@@ -282,7 +284,20 @@ function confirmDeleteTextFor(userIdStr) {
 async function onDelete(row) {
   const uid = rowUserId(row)
   if (!uid || actingUserId.value) return
-  if (!window.confirm(confirmDeleteTextFor(uid))) return
+  deleteCandidate.value = row
+  deleteConfirmOpen.value = true
+}
+
+function closeDeleteConfirm() {
+  if (actingUserId.value) return
+  deleteConfirmOpen.value = false
+  deleteCandidate.value = null
+}
+
+async function confirmDelete() {
+  const row = deleteCandidate.value
+  const uid = rowUserId(row)
+  if (!uid || actingUserId.value) return
   actingUserId.value = uid
   try {
     const res = await postDeleteSysUser(uid)
@@ -301,6 +316,8 @@ async function onDelete(row) {
     showToast(translateApiMessage(raw, t, uiLang.value), { type: 'error' })
   } finally {
     actingUserId.value = null
+    deleteConfirmOpen.value = false
+    deleteCandidate.value = null
   }
 }
 
@@ -436,6 +453,26 @@ watch(
           </button>
           <button type="button" class="btn-action btn-action--ok" :disabled="editSaving" @click="saveEdit">
             {{ btnSave }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="deleteConfirmOpen" class="dialog-backdrop" @click.self="closeDeleteConfirm">
+      <div class="dialog dialog--confirm" role="dialog" aria-modal="true">
+        <h2 class="dialog-title">确认删除用户</h2>
+        <p class="confirm-text">{{ confirmDeleteTextFor(rowUserId(deleteCandidate)) }}</p>
+        <div class="confirm-meta">
+          <span>用户 ID：{{ rowUserId(deleteCandidate) || valueEmpty }}</span>
+          <span>用户名：{{ deleteCandidate?.username || valueEmpty }}</span>
+          <span>角色：{{ userTypeLabel(deleteCandidate?.userType) }}</span>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" class="btn-action btn-action--ghost" :disabled="!!actingUserId" @click="closeDeleteConfirm">
+            {{ btnCancel }}
+          </button>
+          <button type="button" class="btn-action btn-action--danger" :disabled="!!actingUserId" @click="confirmDelete">
+            {{ btnDelete }}
           </button>
         </div>
       </div>
@@ -704,6 +741,11 @@ watch(
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
 
+.dialog--confirm {
+  max-width: 500px;
+  border-color: rgba(220, 100, 100, 0.28);
+}
+
 .dialog-title {
   margin: 0 0 16px;
   font-size: 18px;
@@ -715,6 +757,24 @@ watch(
   display: flex;
   flex-direction: column;
   gap: 12px;
+}
+
+.confirm-text {
+  margin: 0 0 12px;
+  color: #b7c7da;
+  font-size: 14px;
+}
+
+.confirm-meta {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  background: rgba(220, 80, 80, 0.08);
+  border: 1px solid rgba(220, 100, 100, 0.2);
+  color: #f0d3d3;
+  font-size: 13px;
 }
 
 .field {

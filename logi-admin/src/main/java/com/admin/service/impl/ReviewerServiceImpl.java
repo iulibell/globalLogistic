@@ -96,6 +96,8 @@ public class ReviewerServiceImpl implements ReviewerService {
         sysUserDao.insert(sysUser);
         confirmReviewed(registerParamDto,(short) 1);
     }
+    
+    @Transactional
     public void rejectRegister(RegisterParamDto registerParamDto){
         StpUtil.checkPermission("reviewer");
         StpUtil.checkLogin();

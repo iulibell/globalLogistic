@@ -9,6 +9,7 @@ import com.wms.dao.WmsOutboundDao;
 import com.wms.dto.WmsOutboundDto;
 import com.wms.entity.WmsOutbound;
 import com.wms.service.WmsOutboundService;
+import com.wms.service.client.PortalServiceClient;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,15 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
 
     @Resource
     private WmsOutboundDao wmsOutboundDao;
+    @Resource
+    private PortalServiceClient portalServiceClient;
 
     @Override
     public void createOutbound(WmsOutboundDto wmsOutboundDto) {
+        if (wmsOutboundDao.selectOne(new LambdaQueryWrapper<WmsOutbound>()
+                .eq(WmsOutbound::getOrderId, wmsOutboundDto.getOrderId())) != null) {
+            return;
+        }
         WmsOutbound wmsOutbound = new WmsOutbound();
         BeanUtils.copyProperties(wmsOutboundDto,wmsOutbound);
         wmsOutboundDao.insert(wmsOutbound);
@@ -32,9 +39,26 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
     public void confirmOutbound(String outboundId) {
         StpUtil.checkPermission("keeper");
         StpUtil.checkLogin();
-        wmsOutboundDao.update(new LambdaUpdateWrapper<WmsOutbound>()
+        WmsOutbound wmsOutbound = wmsOutboundDao.selectOne(new LambdaQueryWrapper<WmsOutbound>()
+                .eq(WmsOutbound::getOutboundId, outboundId));
+        if (wmsOutbound == null) {
+            return;
+        }
+        int rows = wmsOutboundDao.update(new LambdaUpdateWrapper<WmsOutbound>()
                 .eq(WmsOutbound::getOutboundId,outboundId)
+                .eq(WmsOutbound::getStatus, (short) 0)
                 .set(WmsOutbound::getStatus,(short)1));
+        if (rows == 0) {
+            return;
+        }
+        String orderId = wmsOutbound.getOrderId();
+        if (orderId != null && orderId.startsWith("OFF")) {
+            try {
+                Long offShelfId = Long.parseLong(orderId.substring(3));
+                portalServiceClient.markOffShelfCompleted(offShelfId);
+            } catch (NumberFormatException ignored) {
+            }
+        }
     }
 
     @Override

@@ -106,15 +106,18 @@ function rowStatus(row) {
 }
 
 function statusText(row) {
-  const s = rowStatus(row)
-  if (s === 1 || s === '1') return '已审核'
-  if (s === 0 || s === '0') return '待审核'
-  return s != null && s !== '' ? String(s) : valueEmpty.value
+  const s = Number(rowStatus(row))
+  if (s === 0) return '待审核'
+  if (s === 1) return '未通过'
+  if (s === 2) return '待支付'
+  if (s === 3) return '超时未支付'
+  if (s === 4) return '已支付'
+  return rowStatus(row) != null && rowStatus(row) !== '' ? String(rowStatus(row)) : valueEmpty.value
 }
 
 function canOperate(row) {
-  const s = rowStatus(row)
-  return !(s === 1 || s === '1')
+  // 仅待审核(0)允许仓管操作；通过(2)或退回(1)后按钮应消失
+  return Number(rowStatus(row)) === 0
 }
 
 async function loadPage() {

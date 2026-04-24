@@ -32,7 +32,7 @@ public class RabbitConstant {
     /**
      * 上架申请订单队列过期时间,1h1min后过期
      */
-    public static final int INBOUND_TTL_EXPIRE = 1000 * 60 * 61;
+    public static final int INBOUND_TTL_EXPIRE = 1000 * 60 * 361;
 
     /**
      * 派单延时队列名称

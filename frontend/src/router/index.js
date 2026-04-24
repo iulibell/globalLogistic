@@ -127,12 +127,22 @@ const router = createRouter({
           name: 'profile-super-by-id',
           component: () => import('@/views/SuperUserAdminView.vue'),
         },
+        {
+          path: 'super/dictionaries',
+          name: 'profile-super-dictionaries',
+          component: () => import('@/views/SuperDictionaryView.vue'),
+        },
       ],
     },
   ],
 })
 
-const SUPER_PROFILE_NAMES = new Set(['profile-super-users', 'profile-super-by-type', 'profile-super-by-id'])
+const SUPER_PROFILE_NAMES = new Set([
+  'profile-super-users',
+  'profile-super-by-type',
+  'profile-super-by-id',
+  'profile-super-dictionaries',
+])
 
 const MANAGER_PROFILE_NAMES = new Set([
   'profile-manager-order-list',

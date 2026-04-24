@@ -1,6 +1,6 @@
 spring:
   application:
-    name: gl-auth
+    name: logi-gl-auth
   data:
     redis:
       host: 127.0.0.1
@@ -10,6 +10,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:8}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   cloud:
     loadbalancer:
       enabled: true
@@ -18,7 +24,7 @@ spring:
         server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
         group: ${NACOS_GROUP:DEFAULT_GROUP}
 server:
-  port: 8602
+  port: 8101
 
 sa-token:
   token-name: satoken

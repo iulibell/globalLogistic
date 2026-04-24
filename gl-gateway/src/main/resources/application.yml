@@ -1,6 +1,6 @@
 spring:
   application:
-    name: gl-gateway
+    name: logi-gl-gateway
   data:
     redis:
       host: 127.0.0.1
@@ -10,6 +10,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:8}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   cloud:
     nacos:
       discovery:
@@ -21,11 +27,11 @@ spring:
           routes:
             # 默认 lb://服务名（与 spring.application.name 一致）；无 Nacos 时可设 SERVICE_URI_* 为 http://host:port
             - id: gl-system
-              uri: ${SERVICE_URI_GL_SYSTEM:lb://gl-system}
+              uri: ${SERVICE_URI_GL_SYSTEM:lb://logi-gl-system}
               predicates:
                 - Path=/system/**
             - id: gl-auth
-              uri: ${SERVICE_URI_GL_AUTH:lb://gl-auth}
+              uri: ${SERVICE_URI_GL_AUTH:lb://logi-gl-auth}
               predicates:
                 - Path=/auth/**
             - id: logi-admin
@@ -45,7 +51,7 @@ spring:
               predicates:
                 - Path=/wms/**
 server:
-  port: ${GATEWAY_PORT:8502}
+  port: ${GATEWAY_PORT:8102}
 
 sa-token:
   token-name: satoken

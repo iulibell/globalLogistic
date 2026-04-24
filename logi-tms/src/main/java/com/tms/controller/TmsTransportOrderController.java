@@ -20,8 +20,8 @@ public class TmsTransportOrderController {
     @Operation(
             summary = "系统派单给司机",
             description = "由业务系统调用，根据运输单 DTO 完成司机分配逻辑。")
-    public void driverAssignment(@RequestBody TmsTransportOrderDto tmsTransportOrderDto) {
-        tmsTransportOrderService.driverAssignment(tmsTransportOrderDto);
+    public String driverAssignment(@RequestBody TmsTransportOrderDto tmsTransportOrderDto) {
+        return tmsTransportOrderService.driverAssignment(tmsTransportOrderDto);
     }
 
     @PostMapping("/sys/handleAssignWindowExpired")

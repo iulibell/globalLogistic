@@ -10,10 +10,12 @@ export function fetchKeeperInboundPage(pageNum = 1, pageSize = 10) {
 }
 
 /** 仓管：确认入库 */
-export function postKeeperConfirmInbound(inboundId, skuCode) {
+export function postKeeperConfirmInbound(inboundId, skuCode, locationId, category) {
   const q = new URLSearchParams()
   q.set('inboundId', String(inboundId ?? '').trim())
   q.set('skuCode', String(skuCode ?? '').trim())
+  q.set('locationId', String(locationId ?? '').trim())
+  q.set('category', String(category ?? '').trim())
   return postJson(`/wms/keeper/confirmInbound?${q.toString()}`, {}, { auth: true })
 }
 

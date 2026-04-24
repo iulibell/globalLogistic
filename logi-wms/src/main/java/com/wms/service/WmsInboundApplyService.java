@@ -44,7 +44,7 @@ public interface WmsInboundApplyService {
      * 商家支付后进行插入数据,并准备分配司机
      * @param applyId 申请id
      */
-    void payForInbound(String applyId);
+    String payForInbound(String applyId);
 
     /**
      * 支付超时：仅当申请仍为「待支付(2)」时置为「超时未支付(3)」。已支付、已超时、已删除则不修改。

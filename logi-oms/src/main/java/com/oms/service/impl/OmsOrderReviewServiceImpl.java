@@ -46,15 +46,10 @@ public class OmsOrderReviewServiceImpl implements OmsOrderReviewService {
     @Override
     @Transactional
     public void addOrderView(OmsOrderDto omsOrderDto) {
-        String orderId = String.valueOf(snowflakeIdGenerator.nextId()
-                + omsOrderDto.getMerchantId().indexOf(1,5));
-
         OmsOrderReview omsOrderReview = new OmsOrderReview();
         OmsOrder omsOrder = new OmsOrder();
         BeanUtil.copyProperties(omsOrderDto,omsOrder);
         BeanUtil.copyProperties(omsOrderDto,omsOrderReview);
-        omsOrder.setOrderId(orderId);
-        omsOrderReview.setOrderId(orderId);
         omsOrderDao.insert(omsOrder);
         omsOrderReviewDao.insert(omsOrderReview);
     }

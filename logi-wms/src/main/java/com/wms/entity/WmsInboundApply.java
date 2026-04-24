@@ -15,6 +15,9 @@ import java.util.Date;
 public class WmsInboundApply {
     @TableId(type = IdType.AUTO)
     private Long id;
+    @Size(max = 255)
+    @Schema(description = "商品id")
+    private String goodsId;
     @Schema(description = "申请入库的仓库id")
     private Long warehouseId;
     @Size(max = 255)

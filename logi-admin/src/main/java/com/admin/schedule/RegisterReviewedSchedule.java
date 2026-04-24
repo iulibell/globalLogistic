@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import jakarta.annotation.Resource;
 
 @Component
-public class ReviewedSchedule {
+public class RegisterReviewedSchedule {
 
     @Resource
     private RegisterApplicationDao registerApplicationDao;
@@ -20,7 +20,7 @@ public class ReviewedSchedule {
      */
     @Scheduled(cron = "0 0 * * * ?")
     @Async
-    public void cleanReviewedApplication() {
+    public void cleanRegisterReviewedApplication() {
         registerApplicationDao.delete(new LambdaQueryWrapper<RegisterApplication>()
                 .eq(RegisterApplication::getStatus,(short)1));
     }

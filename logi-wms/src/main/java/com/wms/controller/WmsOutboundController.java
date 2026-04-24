@@ -1,12 +1,14 @@
 package com.wms.controller;
 
 import com.api.CommonResult;
+import com.wms.dto.WmsOutboundDto;
 import com.wms.service.WmsOutboundService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,13 @@ public class WmsOutboundController {
     public CommonResult<?> getOutbound(@RequestParam(defaultValue = "1") int pageNum,
                                        @RequestParam(defaultValue = "10") int pageSize) {
         return CommonResult.success(wmsOutboundService.getOutbound(pageNum, pageSize));
+    }
+
+    @PostMapping("/outbound/create")
+    @Operation(summary = "创建出库单", description = "商城发起商品下架时创建待出库任务。")
+    public CommonResult<?> createOutbound(@RequestBody WmsOutboundDto wmsOutboundDto) {
+        wmsOutboundService.createOutbound(wmsOutboundDto);
+        return CommonResult.success("wms_outbound_created");
     }
 
     @GetMapping("/keeper/getOutboundById")

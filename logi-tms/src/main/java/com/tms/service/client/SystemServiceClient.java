@@ -2,6 +2,6 @@ package com.tms.service.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient("gl-system")
+@FeignClient("logi-gl-system")
 public interface SystemServiceClient {
 }

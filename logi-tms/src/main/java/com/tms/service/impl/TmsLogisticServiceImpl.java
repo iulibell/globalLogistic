@@ -27,6 +27,7 @@ public class TmsLogisticServiceImpl implements TmsLogisticService {
     @Resource
     private RedisService redisService;
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<TmsLogisticDto> getLogisticById(String transportId) {
         Object cacheObj = redisService.get(RedisConstant

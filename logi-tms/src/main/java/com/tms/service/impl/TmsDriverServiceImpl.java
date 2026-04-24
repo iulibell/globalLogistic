@@ -187,20 +187,26 @@ public class TmsDriverServiceImpl implements TmsDriverService {
     public boolean accessAssignment(String transportOrderId, String driverId) {
         StpUtil.checkPermission("driver");
         StpUtil.checkLogin();
-        if (tmsVehicleDao.selectOne(new LambdaQueryWrapper<TmsVehicle>()
-                .eq(TmsVehicle::getDriverId, driverId)) == null) {
+        String loginDriverId = StpUtil.getLoginIdAsString();
+        String actualDriverId = loginDriverId;
+        if (driverId != null && !driverId.isBlank() && !driverId.equals(loginDriverId)) {
+            Assert.fail("tms_driver_mismatch");
+        }
+        Long vehicleCount = tmsVehicleDao.selectCount(new LambdaQueryWrapper<TmsVehicle>()
+                .eq(TmsVehicle::getDriverId, actualDriverId));
+        if (vehicleCount == null || vehicleCount == 0) {
             Assert.fail("tms_vehicle_incomplete");
         }
         int grabbed = tmsTransportOrderDao.update(new LambdaUpdateWrapper<TmsTransportOrder>()
                 .eq(TmsTransportOrder::getTransportOrderId, transportOrderId)
                 .eq(TmsTransportOrder::getStatus, (short) 0)
-                .set(TmsTransportOrder::getDriverId, driverId)
+                .set(TmsTransportOrder::getDriverId, actualDriverId)
                 .set(TmsTransportOrder::getStatus, (short) 1));
         if (grabbed == 0) {
             return false;
         }
         int driverUpdated = tmsDriverDao.update(new LambdaUpdateWrapper<TmsDriver>()
-                .eq(TmsDriver::getUserId, driverId)
+                .eq(TmsDriver::getUserId, actualDriverId)
                 .set(TmsDriver::getStatus, (short) 1)
                 .setSql("weight = COALESCE(weight, 0) + 1"));
         if (driverUpdated == 0) {

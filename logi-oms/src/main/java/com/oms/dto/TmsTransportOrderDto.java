@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public class TmsTransportOrderDto {
     @NotBlank(message = "tms_v_transport_order_id")
     private String transportOrderId;
+    private String phone;
     @NotBlank(message = "tms_v_origin")
     private String origin;
     @NotBlank(message = "tms_v_dest")

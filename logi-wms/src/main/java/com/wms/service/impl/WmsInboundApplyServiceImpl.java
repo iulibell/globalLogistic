@@ -2,7 +2,6 @@ package com.wms.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.ipokerface.snowflake.SnowflakeIdGenerator;
-import io.seata.spring.annotation.GlobalTransactional;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -13,13 +12,18 @@ import com.service.RedisService;
 import com.wms.dao.WmsInboundApplyDao;
 import com.wms.dao.WmsInboundDao;
 import com.wms.dao.WmsInboundItemDao;
+import com.wms.dao.WmsWarehouseDao;
 import com.wms.dto.TmsTransportOrderDto;
 import com.wms.dto.WmsInboundApplyDto;
 import com.wms.entity.WmsInbound;
 import com.wms.entity.WmsInboundApply;
 import com.wms.entity.WmsInboundItem;
+import com.wms.entity.WmsWarehouse;
 import com.wms.service.WmsInboundApplyService;
+import com.exception.Assert;
+import com.wms.service.client.MallAdminServiceClient;
 import com.wms.service.client.TmsServiceClient;
+import io.seata.spring.annotation.GlobalTransactional;
 import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +45,8 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     @Resource
     private WmsInboundApplyDao wmsInboundApplyDao;
     @Resource
+    private WmsWarehouseDao wmsWarehouseDao;
+    @Resource
     private SnowflakeIdGenerator snowflakeIdGenerator;
     @Resource
     private RabbitTemplate rabbitTemplate;
@@ -48,12 +54,36 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     private RedisService redisService;
     @Resource
     private TmsServiceClient tmsServiceClient;
+    @Resource
+    private MallAdminServiceClient mallAdminServiceClient;
 
     @Override
     @Transactional
     public void addInboundApply(WmsInboundApplyDto wmsInboundApplyDto) {
         WmsInboundApply wmsInboundApply = new WmsInboundApply();
-        BeanUtils.copyProperties(wmsInboundApplyDto,wmsInboundApply);
+        BeanUtils.copyProperties(wmsInboundApplyDto, wmsInboundApply);
+        if (wmsInboundApplyDto.getWarehouseId() != null && !wmsInboundApplyDto.getWarehouseId().isBlank()) {
+            try {
+                wmsInboundApply.setWarehouseId(Long.parseLong(wmsInboundApplyDto.getWarehouseId().trim()));
+            } catch (NumberFormatException e) {
+                Assert.fail("wms_inbound_apply_warehouse_id_invalid");
+            }
+        }
+        if (wmsInboundApply.getWarehouseId() == null
+                && wmsInboundApplyDto.getWarehouseCity() != null
+                && !wmsInboundApplyDto.getWarehouseCity().isBlank()) {
+            WmsWarehouse wh = wmsWarehouseDao.selectOne(new LambdaQueryWrapper<WmsWarehouse>()
+                    .eq(WmsWarehouse::getCity, wmsInboundApplyDto.getWarehouseCity().trim())
+                    .eq(WmsWarehouse::getStatus, (short) 1)
+                    .orderByAsc(WmsWarehouse::getWarehouseId)
+                    .last("LIMIT 1"));
+            if (wh != null) {
+                wmsInboundApply.setWarehouseId(wh.getWarehouseId());
+            }
+        }
+        if (wmsInboundApply.getApplyQuantity() == null || wmsInboundApply.getApplyQuantity() < 1) {
+            wmsInboundApply.setApplyQuantity(1);
+        }
         wmsInboundApplyDao.insert(wmsInboundApply);
     }
 
@@ -87,6 +117,7 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
                 .eq(WmsInboundApply::getApplyId,applyId)
                 .set(WmsInboundApply::getStatus,(short)2)
                 .set(WmsInboundApply::getFee,fee));
+        mallAdminServiceClient.accessFromWms(applyId,fee);
         rabbitTemplate.convertAndSend(RabbitConstant.INBOUND_TTL_EXCHANGE,
                 RabbitConstant.INBOUND_TTL_ROUTING_KEY,
                 applyId);
@@ -110,19 +141,40 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
     @Override
     @Transactional
     @GlobalTransactional(name = "wms-pay-inbound", rollbackFor = Exception.class)
-    public void payForInbound(String applyId) {
-        String inboundId = snowflakeIdGenerator.nextId() + Arrays.toString(applyId.getBytes());
+    public String payForInbound(String applyId) {
+        String inboundId = String.valueOf(snowflakeIdGenerator.nextId());
 
         int paid = wmsInboundApplyDao.update(null, new LambdaUpdateWrapper<WmsInboundApply>()
                 .eq(WmsInboundApply::getApplyId, applyId)
                 .eq(WmsInboundApply::getStatus, (short) 2)
                 .set(WmsInboundApply::getStatus, (short) 4));
         if (paid == 0) {
-            return;
+            return "";
         }
         WmsInboundApply wmsInboundApply = wmsInboundApplyDao
                 .selectOne(new LambdaQueryWrapper<WmsInboundApply>()
                         .eq(WmsInboundApply::getApplyId,applyId));
+        if (wmsInboundApply == null) {
+            Assert.fail("wms_inbound_apply_not_found: " + applyId);
+        }
+
+        WmsWarehouse wmsWarehouse;
+        if (wmsInboundApply.getWarehouseId() != null) {
+            wmsWarehouse = wmsWarehouseDao.selectOne(new LambdaQueryWrapper<WmsWarehouse>()
+                    .eq(WmsWarehouse::getWarehouseId, wmsInboundApply.getWarehouseId())
+                    .eq(WmsWarehouse::getStatus, (short) 1)
+                    .last("LIMIT 1"));
+        } else {
+            wmsWarehouse = wmsWarehouseDao.selectOne(new LambdaQueryWrapper<WmsWarehouse>()
+                    .eq(WmsWarehouse::getCity, wmsInboundApply.getWarehouseCity())
+                    .eq(WmsWarehouse::getStatus, (short) 1)
+                    .orderByAsc(WmsWarehouse::getWarehouseId)
+                    .last("LIMIT 1"));
+        }
+        if (wmsWarehouse == null) {
+            Assert.fail("wms_pay_no_available_warehouse: applyId=" + applyId);
+        }
+        Long warehouseId = wmsWarehouse.getWarehouseId();
 
         WmsInbound wmsInbound = new WmsInbound();
         WmsInboundItem wmsInboundItem = new WmsInboundItem();
@@ -130,7 +182,10 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
         BeanUtils.copyProperties(wmsInboundApply,wmsInboundItem);
         wmsInboundItem.setInboundId(inboundId);
         wmsInbound.setInboundId(inboundId);
+        // 入库单状态与入库申请状态语义不同：新建入库单必须是待入库(0)
+        wmsInbound.setStatus((short) 0);
         wmsInbound.setQuantity(wmsInboundApply.getApplyQuantity());
+        wmsInbound.setWarehouseId(warehouseId);
 
         redisService.delete(RedisConstant.INBOUND_KEY_PREFIX + applyId);
 
@@ -139,7 +194,8 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
 
         TmsTransportOrderDto tmsTransportOrderDto = getTmsTransportOrderDto(wmsInboundApply);
 
-        tmsServiceClient.driverAssignment(tmsTransportOrderDto);
+        String transportOrderId = tmsServiceClient.driverAssignment(tmsTransportOrderDto);
+        return transportOrderId == null ? "" : transportOrderId.trim();
     }
 
     @Override
@@ -165,6 +221,9 @@ public class WmsInboundApplyServiceImpl implements WmsInboundApplyService {
         BigDecimal fee = total.multiply(new BigDecimal("0.30")).setScale(2, RoundingMode.HALF_UP);
 
         TmsTransportOrderDto tmsTransportOrderDto = new TmsTransportOrderDto();
+        tmsTransportOrderDto.setGoodsId(wmsInboundApply.getGoodsId());
+        tmsTransportOrderDto.setPhone(wmsInboundApply.getMerchantPhone());
+        tmsTransportOrderDto.setTransportOrderId(wmsInboundApply.getApplyId());
         tmsTransportOrderDto.setOrigin(city);
         tmsTransportOrderDto.setDest(warehouseCity);
         tmsTransportOrderDto.setFee(fee);

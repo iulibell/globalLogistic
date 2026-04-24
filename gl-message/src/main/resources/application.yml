@@ -1,9 +1,9 @@
 server:
-  port: ${SERVER_PORT:8731}
+  port: ${SERVER_PORT:8103}
 
 spring:
   application:
-    name: gl-message
+    name: logi-gl-message
   cloud:
     loadbalancer:
       enabled: true
@@ -16,6 +16,12 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:8}
+      minimum-idle: ${DB_POOL_MIN_IDLE:2}
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
 
 # 与业务服务 security.internal.token-value 保持一致；生产用环境变量
 security:

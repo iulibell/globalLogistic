@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS `wms_stock_lock` (
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wms_inbound_apply` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `goods_id` VARCHAR(255) NULL COMMENT '商品id(对接商城/portal)',
   `warehouse_id` BIGINT NULL COMMENT '申请入库的仓库id',
   `apply_id` VARCHAR(255) NULL COMMENT '申请入库id',
   `merchant_id` VARCHAR(255) NULL COMMENT '商家id',
@@ -188,6 +189,7 @@ CREATE TABLE IF NOT EXISTS `wms_inbound_apply` (
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `wms_inbound` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `goods_id` VARCHAR(255) NULL COMMENT '商品id(对接商城/portal)',
   `warehouse_id` BIGINT NULL COMMENT '仓库id',
   `location_id` BIGINT NULL COMMENT '库位id',
   `inbound_id` VARCHAR(255) NULL COMMENT '入库关联id',
@@ -288,10 +290,10 @@ CREATE TABLE IF NOT EXISTS `tms_vehicle` (
 -- -----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS `tms_transport_order` (
   `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `goods_id` VARCHAR(255) NULL COMMENT '商品id',
   `transport_order_id` VARCHAR(255) NULL COMMENT '运输订单id',
   `order_id` VARCHAR(255) NULL COMMENT '关联oms订单id',
   `warehouse_id` BIGINT NULL COMMENT '仓库id',
-  `user_id` VARCHAR(255) NULL COMMENT '商家/收货用户id',
   `driver_id` VARCHAR(255) NULL COMMENT '司机id',
   `last_reject_driver_id` VARCHAR(255) NULL COMMENT '最近一次拒单司机',
   `origin` VARCHAR(20) NULL COMMENT '起点',

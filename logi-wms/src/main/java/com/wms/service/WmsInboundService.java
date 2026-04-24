@@ -25,5 +25,5 @@ public interface WmsInboundService {
      * @param inboundId 入库单id
      * @param skuCode 商品编号(需keeper手动录入)
      */
-    void confirmInbound(String inboundId,String skuCode);
+    void confirmInbound(String inboundId, String skuCode, Long locationId, Short category);
 }
