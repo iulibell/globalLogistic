@@ -2,6 +2,7 @@ package com.admin.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.admin.dto.SysUserDto;
+import com.admin.dto.WmsWarehouseDto;
 import com.admin.service.ManagerService;
 import com.admin.service.client.ManagerRemoteClient;
 import com.api.CommonResult;
@@ -77,6 +78,30 @@ public class ManagerServiceImpl implements ManagerService {
     public CommonResult<?> updateLine(Long lineId, String origin, String dest, Double estimation, Short status) {
         checkManager();
         return managerRemoteClient.updateLine(lineId, origin, dest, estimation, status);
+    }
+
+    @Override
+    public CommonResult<?> getWarehouse(int pageNum, int pageSize) {
+        checkManager();
+        return managerRemoteClient.getWarehouse(pageNum, pageSize);
+    }
+
+    @Override
+    public CommonResult<?> addWarehouse(WmsWarehouseDto wmsWarehouseDto) {
+        checkManager();
+        return managerRemoteClient.addWarehouse(wmsWarehouseDto);
+    }
+
+    @Override
+    public CommonResult<?> updateWarehouse(WmsWarehouseDto wmsWarehouseDto) {
+        checkManager();
+        return managerRemoteClient.updateWarehouse(wmsWarehouseDto);
+    }
+
+    @Override
+    public CommonResult<?> deleteWarehouse(Long warehouseId) {
+        checkManager();
+        return managerRemoteClient.deleteWarehouse(warehouseId);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.admin.controller;
 
+import com.admin.dto.WmsWarehouseDto;
 import com.admin.service.ManagerService;
 import com.api.CommonResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/manager")
 @Tag(
         name = "ManagerController",
-        description = "管理员统一接口：OMS 订单查询、TMS 线路/人工派车、gl-system 用户分页/条件查询与维护（需 manager 权限）。")
+        description = "管理员统一接口：OMS 订单查询、TMS 线路/人工派车、WMS 仓库维护、gl-system 用户分页/条件查询与维护（需 manager 权限）。")
 public class ManagerController {
     @Resource
     private ManagerService managerService;
@@ -111,5 +112,38 @@ public class ManagerController {
                                       @RequestParam Double estimation,
                                       @RequestParam Short status) {
         return managerService.updateLine(lineId, origin, dest, estimation, status);
+    }
+
+    @GetMapping("/wms/getWarehouse")
+    @Operation(
+            summary = "分页查询仓库",
+            description = "转发 logi-wms，分页返回仓库主数据。")
+    public CommonResult<?> getWarehouse(@RequestParam(defaultValue = "1") int pageNum,
+                                        @RequestParam(defaultValue = "10") int pageSize) {
+        return managerService.getWarehouse(pageNum, pageSize);
+    }
+
+    @PostMapping("/wms/addWarehouse")
+    @Operation(
+            summary = "新增仓库",
+            description = "转发 logi-wms 创建仓库。")
+    public CommonResult<?> addWarehouse(@RequestBody WmsWarehouseDto wmsWarehouseDto) {
+        return managerService.addWarehouse(wmsWarehouseDto);
+    }
+
+    @PostMapping("/wms/updateWarehouse")
+    @Operation(
+            summary = "更新仓库",
+            description = "转发 logi-wms 更新仓库信息。")
+    public CommonResult<?> updateWarehouse(@RequestBody WmsWarehouseDto wmsWarehouseDto) {
+        return managerService.updateWarehouse(wmsWarehouseDto);
+    }
+
+    @PostMapping("/wms/deleteWarehouse")
+    @Operation(
+            summary = "删除仓库",
+            description = "转发 logi-wms 按 warehouseId 删除仓库。")
+    public CommonResult<?> deleteWarehouse(@RequestParam Long warehouseId) {
+        return managerService.deleteWarehouse(warehouseId);
     }
 }

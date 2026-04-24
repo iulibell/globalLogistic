@@ -58,6 +58,11 @@ const router = createRouter({
           component: () => import('@/views/ManagerLineQueryView.vue'),
         },
         {
+          path: 'manager/warehouses',
+          name: 'profile-manager-warehouse-list',
+          component: () => import('@/views/ManagerWarehouseListView.vue'),
+        },
+        {
           path: 'manager/line-detail',
           name: 'profile-manager-line-detail',
           component: () => import('@/views/ManagerLineDetailView.vue'),
@@ -150,6 +155,7 @@ const MANAGER_PROFILE_NAMES = new Set([
   'profile-manager-manual-assign',
   'profile-manager-line-list',
   'profile-manager-line-query',
+  'profile-manager-warehouse-list',
   'profile-manager-line-detail',
 ])
 const KEEPER_PROFILE_NAMES = new Set([

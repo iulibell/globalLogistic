@@ -1,10 +1,11 @@
 package com.admin.service;
 
 import com.admin.dto.SysUserDto;
+import com.admin.dto.WmsWarehouseDto;
 import com.api.CommonResult;
 
 /**
- * 管理员门户业务：订单、运输派车、系统用户（经 {@link com.admin.service.client.ManagerRemoteClient} 转发下游）。
+ * 管理员门户业务：订单、运输派车、WMS 仓库、系统用户（经 {@link com.admin.service.client.ManagerRemoteClient} 转发下游）。
  */
 public interface ManagerService {
 
@@ -27,6 +28,14 @@ public interface ManagerService {
     CommonResult<?> addLine(Long lineId, String origin, String dest, Double estimation, Short status);
 
     CommonResult<?> updateLine(Long lineId, String origin, String dest, Double estimation, Short status);
+
+    CommonResult<?> getWarehouse(int pageNum, int pageSize);
+
+    CommonResult<?> addWarehouse(WmsWarehouseDto wmsWarehouseDto);
+
+    CommonResult<?> updateWarehouse(WmsWarehouseDto wmsWarehouseDto);
+
+    CommonResult<?> deleteWarehouse(Long warehouseId);
 
     CommonResult<?> fetchSysUserInfo(int pageNum, int pageSize);
 

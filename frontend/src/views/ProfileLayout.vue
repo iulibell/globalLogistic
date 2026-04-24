@@ -65,6 +65,13 @@ const navManagerLineQuery = computed(() =>
     pageDictFallback('page_profile', 'nav_manager_line_query', uiLang.value) || '查询路线',
   ),
 )
+const navManagerWarehouseList = computed(() =>
+  t(
+    'page_profile',
+    'nav_manager_warehouse_list',
+    pageDictFallback('page_profile', 'nav_manager_warehouse_list', uiLang.value) || '仓库列表',
+  ),
+)
 const navKeeperInboundList = computed(() =>
   t('page_profile', 'nav_keeper_inbound_list', pageDictFallback('page_profile', 'nav_keeper_inbound_list', uiLang.value)),
 )
@@ -197,6 +204,12 @@ function applyProfileDocumentTitle() {
       'page_profile',
       'doc_title_manager_line_query',
       pageDictFallback('page_profile', 'doc_title_manager_line_query', uiLang.value),
+    )
+  } else if (route.name === 'profile-manager-warehouse-list') {
+    piece = t(
+      'page_profile',
+      'doc_title_manager_warehouse_list',
+      pageDictFallback('page_profile', 'doc_title_manager_warehouse_list', uiLang.value) || '仓库列表',
     )
   } else if (route.name === 'profile-manager-line-detail') {
     piece = t(
@@ -405,6 +418,15 @@ onMounted(() => applyProfileDocumentTitle())
           >
             <span class="sidebar-link-glow" aria-hidden="true" />
             <span class="sidebar-link-text">{{ navManagerLineQuery }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isManager"
+            :to="{ name: 'profile-manager-warehouse-list' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navManagerWarehouseList }}</span>
           </RouterLink>
           <RouterLink
             v-if="isKeeper"

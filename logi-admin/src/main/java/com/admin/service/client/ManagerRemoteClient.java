@@ -1,12 +1,13 @@
 package com.admin.service.client;
 
 import com.admin.dto.SysUserDto;
+import com.admin.dto.WmsWarehouseDto;
 import com.api.CommonResult;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 /**
- * 管理员域对外部微服务的聚合入口：OMS 订单、TMS 派车、gl-system 用户维护。
+ * 管理员域对外部微服务的聚合入口：OMS 订单、TMS 派车、WMS 仓库、gl-system 用户维护。
  * <p>权限校验在 {@link com.admin.service.impl.ManagerServiceImpl} 中统一处理，本类仅做远程转发。</p>
  */
 @Component
@@ -18,6 +19,8 @@ public class ManagerRemoteClient {
     private TmsServiceClient tmsServiceClient;
     @Resource
     private SystemServiceClient systemServiceClient;
+    @Resource
+    private WmsServiceClient wmsServiceClient;
 
     public CommonResult<?> getOrder(int pageNum, int pageSize) {
         return managerOmsClient.getOrder(pageNum, pageSize);
@@ -77,5 +80,21 @@ public class ManagerRemoteClient {
 
     public CommonResult<?> deleteSysUser(String userId) {
         return systemServiceClient.deleteSysUser(userId);
+    }
+
+    public CommonResult<?> getWarehouse(int pageNum, int pageSize) {
+        return wmsServiceClient.getWarehouse(pageNum, pageSize);
+    }
+
+    public CommonResult<?> addWarehouse(WmsWarehouseDto wmsWarehouseDto) {
+        return wmsServiceClient.addWarehouse(wmsWarehouseDto);
+    }
+
+    public CommonResult<?> updateWarehouse(WmsWarehouseDto wmsWarehouseDto) {
+        return wmsServiceClient.updateWarehouse(wmsWarehouseDto);
+    }
+
+    public CommonResult<?> deleteWarehouse(Long warehouseId) {
+        return wmsServiceClient.deleteWarehouse(warehouseId);
     }
 }

@@ -41,7 +41,9 @@ public final class SaTokenRouteChecks {
             // 商城 mall-admin / mall-portal 经 Feign 调用（无物流域 token、JWT 密钥亦不同），视为内网联调入口
             "/wms/addInboundApply",
             "/wms/payForInbound",
-            "/wms/outbound/create"
+            "/wms/outbound/create",
+            // 商户上架选仓：portal Feign 拉取启用仓库列表（只读）
+            "/wms/getAvailableWarehouse"
     };
 
     private SaTokenRouteChecks() {
@@ -114,7 +116,8 @@ public final class SaTokenRouteChecks {
         SaRouter.match("/tms/manager/**").check(r -> StpUtil.checkPermission("manager"));
 
         SaRouter.match("/wms/**")
-                .notMatch("/wms/sys/**", "/wms/addInboundApply", "/wms/payForInbound", "/wms/outbound/create")
+                .notMatch("/wms/sys/**", "/wms/addInboundApply", "/wms/payForInbound", "/wms/outbound/create",
+                        "/wms/getAvailableWarehouse")
                 .check(r -> StpUtil.checkPermission("keeper"));
 
         SaRouter.match("/oms/**").notMatch("/oms/sys/**").check(r -> StpUtil.checkLogin());

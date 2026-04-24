@@ -89,3 +89,28 @@ export function postManagerManualAssignDriver(transportOrderId, driverId) {
   q.set('driverId', String(driverId).trim())
   return postJson(`/admin/manager/transport/manualAssignDriver?${q.toString()}`, {}, { auth: true })
 }
+
+/** 管理员：分页仓库列表（经 logi-admin 转发 logi-wms） */
+export function fetchManagerWarehousePage(pageNum = 1, pageSize = 10) {
+  const q = new URLSearchParams()
+  q.set('pageNum', String(pageNum))
+  q.set('pageSize', String(pageSize))
+  return getJson(`/admin/manager/wms/getWarehouse?${q.toString()}`, { auth: true })
+}
+
+/** 管理员：新增仓库 */
+export function postManagerAddWarehouse(body) {
+  return postJson('/admin/manager/wms/addWarehouse', body, { auth: true })
+}
+
+/** 管理员：更新仓库 */
+export function postManagerUpdateWarehouse(body) {
+  return postJson('/admin/manager/wms/updateWarehouse', body, { auth: true })
+}
+
+/** 管理员：删除仓库 */
+export function postManagerDeleteWarehouse(warehouseId) {
+  const q = new URLSearchParams()
+  q.set('warehouseId', String(warehouseId).trim())
+  return postJson(`/admin/manager/wms/deleteWarehouse?${q.toString()}`, {}, { auth: true })
+}
