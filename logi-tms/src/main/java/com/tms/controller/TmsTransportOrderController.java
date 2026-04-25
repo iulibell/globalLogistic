@@ -49,4 +49,12 @@ public class TmsTransportOrderController {
                                                     @RequestParam String driverId) {
         return CommonResult.success(tmsTransportOrderService.manualAssignDriver(transportOrderId, driverId));
     }
+
+    @GetMapping("/sys/getTransportOrderIdByOrderId")
+    @Operation(
+            summary = "系统查询关联运输单号",
+            description = "系统间调用：根据业务订单号查询运输单号。")
+    public CommonResult<?> getTransportOrderIdByOrderId(@RequestParam String orderId) {
+        return CommonResult.success(tmsTransportOrderService.getTransportOrderIdByOrderId(orderId));
+    }
 }

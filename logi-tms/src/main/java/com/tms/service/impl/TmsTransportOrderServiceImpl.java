@@ -168,6 +168,18 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
         return n > 0;
     }
 
+    @Override
+    public String getTransportOrderIdByOrderId(String orderId) {
+        if (orderId == null || orderId.isBlank()) {
+            return null;
+        }
+        TmsTransportOrder order = tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
+                .eq(TmsTransportOrder::getOrderId, orderId)
+                .orderByDesc(TmsTransportOrder::getCreateTime)
+                .last("limit 1"));
+        return order == null ? null : order.getTransportOrderId();
+    }
+
     /**
      * 人工指派后司机拒单：记录拒单司机、降低权重，运输单回到待人工分配。
      */

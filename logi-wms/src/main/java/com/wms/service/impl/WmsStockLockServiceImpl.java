@@ -29,19 +29,25 @@ public class WmsStockLockServiceImpl implements WmsStockLockService {
 
     @Override
     public void WmsStockLock(OmsOrderDto omsOrderDto) {
-        if (wmsStockDao.selectOne(new LambdaQueryWrapper<WmsStock>()
-                .eq(WmsStock::getStockId,omsOrderDto.getGoodsId()))
-                .getStockQuantity() - omsOrderDto.getQuantity() <= 0)
+        WmsStock stock = wmsStockDao.selectOne(new LambdaQueryWrapper<WmsStock>()
+                .eq(WmsStock::getStockId, omsOrderDto.getGoodsId()));
+        if (stock == null) {
+            Assert.fail("wms_stock_not_found");
+        }
+        if (stock.getStockQuantity() == null || stock.getStockQuantity() - omsOrderDto.getQuantity() < 0)
             Assert.fail("wms_stock_insufficient");
 
-        wmsStockDao.update(new LambdaUpdateWrapper<WmsStock>()
-                .eq(WmsStock::getStockId,omsOrderDto.getGoodsId())
+        int rows = wmsStockDao.update(new LambdaUpdateWrapper<WmsStock>()
+                .eq(WmsStock::getStockId, omsOrderDto.getGoodsId())
                 .setSql("lock_quantity = lock_quantity + {0}", omsOrderDto.getQuantity())
                 .setSql("stock_quantity = stock_quantity - {0}", omsOrderDto.getQuantity()));
+        if (rows == 0) {
+            Assert.fail("wms_stock_lock_failed");
+        }
 
         WmsStockLock wmsStockLock = new WmsStockLock();
-        BeanUtils.copyProperties(omsOrderDto,wmsStockLock);
-        wmsStockLock.setLockQuantity(wmsStockLock.getLockQuantity());
+        BeanUtils.copyProperties(omsOrderDto, wmsStockLock);
+        wmsStockLock.setLockQuantity(omsOrderDto.getQuantity());
         wmsStockLock.setOrderId(omsOrderDto.getOrderId());
         wmsStockLock.setStockId(omsOrderDto.getGoodsId());
         wmsStockLockDao.insert(wmsStockLock);
@@ -66,6 +72,8 @@ public class WmsStockLockServiceImpl implements WmsStockLockService {
         WmsOutboundDto wmsOutboundDto = new WmsOutboundDto();
         BeanUtils.copyProperties(wmsStockLock,wmsOutboundDto);
         wmsOutboundDto.setOutboundId(outboundId);
+        // 新建出库单一律置为待出库，必须由仓管确认后才能完成出库。
+        wmsOutboundDto.setStatus((short) 0);
 
         wmsOutboundService.createOutbound(wmsOutboundDto);
     }

@@ -20,6 +20,11 @@ public class WmsWarehouseController {
         return wmsWarehouseService.getAvailableWarehouse(pageNum,pageSize);
     }
 
+    @GetMapping("/sys/getWarehouseById")
+    public CommonResult<?> getWarehouseByIdForSys(@RequestParam Long warehouseId){
+        return CommonResult.success(wmsWarehouseService.getWarehouseByIdForSys(warehouseId));
+    }
+
     @GetMapping("/manager/getWarehouse")
     public CommonResult<?> getWarehouse(@RequestParam(defaultValue = "1")int pageNum,
                                         @RequestParam(defaultValue = "10")int pageSize){

@@ -32,6 +32,8 @@ public class WmsOutboundServiceImpl implements WmsOutboundService {
         }
         WmsOutbound wmsOutbound = new WmsOutbound();
         BeanUtils.copyProperties(wmsOutboundDto,wmsOutbound);
+        // 服务端兜底：新建记录默认待出库，避免上游错误状态透传。
+        wmsOutbound.setStatus((short) 0);
         wmsOutboundDao.insert(wmsOutbound);
     }
 

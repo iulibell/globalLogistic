@@ -62,6 +62,14 @@ public class OmsOrderController {
         return CommonResult.success(omsOrderService.getOrderByIdForSys(orderId));
     }
 
+    @GetMapping("/sys/getOrderByUser")
+    @Operation(summary = "系统按用户分页查询订单", description = "系统间调用：根据 userId 查询该用户订单列表。")
+    public CommonResult<?> getOrderByUserForSys(@RequestParam String userId,
+                                                @RequestParam(defaultValue = "1") int pageNum,
+                                                @RequestParam(defaultValue = "10") int pageSize) {
+        return CommonResult.success(omsOrderService.getOrderByUserForSys(userId, pageNum, pageSize));
+    }
+
     @PostMapping("/cancelOrder")
     @Operation(summary = "用户取消订单", description = "买家主动取消未完结订单并释放相关资源。")
     public CommonResult<?> cancelOrder(@RequestParam String orderId) {
@@ -77,5 +85,28 @@ public class OmsOrderController {
             return CommonResult.success("oms_order_paid");
         }
         return CommonResult.success("oms_order_paid_idempotent");
+    }
+
+    @PostMapping("/sys/payForOrder")
+    @Operation(summary = "系统支付订单", description = "系统间调用：按订单号执行支付。")
+    public CommonResult<?> payForOrderForSys(@RequestParam String orderId) {
+        boolean paid = omsOrderService.payForOrder(orderId);
+        if (paid) {
+            return CommonResult.success("oms_order_paid");
+        }
+        return CommonResult.success("oms_order_paid_idempotent");
+    }
+
+    @PostMapping("/sys/cancelOrder")
+    @Operation(summary = "系统取消订单", description = "系统间调用：按订单号取消订单。")
+    public CommonResult<?> cancelOrderForSys(@RequestParam String orderId) {
+        omsOrderService.cancelOrder(orderId);
+        return CommonResult.success("oms_order_cancelled");
+    }
+
+    @GetMapping("/sys/getOrderPayDeadline")
+    @Operation(summary = "系统查询订单支付截止信息", description = "系统间调用：返回订单剩余支付秒数与过期时间戳。")
+    public CommonResult<?> getOrderPayDeadline(@RequestParam String orderId) {
+        return CommonResult.success(omsOrderService.getOrderPayDeadline(orderId));
     }
 }

@@ -52,4 +52,12 @@ public interface TmsTransportOrderService {
      * @return 是否指派成功
      */
     boolean manualAssignDriver(String transportOrderId, String driverId);
+
+    /**
+     * 系统间调用：按业务订单号查询关联运输单号。
+     *
+     * @param orderId 业务订单号
+     * @return 运输单号，不存在则返回 null
+     */
+    String getTransportOrderIdByOrderId(String orderId);
 }

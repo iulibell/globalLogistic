@@ -22,6 +22,8 @@ public final class SaTokenRouteChecks {
             "/system/register",
             "/system/register/sendCaptcha",
             "/admin/getRegisterFromSys",
+            // 系统间 Feign 查询订单详情（mall-portal -> logi-oms）
+            "/oms/sys/**",
             "/error",
             "/favicon.ico",
             "/swagger-ui.html",

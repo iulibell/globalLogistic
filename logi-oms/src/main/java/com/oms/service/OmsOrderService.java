@@ -3,6 +3,7 @@ package com.oms.service;
 import com.oms.dto.OmsOrderDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OmsOrderService {
     /**
@@ -18,6 +19,11 @@ public interface OmsOrderService {
      * @return 订单列表
      */
     List<OmsOrderDto> getOrder(int pageNum, int pageSize);
+
+    /**
+     * 系统间调用：按用户分页查询订单（无 manager 权限校验）
+     */
+    List<OmsOrderDto> getOrderByUserForSys(String userId, int pageNum, int pageSize);
 
     /**
      * 根据订单id获取订单信息(manager操作)
@@ -58,4 +64,9 @@ public interface OmsOrderService {
      * @return 本次是否将状态更新为 4
      */
     boolean markOrderPaymentTimeout(String orderId);
+
+    /**
+     * 系统间调用：获取订单支付截止信息（基于 Redis TTL）
+     */
+    Map<String, Object> getOrderPayDeadline(String orderId);
 }

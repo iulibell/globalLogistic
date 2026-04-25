@@ -293,7 +293,6 @@ CREATE TABLE IF NOT EXISTS `tms_transport_order` (
   `goods_id` VARCHAR(255) NULL COMMENT '商品id',
   `transport_order_id` VARCHAR(255) NULL COMMENT '运输订单id',
   `order_id` VARCHAR(255) NULL COMMENT '关联oms订单id',
-  `warehouse_id` BIGINT NULL COMMENT '仓库id',
   `driver_id` VARCHAR(255) NULL COMMENT '司机id',
   `last_reject_driver_id` VARCHAR(255) NULL COMMENT '最近一次拒单司机',
   `origin` VARCHAR(20) NULL COMMENT '起点',

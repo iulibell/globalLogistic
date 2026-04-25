@@ -32,6 +32,22 @@ public class WmsWarehouseServiceImpl implements WmsWarehouseService {
     }
 
     @Override
+    public WmsWarehouseDto getWarehouseByIdForSys(Long warehouseId) {
+        if (warehouseId == null) {
+            return null;
+        }
+        WmsWarehouse warehouse = wmsWarehouseDao.selectOne(new LambdaQueryWrapper<WmsWarehouse>()
+                .eq(WmsWarehouse::getWarehouseId, warehouseId)
+                .last("limit 1"));
+        if (warehouse == null) {
+            return null;
+        }
+        WmsWarehouseDto dto = new WmsWarehouseDto();
+        BeanUtils.copyProperties(warehouse, dto);
+        return dto;
+    }
+
+    @Override
     public List<WmsWarehouseDto> getWarehouse(int pageNum, int pageSize) {
         StpUtil.checkLogin();
         StpUtil.checkPermission("manager");

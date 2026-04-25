@@ -26,8 +26,6 @@ public class TmsTransportOrder {
     @Size(max = 255)
     @Schema(description = "关联order订单id")
     private String orderId;
-    @Schema(description = "仓库id")
-    private Long warehouseId;
     @Size(max = 255)
     @Schema(description = "司机id")
     private String driverId;

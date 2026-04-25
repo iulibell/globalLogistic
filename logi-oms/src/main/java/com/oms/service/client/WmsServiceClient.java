@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient("logi-wms")
 public interface WmsServiceClient {
-    @PostMapping("/wms/wmsStockLock")
+    @PostMapping("/wms/sys/wmsStockLock")
     void stockLock(@RequestBody OmsOrderDto omsOrderDto);
 
-    @PostMapping("/wmsStockUnlock")
+    @PostMapping("/wms/sys/wmsStockUnlock")
     void stockUnlock(@RequestParam String orderId);
 }

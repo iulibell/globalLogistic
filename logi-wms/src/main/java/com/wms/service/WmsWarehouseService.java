@@ -14,6 +14,13 @@ public interface WmsWarehouseService {
     List<WmsWarehouseDto> getAvailableWarehouse(int pageNum, int pageSize);
 
     /**
+     * 系统间调用：按仓库id查询仓库信息
+     * @param warehouseId 仓库id
+     * @return 仓库信息，不存在返回null
+     */
+    WmsWarehouseDto getWarehouseByIdForSys(Long warehouseId);
+
+    /**
      * 获取仓库信息(manager操作)
      * @param pageNum 页数
      * @param pageSize 页大小

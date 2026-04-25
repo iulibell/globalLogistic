@@ -76,10 +76,10 @@ INSERT INTO `tms_line` (`id`, `line_id`, `origin`, `dest`, `status`, `estimation
 -- -----------------------------------------------------------------------------
 -- logi-tms: tms_transport_order（含 status=6 待人工派单示例）
 -- -----------------------------------------------------------------------------
-INSERT INTO `tms_transport_order` (`id`, `transport_order_id`, `order_id`, `warehouse_id`, `user_id`, `driver_id`, `last_reject_driver_id`, `origin`, `phone`, `dest`, `status`, `fee`, `reject_count`, `create_time`, `update_time`) VALUES
-(1, 'TMS202604001', 'ORD202604001', 1, 'U10001', 'DRV001', NULL, '上海', '13900001001', '杭州', 2, 120.00, 0, '2026-04-01 11:00:00', '2026-04-01 13:00:00'),
-(2, 'TMS202604002', 'ORD202604003', 2, 'U10001', NULL, NULL, '北京', '13900001001', '北京', 1, 80.00, 0, '2026-04-03 09:30:00', '2026-04-03 09:45:00'),
-(3, 'TMS202604003', 'ORD202604002', 1, 'U10002', NULL, NULL, '上海', '13900001002', '苏州', 6, 200.00, 4, '2026-04-02 12:00:00', '2026-04-02 14:00:00');
+INSERT INTO `tms_transport_order` (`id`, `transport_order_id`, `order_id`, `user_id`, `driver_id`, `last_reject_driver_id`, `origin`, `phone`, `dest`, `status`, `fee`, `reject_count`, `create_time`, `update_time`) VALUES
+(1, 'TMS202604001', 'ORD202604001', 'U10001', 'DRV001', NULL, '上海', '13900001001', '杭州', 2, 120.00, 0, '2026-04-01 11:00:00', '2026-04-01 13:00:00'),
+(2, 'TMS202604002', 'ORD202604003', 'U10001', NULL, NULL, '北京', '13900001001', '北京', 1, 80.00, 0, '2026-04-03 09:30:00', '2026-04-03 09:45:00'),
+(3, 'TMS202604003', 'ORD202604002', 'U10002', NULL, NULL, '上海', '13900001002', '苏州', 6, 200.00, 4, '2026-04-02 12:00:00', '2026-04-02 14:00:00');
 
 INSERT INTO `tms_logistic` (`id`, `transport_order_id`, `driver_id`, `city`, `status`, `create_time`, `update_time`) VALUES
 (1, 'TMS202604001', 'DRV001', '嘉兴', 1, '2026-04-01 12:00:00', '2026-04-01 12:30:00'),

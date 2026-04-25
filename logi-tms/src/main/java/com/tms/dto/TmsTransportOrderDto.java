@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Data
 public class TmsTransportOrderDto {
     private String goodsId;
+    private String orderId;
     private String phone;
     @NotBlank(message = "运输订单id")
     private String transportOrderId;
