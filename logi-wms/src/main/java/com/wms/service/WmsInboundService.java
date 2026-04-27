@@ -4,6 +4,9 @@ import com.wms.dto.WmsInboundDto;
 
 import java.util.List;
 
+/**
+ * WMS 入库单处理服务接口。
+ */
 public interface WmsInboundService {
     /**
      * 获取待入库单列表(keeper操作)
@@ -15,6 +18,7 @@ public interface WmsInboundService {
 
     /**
      * 获取单个入库单
+     *
      * @param inbound 入库单id
      * @return 入库单
      */
@@ -22,8 +26,11 @@ public interface WmsInboundService {
 
     /**
      * 确认入库(keeper操作)
+     *
      * @param inboundId 入库单id
      * @param skuCode 商品编号(需keeper手动录入)
+     * @param locationId 仓位id
+     * @param category 商品类目
      */
     void confirmInbound(String inboundId, String skuCode, Long locationId, Short category);
 }

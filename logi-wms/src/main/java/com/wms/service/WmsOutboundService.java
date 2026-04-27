@@ -4,18 +4,19 @@ import com.wms.dto.WmsOutboundDto;
 
 import java.util.List;
 
+/**
+ * WMS 出库单处理服务接口。
+ */
 public interface WmsOutboundService {
     /**
-     * 创建出库单
+     * 创建出库单（由系统侧或门户侧触发）。
      *
      * @param wmsOutboundDto 出库dto
      */
     void createOutbound(WmsOutboundDto wmsOutboundDto);
 
-
-
     /**
-     * 确认出库(keeper操作)
+     * 仓管确认出库并触发后续物流链路。
      *
      * @param outboundId 出库单id
      */

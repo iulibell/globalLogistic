@@ -36,6 +36,7 @@ const sectionAccount = computed(() => t('page_profile', 'section_account', '账�
 const labelUsername = computed(() => t('page_profile', 'label_username', '用户名'))
 const labelNickname = computed(() => t('page_profile', 'label_nickname', '昵称'))
 const labelRole = computed(() => t('page_profile', 'label_role', '角色'))
+const labelCity = computed(() => t('page_profile', 'label_city', '所在城市'))
 const hintNotLoggedIn = computed(() => t('page_profile', 'hint_not_logged_in', '未登录，无法查看个人中心。'))
 const btnGoLogin = computed(() => t('page_profile', 'btn_go_login', '去登录'))
 const sectionDriver = computed(() => t('page_profile', 'section_driver_info', pageDictFallback('page_profile', 'section_driver_info', uiLang.value) || '司机信息'))
@@ -295,6 +296,10 @@ onUnmounted(() => {
         <div class="kv-row">
           <dt>{{ labelRole }}</dt>
           <dd>{{ userRoleLabel || valueEmpty }}</dd>
+        </div>
+        <div class="kv-row">
+          <dt>{{ labelCity }}</dt>
+          <dd>{{ (profile?.city && String(profile.city).trim()) || valueEmpty }}</dd>
         </div>
       </dl>
 

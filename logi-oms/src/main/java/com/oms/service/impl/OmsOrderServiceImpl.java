@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,7 +125,23 @@ public class OmsOrderServiceImpl implements OmsOrderService {
         OmsOrderDto omsOrderDto = new OmsOrderDto();
         BeanUtil.copyProperties(omsOrder,omsOrderDto);
         omsOrderDto.setTransportOrderId(queryTransportOrderIdByOrderId(orderId));
+        OmsOrderItem item = omsOrderItemDao.selectOne(new LambdaQueryWrapper<OmsOrderItem>()
+                .eq(OmsOrderItem::getOrderId, orderId)
+                .last("limit 1"));
+        if (item != null && item.getQuantity() != null) {
+            omsOrderDto.setQuantity(item.getQuantity());
+        }
         return omsOrderDto;
+    }
+
+    @Override
+    public int sumItemQuantityForUserGoodsBetween(String userId, String goodsId, Date startTime, Date endTime) {
+        if (userId == null || userId.isBlank() || goodsId == null || goodsId.isBlank()
+                || startTime == null || endTime == null) {
+            return 0;
+        }
+        Integer n = omsOrderDao.sumItemQuantityForUserGoodsBetween(userId.trim(), goodsId.trim(), startTime, endTime);
+        return n == null ? 0 : n;
     }
 
     @Override

@@ -43,4 +43,11 @@ public class RedisConstant {
      */
     public static final String LOGI_KEY_PREFIX = "logi:";
     public static final int LOGI_EXPIRE_TIME = 30;
+
+    /**
+     * 收货方（用户/商家）确认签收标记，司机确认签收前用于提示。
+     * 时间7天
+     */
+    public static final String CONSIGNEE_SIGN_KEY_PREFIX = "consignee:sign:";
+    public static final int CONSIGNEE_SIGN_EXPIRE_DAYS = 7;
 }

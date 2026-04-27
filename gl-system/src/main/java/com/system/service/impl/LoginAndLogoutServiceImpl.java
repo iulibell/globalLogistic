@@ -143,6 +143,7 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
         sessionDto.setUserType(sysUser.getUserType());
         sessionDto.setNickname(sysUser.getNickname());
         sessionDto.setPhone(sysUser.getPhone());
+        sessionDto.setCity(sysUser.getCity());
 
         stpLogic.getSession().set(AuthConstant.STP_ADMIN_INFO, UserSessionDto.toSessionMap(sessionDto));
 
@@ -171,6 +172,7 @@ public class LoginAndLogoutServiceImpl implements LoginAndLogoutService {
             if (resolvedRoleKey != null) {
                 tokenMap.put("role", resolvedRoleKey);
             }
+            tokenMap.put("city", dto.getCity());
         }
         tokenMap.put("nickname", displayName);
         @SuppressWarnings("unchecked")

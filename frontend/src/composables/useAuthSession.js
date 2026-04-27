@@ -37,6 +37,7 @@ export function useAuthSession() {
       username: d.username,
       nickname: d.nickname,
       role: d.role,
+      city: d.city,
     }
     sessionStorage.setItem(AUTH_PROFILE_KEY, JSON.stringify(snapshot))
     profile.value = snapshot

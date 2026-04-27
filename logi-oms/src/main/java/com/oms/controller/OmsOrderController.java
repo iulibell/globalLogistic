@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/oms")
 @Tag(name = "OmsOrderController", description = "订单域：电商下单、支付、取消、查询及与审核/超时相关的系统回调。")
@@ -68,6 +70,17 @@ public class OmsOrderController {
                                                 @RequestParam(defaultValue = "1") int pageNum,
                                                 @RequestParam(defaultValue = "10") int pageSize) {
         return CommonResult.success(omsOrderService.getOrderByUserForSys(userId, pageNum, pageSize));
+    }
+
+    @GetMapping("/sys/sumUserSeckillGoodsQuantity")
+    @Operation(summary = "统计用户秒杀窗口内已购件数", description = "待支付(3)、已支付(5) 订单行数量之和；时间窗为活动起止毫秒。")
+    public CommonResult<Integer> sumUserSeckillGoodsQuantity(@RequestParam String userId,
+                                                           @RequestParam String goodsId,
+                                                           @RequestParam long startMs,
+                                                           @RequestParam long endMs) {
+        int n = omsOrderService.sumItemQuantityForUserGoodsBetween(
+                userId, goodsId, new Date(startMs), new Date(endMs));
+        return CommonResult.success(n);
     }
 
     @PostMapping("/cancelOrder")

@@ -75,6 +75,13 @@ const navManagerWarehouseList = computed(() =>
 const navKeeperInboundList = computed(() =>
   t('page_profile', 'nav_keeper_inbound_list', pageDictFallback('page_profile', 'nav_keeper_inbound_list', uiLang.value)),
 )
+const navKeeperPortalOffShelf = computed(() =>
+  t(
+    'page_profile',
+    'nav_keeper_portal_off_shelf',
+    pageDictFallback('page_profile', 'nav_keeper_portal_off_shelf', uiLang.value) || '下架申请',
+  ),
+)
 const navKeeperInboundApply = computed(() =>
   t('page_profile', 'nav_keeper_inbound_apply', pageDictFallback('page_profile', 'nav_keeper_inbound_apply', uiLang.value)),
 )
@@ -222,6 +229,12 @@ function applyProfileDocumentTitle() {
       'page_profile',
       'doc_title_keeper_inbound_list',
       pageDictFallback('page_profile', 'doc_title_keeper_inbound_list', uiLang.value),
+    )
+  } else if (route.name === 'profile-keeper-portal-off-shelf') {
+    piece = t(
+      'page_profile',
+      'doc_title_keeper_portal_off_shelf',
+      pageDictFallback('page_profile', 'doc_title_keeper_portal_off_shelf', uiLang.value) || '下架申请',
     )
   } else if (route.name === 'profile-keeper-inbound-apply') {
     piece = t(
@@ -436,6 +449,15 @@ onMounted(() => applyProfileDocumentTitle())
           >
             <span class="sidebar-link-glow" aria-hidden="true" />
             <span class="sidebar-link-text">{{ navKeeperInboundList }}</span>
+          </RouterLink>
+          <RouterLink
+            v-if="isKeeper"
+            :to="{ name: 'profile-keeper-portal-off-shelf' }"
+            class="sidebar-link"
+            active-class="sidebar-link--active"
+          >
+            <span class="sidebar-link-glow" aria-hidden="true" />
+            <span class="sidebar-link-text">{{ navKeeperPortalOffShelf }}</span>
           </RouterLink>
           <RouterLink
             v-if="isKeeper"

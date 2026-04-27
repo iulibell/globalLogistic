@@ -1,6 +1,22 @@
 import { getJson, postJson } from '@/api/http.js'
 import { AUTH_TOKEN_KEY } from '@/constants/authStorage.js'
 
+/** 仓管：商城下架申请（待审核）分页 */
+export function fetchKeeperPortalOffShelfPending(pageNum = 1, pageSize = 10) {
+  const q = new URLSearchParams()
+  q.set('pageNum', String(pageNum))
+  q.set('pageSize', String(pageSize))
+  return getJson(`/wms/keeper/portalOffShelf/pending?${q.toString()}`, { auth: true })
+}
+
+/** 仓管：核定商城下架费用（置为待支付） */
+export function postKeeperPortalOffShelfSetFee(offShelfId, fee) {
+  const q = new URLSearchParams()
+  q.set('offShelfId', String(offShelfId ?? '').trim())
+  q.set('fee', String(fee))
+  return postJson(`/wms/keeper/portalOffShelf/setFee?${q.toString()}`, {}, { auth: true })
+}
+
 /** 仓管：分页入库单列表 */
 export function fetchKeeperInboundPage(pageNum = 1, pageSize = 10) {
   const q = new URLSearchParams()

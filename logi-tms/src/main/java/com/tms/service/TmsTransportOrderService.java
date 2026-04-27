@@ -60,4 +60,20 @@ public interface TmsTransportOrderService {
      * @return 运输单号，不存在则返回 null
      */
     String getTransportOrderIdByOrderId(String orderId);
+
+    /**
+     * 收货方（用户/商家）确认签收。
+     *
+     * @param transportOrderId 运输单号
+     * @return 是否标记成功
+     */
+    boolean markConsigneeSigned(String transportOrderId);
+
+    /**
+     * 查询收货方是否已确认签收。
+     *
+     * @param transportOrderId 运输单号
+     * @return 是否已确认
+     */
+    boolean hasConsigneeSigned(String transportOrderId);
 }

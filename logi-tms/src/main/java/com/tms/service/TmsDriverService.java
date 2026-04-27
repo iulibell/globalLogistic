@@ -7,6 +7,9 @@ import com.tms.dto.TmsTransportOrderDto;
 
 import java.util.List;
 
+/**
+ * TMS 司机端业务服务接口。
+ */
 public interface TmsDriverService {
 
     /**
@@ -62,6 +65,7 @@ public interface TmsDriverService {
      *
      * @param transportOrderId 派单id
      * @param driverId 司机id
+     * @return 是否接单成功
      */
     boolean accessAssignment(String transportOrderId , String driverId);
 
@@ -85,6 +89,8 @@ public interface TmsDriverService {
 
     /**
      * 修改状态(driver操作)
+     *
+     * @param driverId 司机id
      * @param status 状态
      */
     void updateStatus(String driverId, Short status);

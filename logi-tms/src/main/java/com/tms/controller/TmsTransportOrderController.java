@@ -57,4 +57,12 @@ public class TmsTransportOrderController {
     public CommonResult<?> getTransportOrderIdByOrderId(@RequestParam String orderId) {
         return CommonResult.success(tmsTransportOrderService.getTransportOrderIdByOrderId(orderId));
     }
+
+    @PostMapping("/sys/consigneeSign")
+    @Operation(
+            summary = "系统记录收货方已签收",
+            description = "由商城用户/商家确认签收后调用，写入收货确认标记。")
+    public CommonResult<Boolean> consigneeSign(@RequestParam String transportOrderId) {
+        return CommonResult.success(tmsTransportOrderService.markConsigneeSigned(transportOrderId));
+    }
 }

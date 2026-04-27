@@ -3,11 +3,13 @@ package com.wms.controller;
 import com.api.CommonResult;
 import com.wms.dto.WmsWarehouseDto;
 import com.wms.service.WmsWarehouseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "WmsWarehouseController", description = "WMS 仓库接口：仓库查询与基础信息维护")
 @RestController
 @RequestMapping("/wms")
 public class WmsWarehouseController {

@@ -56,4 +56,11 @@ public interface ReviewerService {
      * @return 结果信息
      */
     CommonResult<?> rejectOrderReview(String orderId, String remark);
+
+    /**
+     * 分配仓管管辖城市（仅仓管可分配）。
+     * @param userId 仓管用户id
+     * @param city 管辖城市
+     */
+    void assignKeeperCity(String userId, String city);
 }

@@ -9,7 +9,7 @@ export function login(payload) {
 
 /**
  * 与后端 {@code RegisterParamDto} 字段一致：username、userType 为 "1"–"5" 字符串。
- * @param {{ username: string, password: string, phone: string, userType: string, nickname?: string }} payload
+ * @param {{ username: string, password: string, phone: string, userType: string, city?: string, nickname?: string }} payload
  */
 export function register(payload) {
   return postJson('/auth/register', payload, { auth: false })

@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useUiLang } from '@/composables/useUiLang.js'
 import { useMultiDictionary } from '@/composables/useMultiDictionary.js'
 import { pageDictFallback } from '@/utils/pageDictionaryFallback.js'
-import { fetchDriverTransportOrders, postDriverAcceptAssignment } from '@/api/driver.js'
+import { fetchDriverInfo, fetchDriverTransportOrders, postDriverAcceptAssignment } from '@/api/driver.js'
 import { useAuthSession } from '@/composables/useAuthSession.js'
 import { translateApiMessage } from '@/utils/apiMessageI18n.js'
 import { showToast } from '@/utils/toast.js'
@@ -55,6 +55,9 @@ const btnNext = computed(() => t('page_profile', 'super_btn_next', pageDictFallb
 const acceptFailed = computed(
   () => t('page_profile', 'driver_accept_failed', pageDictFallback('page_profile', 'driver_accept_failed', uiLang.value) || '接单失败'),
 )
+const blockedByStatusText = computed(
+  () => t('page_profile', 'driver_transport_blocked_by_status', pageDictFallback('page_profile', 'driver_transport_blocked_by_status', uiLang.value) || '当前状态无法进行接单'),
+)
 
 const { profile } = useAuthSession()
 
@@ -64,11 +67,27 @@ const errorMsg = ref('')
 const pageNum = ref(1)
 const pageSize = ref(10)
 const actingOrderId = ref('')
+const blockedByStatus = ref(false)
+
+function isDriverAvailableStatus(s) {
+  // 0=上线空闲；1=运输中（仍视为在线）；2=下线休息；3=离职
+  return !(s === 2 || s === '2' || s === 3 || s === '3')
+}
 
 async function loadPage() {
   loading.value = true
   errorMsg.value = ''
+  blockedByStatus.value = false
   try {
+    const driverRes = await fetchDriverInfo()
+    if (driverRes?.code === 200) {
+      const s = driverRes?.data?.status
+      if (!isDriverAvailableStatus(s)) {
+        rows.value = []
+        blockedByStatus.value = true
+        return
+      }
+    }
     const res = await fetchDriverTransportOrders(pageNum.value, pageSize.value)
     if (res.code !== 200) {
       throw new Error(res.message && String(res.message).trim() ? String(res.message) : 'generic_error')
@@ -96,6 +115,7 @@ function fmtFee(v) {
 }
 
 async function onAccept(row) {
+  if (blockedByStatus.value) return
   const transportOrderId = row?.transportOrderId != null ? String(row.transportOrderId).trim() : ''
   const driverId = profile.value?.userId != null ? String(profile.value.userId).trim() : ''
   if (!transportOrderId || !driverId || !!actingOrderId.value) return
@@ -139,6 +159,7 @@ onMounted(() => loadPage())
     <div class="panel">
       <p v-if="loading" class="state-msg">{{ loadingText }}</p>
       <p v-else-if="errorMsg" class="state-msg state-msg--err">{{ loadError }}：{{ errorMsg }}</p>
+      <p v-else-if="blockedByStatus" class="state-msg">{{ blockedByStatusText }}</p>
       <p v-else-if="!rows.length" class="state-msg">{{ emptyList }}</p>
       <template v-else>
         <div class="table-wrap">

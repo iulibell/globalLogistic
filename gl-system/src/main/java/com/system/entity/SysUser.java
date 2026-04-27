@@ -32,6 +32,9 @@ public class SysUser {
     @Size(max = 11)
     @Schema(description = "用户手机号")
     private String phone;
+    @Size(max = 30)
+    @Schema(description = "所在城市（仓管用于管辖仓库过滤，司机用于派单城市匹配）")
+    private String city;
     @Size(max = 20)
     @Schema(description = "用户身份:1->super,2->manager,3->keeper,4->driver,5->reviewer")
     @ParamValidator(value = {"1","2","3","4","5"},message = "非本平台用户")

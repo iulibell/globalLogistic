@@ -77,6 +77,11 @@ public class RegisterServiceImpl implements RegisterService {
         if (StrUtil.isBlank(registerParamDto.getVerifyCode()) || !registerParamDto.getVerifyCode().matches("\\d{6}")) {
             return CommonResult.failed("register_verify_required");
         }
+        String normalizedUserType = StrUtil.trim(registerParamDto.getUserType());
+        if (("3".equals(normalizedUserType) || "4".equals(normalizedUserType))
+                && StrUtil.isBlank(registerParamDto.getCity())) {
+            return CommonResult.failed("register_city_required");
+        }
 
         String captchaKey = RedisConstant.REGIS_CAPTCHA_PREFIX + registerParamDto.getPhone();
         Object cached = redisService.get(captchaKey);

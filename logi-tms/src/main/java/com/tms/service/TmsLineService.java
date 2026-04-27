@@ -4,6 +4,9 @@ import com.tms.dto.TmsLineDto;
 
 import java.util.List;
 
+/**
+ * TMS 运输线路服务接口。
+ */
 public interface TmsLineService {
     /**
      * 通过id获取单条运输路线(manager操作)

@@ -21,6 +21,8 @@ public class RegisterParamDto {
     @Pattern(regexp = "^1\\d{10}$", message = "validation_phone_format")
     @Size(max = 11, message = "validation_phone_too_long")
     private String phone;
+    @Schema(description = "所在城市（仓管/司机注册必填）")
+    private String city;
 
     /**
      * 门户自助注册必填；管理端审核接口可不带此字段。

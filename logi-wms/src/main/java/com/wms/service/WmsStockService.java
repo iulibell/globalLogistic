@@ -4,6 +4,9 @@ import com.wms.dto.WmsStockDto;
 
 import java.util.List;
 
+/**
+ * WMS 库存管理服务接口。
+ */
 public interface WmsStockService {
     /**
      * 获取库存列表(keeper操作)

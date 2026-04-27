@@ -33,6 +33,7 @@ const nickname = ref('')
 const phone = ref('')
 const verifyCode = ref('')
 const userType = ref('2')
+const city = ref('')
 const showPassword = ref(false)
 const agreed = ref(false)
 
@@ -49,6 +50,7 @@ const fieldErrors = ref({
   phone: '',
   verifyCode: '',
   userType: '',
+  city: '',
   agreed: '',
 })
 
@@ -66,6 +68,7 @@ function validateRegisterForm() {
     phone: '',
     verifyCode: '',
     userType: '',
+    city: '',
     agreed: '',
   }
   let ok = true
@@ -101,11 +104,16 @@ function validateRegisterForm() {
     next.userType = regT('page_register', 'err_user_type_required', fb('err_user_type_required'))
     ok = false
   }
+  if (needsCity.value && !city.value.trim()) {
+    next.city = regT('page_register', 'err_city_required', fb('err_city_required') || '请选择所在城市')
+    ok = false
+  }
   fieldErrors.value = next
   return ok
 }
 
 const passwordInputType = computed(() => (showPassword.value ? 'text' : 'password'))
+const needsCity = computed(() => userType.value === '3' || userType.value === '4')
 
 /** 显式依赖 uiLang，保证切换语言后标题/标签等与字典一并刷新 */
 const reg = computed(() => {
@@ -118,6 +126,7 @@ const reg = computed(() => {
     labelPassword: g('label_password', '密码'),
     labelPhone: g('label_phone', '手机号'),
     labelRole: g('label_role', '身份'),
+    labelCity: g('label_city', '所在城市'),
     labelNickname: g('label_nickname', '昵称（选填）'),
     termsPrefix: g('terms_prefix', '我已阅读并同意'),
     termsLinkTos: g('terms_link_tos', '《服务条款》'),
@@ -249,6 +258,10 @@ async function onSubmit() {
     const nick = nickname.value.trim()
     if (nick) {
       body.nickname = nick
+    }
+    const c = city.value.trim()
+    if (c) {
+      body.city = c
     }
     const res = await registerApi(body)
     if (res.code !== 200) {
@@ -432,6 +445,20 @@ function goLogin() {
                 </option>
               </select>
               <p v-if="fieldErrors.userType" class="field-error">{{ fieldErrors.userType }}</p>
+            </label>
+
+            <label v-if="needsCity" class="field">
+              <span class="label">{{ reg.labelCity }}</span>
+              <input
+                v-model="city"
+                class="input"
+                :class="{ 'input--error': fieldErrors.city }"
+                type="text"
+                :placeholder="regT('page_register', 'placeholder_city', '例如：上海')"
+                :aria-invalid="fieldErrors.city ? 'true' : 'false'"
+                @input="clearFieldError('city')"
+              />
+              <p v-if="fieldErrors.city" class="field-error">{{ fieldErrors.city }}</p>
             </label>
 
             <label class="field">

@@ -180,6 +180,38 @@ public class TmsTransportOrderServiceImpl implements TmsTransportOrderService {
         return order == null ? null : order.getTransportOrderId();
     }
 
+    @Override
+    public boolean markConsigneeSigned(String transportOrderId) {
+        if (transportOrderId == null || transportOrderId.isBlank()) {
+            return false;
+        }
+        TmsTransportOrder order = tmsTransportOrderDao.selectOne(new LambdaQueryWrapper<TmsTransportOrder>()
+                .eq(TmsTransportOrder::getTransportOrderId, transportOrderId.trim())
+                .orderByDesc(TmsTransportOrder::getCreateTime)
+                .last("limit 1"));
+        if (order == null || order.getStatus() == null) {
+            return false;
+        }
+        short status = order.getStatus();
+        if (status != (short) 3 && status != (short) 4) {
+            return false;
+        }
+        redisService.set(
+                RedisConstant.CONSIGNEE_SIGN_KEY_PREFIX + transportOrderId.trim(),
+                "1",
+                RedisConstant.CONSIGNEE_SIGN_EXPIRE_DAYS,
+                TimeUnit.DAYS);
+        return true;
+    }
+
+    @Override
+    public boolean hasConsigneeSigned(String transportOrderId) {
+        if (transportOrderId == null || transportOrderId.isBlank()) {
+            return false;
+        }
+        return redisService.hasKey(RedisConstant.CONSIGNEE_SIGN_KEY_PREFIX + transportOrderId.trim());
+    }
+
     /**
      * 人工指派后司机拒单：记录拒单司机、降低权重，运输单回到待人工分配。
      */

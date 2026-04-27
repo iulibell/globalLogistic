@@ -1,9 +1,11 @@
 package com.wms.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+@Schema(description = "仓库信息参数")
 public class WmsWarehouseDto {
     @NotBlank(message = "仓库id不能为空")
     private Long warehouseId;

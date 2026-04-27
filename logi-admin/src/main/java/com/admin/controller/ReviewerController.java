@@ -77,4 +77,14 @@ public class ReviewerController {
                                              @RequestParam String remark) {
         return reviewerService.rejectOrderReview(orderId, remark);
     }
+
+    @PostMapping("/reviewer/assignKeeperCity")
+    @Operation(
+            summary = "分配仓管管辖城市",
+            description = "审核员为仓管账号指定管辖城市（如上海/广州），仓管后续仅可操作该城市仓库。")
+    public CommonResult<?> assignKeeperCity(@RequestParam String userId,
+                                            @RequestParam String city) {
+        reviewerService.assignKeeperCity(userId, city);
+        return CommonResult.success("reviewer_assign_keeper_city_success");
+    }
 }

@@ -116,6 +116,12 @@ public class TmsDriverController {
         return CommonResult.success("已确认签收");
     }
 
+    @Operation(summary = "查询收货方是否已确认签收")
+    @GetMapping("/driver/isConsigneeSigned")
+    public CommonResult<Boolean> isConsigneeSigned(@RequestParam String transportOrderId) {
+        return CommonResult.success(tmsTransportOrderService.hasConsigneeSigned(transportOrderId));
+    }
+
     @Operation(summary = "新增司机车辆")
     @PostMapping("/driver/addVehicle")
     public CommonResult<?> addVehicle(@Valid @RequestBody TmsVehicleDto tmsVehicleDto) {

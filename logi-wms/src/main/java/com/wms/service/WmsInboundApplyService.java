@@ -5,6 +5,9 @@ import com.wms.dto.WmsInboundApplyDto;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * WMS 入库申请审核与支付流转服务接口。
+ */
 public interface WmsInboundApplyService {
     /**
      * 商家申请入库
@@ -29,7 +32,9 @@ public interface WmsInboundApplyService {
 
     /**
      * 通过入库申请审核(keeper操作)
+     *
      * @param applyId 申请id
+     * @param fee     入库费用
      */
     void accessInboundApply(String applyId, BigDecimal fee);
 
@@ -42,7 +47,9 @@ public interface WmsInboundApplyService {
 
     /**
      * 商家支付后进行插入数据,并准备分配司机
+     *
      * @param applyId 申请id
+     * @return 运输单号或关联标识
      */
     String payForInbound(String applyId);
 

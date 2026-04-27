@@ -73,6 +73,11 @@ const router = createRouter({
           component: () => import('@/views/KeeperInboundListView.vue'),
         },
         {
+          path: 'keeper/portal-off-shelf',
+          name: 'profile-keeper-portal-off-shelf',
+          component: () => import('@/views/KeeperPortalOffShelfView.vue'),
+        },
+        {
           path: 'keeper/inbound-apply',
           name: 'profile-keeper-inbound-apply',
           component: () => import('@/views/KeeperInboundApplyListView.vue'),
@@ -160,6 +165,7 @@ const MANAGER_PROFILE_NAMES = new Set([
 ])
 const KEEPER_PROFILE_NAMES = new Set([
   'profile-keeper-inbound-list',
+  'profile-keeper-portal-off-shelf',
   'profile-keeper-inbound-apply',
   'profile-keeper-inbound-apply-query',
   'profile-keeper-outbound-list',

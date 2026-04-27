@@ -4,6 +4,9 @@ import com.wms.dto.WmsWarehouseDto;
 
 import java.util.List;
 
+/**
+ * WMS 仓库主数据服务接口。
+ */
 public interface WmsWarehouseService {
     /**
      * 获取可用仓库信息(电商商家在选址的时候展示)

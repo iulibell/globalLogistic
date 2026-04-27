@@ -4,6 +4,9 @@ import com.tms.dto.TmsLogisticDto;
 
 import java.util.List;
 
+/**
+ * TMS 物流轨迹查询服务接口。
+ */
 public interface TmsLogisticService {
     /**
      * 通过运输单查询物流(全用户可查)

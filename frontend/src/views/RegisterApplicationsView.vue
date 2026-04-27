@@ -43,6 +43,7 @@ const colUsername = computed(() => t('page_profile', 'col_username', '用户名'
 const colNickname = computed(() => t('page_profile', 'col_nickname', '昵称'))
 const colPhone = computed(() => t('page_profile', 'col_phone', '手机号'))
 const colUserType = computed(() => t('page_profile', 'col_user_type', '申请身份'))
+const colCity = computed(() => t('page_profile', 'col_city', '所在城市'))
 const colStatus = computed(() => t('page_profile', 'col_status', '状态'))
 
 const emptyList = computed(() =>
@@ -76,6 +77,7 @@ const loading = ref(true)
 const errorMsg = ref('')
 /** 正在处理的手机号，用于行内禁用 */
 const actingPhone = ref(null)
+const assignedKeeperCity = ref({})
 
 function isPending(row) {
   const s = row?.status
@@ -89,12 +91,18 @@ function buildRegisterBody(row) {
     row.nickname != null && String(row.nickname).trim()
       ? String(row.nickname).trim()
       : String(row.username || '').trim()
+  const rowCity = row.city != null ? String(row.city).trim() : ''
+  const city =
+    ut === '3'
+      ? String(assignedKeeperCity.value[row.phone] || rowCity).trim()
+      : rowCity
   return {
     username: String(row.username || '').trim(),
     password: String(row.password || ''),
     nickname: nick,
     userType: ut,
     phone: String(row.phone || '').trim(),
+    city,
   }
 }
 
@@ -118,6 +126,15 @@ async function loadList() {
 
 async function onApprove(row) {
   if (!isPending(row) || actingPhone.value) return
+  const ut = row.userType != null ? String(row.userType) : ''
+  const city = String(assignedKeeperCity.value[row.phone] || row.city || '').trim()
+  if ((ut === '3' || ut === '4') && !city) {
+    showToast(
+      t('page_profile', 'register_apps_city_required', pageDictFallback('page_profile', 'register_apps_city_required', uiLang.value) || '仓管/司机审批前请填写所在城市'),
+      { type: 'warning' },
+    )
+    return
+  }
   actingPhone.value = row.phone
   try {
     const res = await postAccessRegister(buildRegisterBody(row))
@@ -207,6 +224,7 @@ onMounted(() => loadList())
               <th>{{ colNickname }}</th>
               <th>{{ colPhone }}</th>
               <th>{{ colUserType }}</th>
+              <th>{{ colCity }}</th>
               <th>{{ colStatus }}</th>
               <th class="th-actions">{{ colActions }}</th>
             </tr>
@@ -217,6 +235,19 @@ onMounted(() => loadList())
               <td>{{ (row.nickname && String(row.nickname).trim()) || row.username || valueEmpty }}</td>
               <td>{{ row.phone || valueEmpty }}</td>
               <td>{{ userTypeLabel(row.userType) }}</td>
+              <td>
+                <template v-if="isPending(row) && String(row.userType) === '3'">
+                  <input
+                    v-model="assignedKeeperCity[row.phone]"
+                    class="city-input"
+                    type="text"
+                    :placeholder="String(row.city || '').trim() || '例如：上海'"
+                  />
+                </template>
+                <template v-else>
+                  {{ (row.city && String(row.city).trim()) || valueEmpty }}
+                </template>
+              </td>
               <td>{{ statusLabel(row.status) }}</td>
               <td class="td-actions">
                 <template v-if="isPending(row)">
@@ -394,6 +425,16 @@ onMounted(() => loadList())
 .actions-placeholder {
   color: #5c6d82;
   font-size: 13px;
+}
+
+.city-input {
+  width: 120px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(61, 141, 255, 0.35);
+  background: rgba(12, 18, 30, 0.9);
+  color: #e8eef6;
+  font-size: 12px;
 }
 
 @media (max-width: 768px) {

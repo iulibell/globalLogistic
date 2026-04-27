@@ -2,9 +2,15 @@ package com.oms.service;
 
 import com.oms.dto.OmsOrderDto;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * OMS 订单服务接口。
+ * <p>
+ * 对外提供订单创建、支付流转、查询与超时处理能力。
+ */
 public interface OmsOrderService {
     /**
      * 添加订单,若为普通商品(category->0)则直接进行锁库操作,并待用户支付(30mins),电商调用该接口
@@ -69,4 +75,9 @@ public interface OmsOrderService {
      * 系统间调用：获取订单支付截止信息（基于 Redis TTL）
      */
     Map<String, Object> getOrderPayDeadline(String orderId);
+
+    /**
+     * 统计用户在活动时间内、指定商品已下单（待支付/已支付）的件数，用于秒杀限购。
+     */
+    int sumItemQuantityForUserGoodsBetween(String userId, String goodsId, Date startTime, Date endTime);
 }

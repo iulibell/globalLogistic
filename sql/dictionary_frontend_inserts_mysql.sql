@@ -977,3 +977,11 @@ INSERT INTO `dictionary` (`dict_type`, `dict_name`, `dict_value`, `sort`, `statu
 ('page_register', '请选择身份', 'err_user_type_required', 49, 1, '1'),
 ('page_register', 'Please choose a role', 'err_user_type_required', 49, 1, '2'),
 ('page_register', 'Выберите роль', 'err_user_type_required', 49, 1, '3');
+
+# ---------------------------------------------------------------------------
+-- DriverCurrentAssignmentView.vue：司机确认签收前提示（收件人未签收）
+# ---------------------------------------------------------------------------
+INSERT INTO `dictionary` (`dict_type`, `dict_name`, `dict_value`, `sort`, `status`, `lang`) VALUES
+('page_profile', '收货人还未签收，确认已签收吗？', 'driver_confirm_received_unsigned_prompt', 280, 1, '1'),
+('page_profile', 'The consignee has not confirmed receipt yet. Confirm as received?', 'driver_confirm_received_unsigned_prompt', 280, 1, '2'),
+('page_profile', 'Получатель еще не подтвердил получение. Подтвердить как получено?', 'driver_confirm_received_unsigned_prompt', 280, 1, '3');

@@ -31,6 +31,9 @@ public class RegisterApplication {
     @Size(max = 11)
     @Schema(description = "手机号")
     private String phone;
+    @Size(max = 30)
+    @Schema(description = "所在城市（仓管/司机申请时必填）")
+    private String city;
     @Schema(description = "状态:0->待审核,1->已审核,2->未过审")
     private Short status;
 }

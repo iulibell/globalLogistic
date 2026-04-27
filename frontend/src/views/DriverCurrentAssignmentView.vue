@@ -4,6 +4,7 @@ import { useUiLang } from '@/composables/useUiLang.js'
 import { useMultiDictionary } from '@/composables/useMultiDictionary.js'
 import { pageDictFallback } from '@/utils/pageDictionaryFallback.js'
 import {
+  fetchDriverConsigneeSigned,
   fetchDriverCurrentAssignmentDetail,
   fetchDriverLineDetail,
   postDriverConfirmArrived,
@@ -27,6 +28,7 @@ const sectionOrder = computed(() => t('page_profile', 'section_driver_order_deta
 const btnDeparture = computed(() => t('page_profile', 'btn_driver_confirm_departure', pageDictFallback('page_profile', 'btn_driver_confirm_departure', uiLang.value) || '确认发车'))
 const btnArrived = computed(() => t('page_profile', 'btn_driver_confirm_arrived', pageDictFallback('page_profile', 'btn_driver_confirm_arrived', uiLang.value) || '确认送达'))
 const btnReceived = computed(() => t('page_profile', 'btn_driver_confirm_received', pageDictFallback('page_profile', 'btn_driver_confirm_received', uiLang.value) || '确认签收'))
+const confirmReceivedUnsignedPrompt = computed(() => t('page_profile', 'driver_confirm_received_unsigned_prompt', pageDictFallback('page_profile', 'driver_confirm_received_unsigned_prompt', uiLang.value) || '收货人还未签收，确认已签收吗？'))
 
 const loading = ref(false)
 const errorMsg = ref('')
@@ -85,6 +87,19 @@ async function loadData() {
 async function doConfirm(action) {
   const id = order.value?.transportOrderId ? String(order.value.transportOrderId).trim() : ''
   if (!id || actionLoading.value) return
+  if (action === 'received') {
+    try {
+      const signedRes = await fetchDriverConsigneeSigned(id)
+      const signed = signedRes?.code === 200 && signedRes?.data === true
+      if (!signed) {
+        const ok = window.confirm(confirmReceivedUnsignedPrompt.value)
+        if (!ok) return
+      }
+    } catch {
+      const ok = window.confirm(confirmReceivedUnsignedPrompt.value)
+      if (!ok) return
+    }
+  }
   actionLoading.value = true
   try {
     let res

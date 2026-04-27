@@ -92,3 +92,10 @@ export function postDriverConfirmReceived(transportOrderId) {
   q.set('transportOrderId', String(transportOrderId ?? '').trim())
   return postJson(`/tms/driver/confirmReceived?${q.toString()}`, {}, { auth: true })
 }
+
+/** 司机：查询收货方是否已确认签收 */
+export function fetchDriverConsigneeSigned(transportOrderId) {
+  const q = new URLSearchParams()
+  q.set('transportOrderId', String(transportOrderId ?? '').trim())
+  return getJson(`/tms/driver/isConsigneeSigned?${q.toString()}`, { auth: true })
+}
